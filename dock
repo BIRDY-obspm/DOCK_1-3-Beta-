@@ -1,0 +1,49 @@
+#!/bin/bash
+# File name: dock
+# Version: 1.2
+# Final Modified Date: 14/08/2015
+# 
+# Author: Hao-Chih,Lin (Jim,Lin)
+# Email : F44006076@gmail.com  
+#
+# === !!! DO NOT modify anything in here unless you are a developer !!! ===
+#
+# Abstract:
+# This is the "Main" function of DOCK System.
+# Each module is working independently.
+#
+# Notices:
+# The [Scenario-check] is the necessary module, do not remove it.
+# Otherwise, all the other modules can not be executed correctly. 
+# ======================================
+# ============Main function=============
+# ======================================
+
+# Initialize the programe
+clear
+echo -e "\e[91m!!! Welcome to DOCK System (v1.3) !!!\e[0m"
+echo "Executing date: `date +"%y%m%d-%H%M%S"`" > Output/Log/DOCK_Log/dock.log 
+
+# [Scenario-check] Check parameters between Scenario and other specificed files (Necessary module)
+./Module/Scenario-check/Check_Scenario.sh $1 | tee -a "Output/Log/DOCK_Log/dock.log"
+
+# [Easy-quaternion] Generate Easy-quaternion CIC file if needed
+./Module/Easy-quaternion/Easy_quat_gen.sh | tee -a "Output/Log/DOCK_Log/dock.log"
+
+# [Simulation][AOCS] Run Scilab/Xcos AOCS simulation model if needed
+./Module/Simulation/AOCS/AOCS_simulation.sh | tee -a "Output/Log/DOCK_Log/dock.log"
+
+# [Simulation][Trajectory] Run Trajectory solver if needed
+#./Module/Simulation/Trajectory/Trajectory_solver.sh | tee -a "Output/Log/DOCK_Log/dock.log"
+
+# [VTS] Create new VTS project file if needed
+./Module/VTS/Create_VTS.sh | tee -a "Output/Log/DOCK_Log/dock.log"
+
+# [VTS] Execute VTS (This function will check if there is a new created VTS project file or not)
+./Module/VTS/Execute_VTS.sh | tee -a "Output/Log/DOCK_Log/dock.log"
+
+# [Tool] Delete log files
+#./Module/Tool/Delete_log.sh | tee -a "Output/Log/DOCK_Log/dock.log"
+
+#End of program
+echo  -e "\033[91m---End of program---\033[0m"

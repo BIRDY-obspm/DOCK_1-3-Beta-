@@ -1,0 +1,77 @@
+File name: Readme (for DOCK system) 
+Final Modified Date: 25/08/2015
+Version of DOCK: 1.3
+Author: Hao-Chih,Lin (Jim,Lin)
+	Internship student in Paris Observatory, graduated from DAA of NCKU in Taiwan.
+Email : F44006076@gmail.com  
+Technical Note: MGT-009 (version 1.3)
+
+====================================
+======Abstract of DOCK system=======
+====================================
+THe DOCK system is a high level software integration program for general Cubesat mission analysis.
+The purpose of DOCK system is to create friendly interface in order to make user easily test all necessary program/software.
+
+
+====================================
+===========Functionality============
+====================================
+In Version 1.3, DOCK system provides several functions listed as follows: ("[]" means it is a module)
+1.[Scenario-check] Checking and analyzing parameters among "Scenario", "Configuration" files and specificed VTS project files.
+2.[EASYQUAT] Generate Easy-quaternion CIC file if needed. (Sequence inputs is supported as well.) 
+3.[PRODQUAT] RUN the Scilab/Xcox to generate dynamic model based quaternion file. 
+4.[PRODVTS] Create new VTS project file if needed.
+5.[EXEVTS] Execute VTS (This function will check if there is a new created VTS project file or not).
+
+Notice: Users can decide which module should be executed in "Scenario" file, except the fist one, since [Scenario-check] is the
+	most important module in DOCK, without it, all the other modules can not work successfully. 
+
+====================================
+========System Requirements=========
+====================================
+In order to get good result of DOCK system, the user should meet all requirements described below before launching the DOCK system.
+[Please see "MGT-009" to find detail steps]
+1. The DOCK system was developed by Shell script, so it can only be executed in Linux environment (recommend Ubuntu 14.04).
+2. Install Scilab/Xcos
+3. Install Octave 
+4. Install Vts-Linux-32bits (Can be downloaded from CNES website: http://www.timeloop.fr/vts/en/index.html)
+5. Make sure the VTS can execute "Celestia" without problems, if not, please follow the tutorial for fixing this problem in Technical Note.
+
+
+====================================
+=======How to use DOCK System=======
+====================================
+1.Go to "Input" folder, you will see four files, they are "Scenario", "Configuration", "sed_inputs" and "PFM-002_Birdy_1.5.xml" files.
+  For "Scenario" and "Configuration" files: Define parameters properly in these two files. 
+  Notice: 
+	1. All parameters related to file location support both absolute & relative path.
+	2. If the user define the same parameter twice or more times in the same "Scenario" or "Configuration" file, 
+	   the DOCK will use the final defined one.
+	3. The empty space between parameter name and "=" symbolm is un constrained, so it means that:
+	   both  Silent_mode        = "True"  &   Silent_mode= "True"  are acceptable by DOCK  
+
+2.If needed, describe sequence inputs for [EASYQUAT] module in "sed_inputs" file.
+
+3.DOCK can also check data from IDM-CIC project file, if the user want to use this function, remember to define the "IDM_CIC_file" in Scenario file.
+
+4.After defining all necessary parameters, the user can decide which module will be executed in this time through the "Module Selection" in Scenario file.
+  For example, if the user don't want to execute the "PRODQUAT" module, just add a marker like "#" in front of "PRODQUAT" name. Like #PRODQUAT
+
+5.Open a new Terminal, and change the directory to the DOCK main folder, e.g. (do not type the symbol "$")
+  $ cd LOCATION_OF_DOCK
+
+6.Execute the DOCK by following commands:(do not type the symbol "$")
+  $ ./dock YOUR_SCENARIO_IN_INPUT_FOLDER
+  or
+  $ ./dock THE_ABSOLUTE_PATH_OF_SCENARIO
+  or even 
+  $ ./dock
+
+  for example:
+  $ ./dock BIRDY_scenario
+  $ ./dock home/birdy/Software/DOCK_v1-3/Input/BIRDY_scenario
+  These two commands listed above are the same.
+  In addition, if the user only type "./dock", the DOCK will require you to enter the Scenario file.
+  Again, in this situation, both absolute and relative path are acceptable.
+
+7.About the result, the user can find latest generated files in "Output" folder as well as log files.
