@@ -1,47 +1,53 @@
-File name: Readme (for DOCK system) 
-Final Modified Date: 25/08/2015
-Version of DOCK: 1.3
+File name: Readme (for DOCKing system) 
+Final Modified Date: 02/10/2015 
+Confidence level: CL=1
+Version of DOCK: 1.4
 Author: Hao-Chih,Lin (Jim,Lin)
 	Internship student in Paris Observatory, graduated from DAA of NCKU in Taiwan.
-Advisor: Boris Segret	
+Advisor: Boris Segret
 Email : F44006076@gmail.com  
-Technical Note: MGT-009 (version 1.3)
+Technical Note: MGT-009 (version 1.1)
 
 ====================================
 ======Abstract of DOCK system=======
 ====================================
-THe DOCK system is a high level software integration program for general Cubesat mission analysis.
-The purpose of DOCK system is to create friendly interface in order to make user easily test all necessary program/software.
+THe DOCKing system is a high level software integration program for general CubeSat mission analysis.
+The purpose of DOCKing system is to create user friendly interface in order to make user easily test all necessary program/software.
 
 
 ====================================
 ===========Functionality============
 ====================================
-In Version 1.3, DOCK system provides several functions listed as follows: ("[]" means it is a module)
-1.[Scenario-check] Checking and analyzing parameters among "Scenario", "Configuration" files and specificed VTS project files.
-2.[EASYQUAT] Generate Easy-quaternion CIC file if needed. (Sequence inputs is supported as well.) 
-3.[PRODQUAT] RUN the Scilab/Xcox to generate dynamic model based quaternion file. 
-4.[PRODVTS] Create new VTS project file if needed.
-5.[EXEVTS] Execute VTS (This function will check if there is a new created VTS project file or not).
+In Version 1.4, the DOCKing system provides several functions listed as follows: ("[]" means it is a module)
+[Scenario-check]: Check definition of parameters in various type of files.
+[PRODQUAT]: Create CubeSat quaternion data based on dynamic characteristics.
+[EASYQUAT]: Create easy quaternion for CubeSat without considering dynamic characteristics.
+[PRODTRAJ]: Create trajectory data by trajectory solver (optimization process).
+[EASYTRAJ]: Create easy Keplerian/Circular orbit data by six orbital elements.
+[EXESTELA]: Execute GUI version of STELA.
+[PRODVTS]: Generate/Update .vts project file .
+[EXEVTS]: Execute VTS.
+[EXTRCEL]: Extract Celestia Add-on from VTS.
 
 Notice: Users can decide which module should be executed in "Scenario" file, except the fist one, since [Scenario-check] is the
-	most important module in DOCK, without it, all the other modules can not work successfully. 
+	core module in DOCK, without it, all the other modules can not work successfully. 
 
 ====================================
 ========System Requirements=========
 ====================================
-In order to get good result of DOCK system, the user should meet all requirements described below before launching the DOCK system.
-[Please see "MGT-009" to find detail steps]
-1. The DOCK system was developed by Shell script, so it can only be executed in Linux environment (recommend Ubuntu 14.04).
-2. Install Scilab/Xcos
-3. Install Octave 
+In order to get good result of the DOCKing system, the user should meet all requirements described below before launching the DOCKing system.
+[Please see "MGT-009 v1.1" to find detail steps]
+1. The DOCKing system was developed by Shell script, so it can only be executed in Linux environment (recommend Ubuntu 14.04).
+2. Install Scilab/Xcos (with Celestlab & Aerospace blockset)
+3. Install Octave
+4. Install Python (with PyKEP)
 4. Install Vts-Linux-32bits (Can be downloaded from CNES website: http://www.timeloop.fr/vts/en/index.html)
-5. Make sure the VTS can execute "Celestia" without problems, if not, please follow the tutorial for fixing this problem in Technical Note.
+5. Make sure the VTS can execute "Celestia" without problems, if not, please follow the tutorial for fixing this problem in Technical Note (MGT-009 v1.1).
 
 
-====================================
-=======How to use DOCK System=======
-====================================
+===========================================
+=======How to use the DOCKing System=======
+===========================================
 1.Go to "Input" folder, you will see four files, they are "Scenario", "Configuration", "sed_inputs" and "PFM-002_Birdy_1.5.xml" files.
   For "Scenario" and "Configuration" files: Define parameters properly in these two files. 
   Notice: 
@@ -49,11 +55,12 @@ In order to get good result of DOCK system, the user should meet all requirement
 	2. If the user define the same parameter twice or more times in the same "Scenario" or "Configuration" file, 
 	   the DOCK will use the final defined one.
 	3. The empty space between parameter name and "=" symbolm is un constrained, so it means that:
-	   both  Silent_mode        = "True"  &   Silent_mode= "True"  are acceptable by DOCK  
+	   both @  Silent_mode        = "True"  &   Silent_mode= "True" @ are acceptable  
 
-2.If needed, describe sequence inputs for [EASYQUAT] module in "sed_inputs" file.
+2.If needed, describe sequence inputs for either [EASYQUAT] or [PRODQUAT] module in "sed_inputs" file.
+  (After creating seq-inputs files, please remember to path of files in either "Scenario" or "Configuration" files)
 
-3.DOCK can also check data from IDM-CIC project file, if the user want to use this function, remember to define the "IDM_CIC_file" in Scenario file.
+3.DOCK can also check data from IDM-CIC project file, if the user want to use this function, remember to define the file path of "IDM_CIC_file" in "Scenario" file.
 
 4.After defining all necessary parameters, the user can decide which module will be executed in this time through the "Module Selection" in Scenario file.
   For example, if the user don't want to execute the "PRODQUAT" module, just add a marker like "#" in front of "PRODQUAT" name. Like #PRODQUAT
@@ -62,16 +69,19 @@ In order to get good result of DOCK system, the user should meet all requirement
   $ cd LOCATION_OF_DOCK
 
 6.Execute the DOCK by following commands:(do not type the symbol "$")
-  $ ./dock YOUR_SCENARIO_IN_INPUT_FOLDER
+  $ ./dock THE_RELATIVE_PATH_OF_SCENARIO
   or
   $ ./dock THE_ABSOLUTE_PATH_OF_SCENARIO
-  or even 
+  or 
   $ ./dock
+  or even
+  $./LOCATION_OF_DOCK/dock THE_PATH_OF_SCENARIO
 
   for example:
-  $ ./dock BIRDY_scenario
+  $ ./dock Input/BIRDY_scenario
   $ ./dock home/birdy/Software/DOCK_v1-3/Input/BIRDY_scenario
-  These two commands listed above are the same.
+  $ ./Software/DOCK_v1-4/dock /Input/BIRDY_scenario
+  Commands listed above are all valid.
   In addition, if the user only type "./dock", the DOCK will require you to enter the Scenario file.
   Again, in this situation, both absolute and relative path are acceptable.
 

@@ -1,0 +1,33 @@
+[33m===Dynamic model for quaternion module===[0m
+===AOCS Scilab===
+
+
+------------------------------------
+     CelestLab - Version 3.0.0
+           CNES - DCT/SB
+------------------------------------
+
+
+Start Aerospace blockset - (2.0)
+	Load macros
+	Load reference frames palette
+	Load math oparations palette
+	Load unit conversions palette
+	Load environment palette
+	Load orbit propagators palette
+	Load utilities palette
+	Load help
+	Load demos
+
+clc: This feature has not been implemented in this mode.
+WARNING: getd: Incorrect function in file /home/birdy/Software/DOCK_v1-4/Module/Simulation/AOCS/LN.sci.
+WARNING: getd: Incorrect function in file /home/birdy/Software/DOCK_v1-4/Module/Simulation/AOCS/myQuaternToEuler.sci.
+exec(/home/birdy/Software/DOCK_v1-4/Module/Simulation/AOCS + '/Inputs/SatParamet
+      !--error 2 
+Invalid factor.
+at line       8 of exec file called by :    
+exec('SCI/etc/scilab.start',-1);;exec('Birdy-AOCS-150929-052032.sce',-1)
+ 
+ 
+ 
+[0m-->[0m[1m

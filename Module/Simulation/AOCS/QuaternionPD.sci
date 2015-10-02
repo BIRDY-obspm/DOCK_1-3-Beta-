@@ -2,19 +2,12 @@
 // The parameters Kx, Ky, Kz, Kxd, Kyd, Kzd are defined in the CONTEXT
 // The first element in the quaternion is the constant element.
 
-function [Torque] = QuaternionPD(q, w)
-    
-    Kx  = 0.005;    
-    Ky  = 0.005;
-    Kz  = 0.006;
-    
-    Kxd = -0.3;
-    Kyd = -0.3;
-    Kzd = -0.3;
-    
-    Torque = [ 2*Kx*q(1)*q(2) + Kxd*w(1);
-               2*Ky*q(1)*q(3) + Kyd*w(2);
-               2*Kz*q(1)*q(4) + Kzd*w(3)];
-    
-    
+function [Torque] = QuaternionPD(q, q_E, w)
+   
+        Ux = 2*Kx*q_E(1)*q_E(2) + Kxd*w(1);
+        Uy = 2*Ky*q_E(1)*q_E(3) + Kyd*w(2);
+        Uz = 2*Kz*q_E(1)*q_E(4) + Kzd*w(3);
+   
+         Torque = [Ux; Uy; Uz];
 endfunction
+

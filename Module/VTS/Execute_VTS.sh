@@ -1,7 +1,6 @@
 #!/bin/bash
 # File name: Execute_VTS.sh
-# Version of DOCK: 1.3
-# Final Modified Date: 25/08/2015
+# Final Modified Date: 27/08/2015
 # 
 # Abstract:
 # This program will automatically check if there is a new VTS project created by other module or not.
@@ -16,6 +15,11 @@
 
 #===Load "Date" infromation from "Check_result" file===
 Check_result=Module/Tmp/Check_result.tmp
+Exit_flag=`tac $Check_result | grep -m 1 '^ *Exit *=' | awk -F '"' '{printf $2}'`
+if [ "$Exit_flag" == "True" ]; then
+	exit 0
+fi
+
 Date=`tac $Check_result | grep -m 1 '^ *Date *=' | awk -F '"' '{printf $2}'`
 Scenario_file=`tac $Check_result | grep -m 1 '^ *Scenario_name *=' | awk -F '"' '{printf $2}'`
 Configuration_file=`tac $Check_result | grep -m 1 '^ *Configuration_name *=' | awk -F '"' '{printf $2}'`
@@ -33,8 +37,24 @@ fi
 
 #===Load parameters from specific configuration file===
 VTS_project=`tac $Configuration_file | grep -m 1 '^ *VTS_project_file *=' | awk -F '"' '{printf $2}'`
-VTS_software_location=`tac $Configuration_file | grep -m 1 '^ *VTS_software_location *=' | awk -F '"' '{printf $2}'`
 
+cd $Configuration_location
+VTS_software_location=`tac $Configuration_file | grep -m 1 '^ *VTS_software_location *=' | awk -F '"' '{printf $2}'`
+if [ ! -d "$VTS_software_location" ]; then
+	echo -e "\e[91mVTS software folder not found!!\e[0m"
+	echo -e "\e[91mExit the Execte_VTS module\e[0m"
+	exit 0
+else
+	VTS_software_location=`cd $VTS_software_location;pwd`
+fi
+
+VTS_exe_path=$VTS_software_location"/startVTS"
+if [ ! -f "$VTS_exe_path" ]; then
+	echo -e "\e[91mVTS execution file not found!!\e[0m"
+	echo -e "\e[91mExit the Execte_VTS module\e[0m"
+	exit 0
+fi
+cd $Dock_main_location
 #===Send a title into Log file===
 {
 	echo "===VTS Execute==="

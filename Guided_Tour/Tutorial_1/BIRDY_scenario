@@ -1,0 +1,32 @@
+========================
+=====BIRDY SCENARIO=====
+========================
+
+----------------------------
+### Necessary parameters ###
+----------------------------
+=====General setting=====
+Configuration_file = "BIRDY_configuration"  # Both relative and absolute path are accepted
+Keep_temp_file     = "False"  # True or False
+Keep_debug_file    = "True"  # True or False
+Silent_mode        = "True"   # True or False
+
+=====IDM-CIC=====
+IDM_CIC_file = "PFM-002_Birdy_1.5.xml"  # Both relative and absolute path are accepted
+
+=====Simulation parameters=====
+Simulation_time_start  = "51500 10.0"   # Format: MJD/sec
+Simulation_time_end    = "51500 14970.0"
+Simulation_step_size   = "0.05"         # Unit:sec
+
+=====Module Selection=====
+#EXESTELA
+#PRODQUAT
+#EASYQUAT
+#PRODTRAJ
+#EASYTRAJ
+#PRODVTS
+#EXEVTS
+#EXTRCEL
+
+

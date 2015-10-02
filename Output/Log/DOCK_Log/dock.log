@@ -1,4 +1,4 @@
-Executing date: 150825-070706
+Executing date: 151002-030025
 [5mScenario file found[0m
 Configuration file found
 [33m=====Extrecting data from IDM-CIC xml file=====[0m
@@ -8,7 +8,7 @@ System Version: 1.2
 1. Satellite_name        was checked: Birdy
 2. Satellite_quaternion  was checked: Data/essaiQ.txt
 3. Satellite_position    was checked: Data/LEO_position.txt
-4. Satellite_3ds         was checked: Models/BIRDY3D5.3ds
+[91m4. Satellite_3ds is invalid: Models/BIRDY3D5.3ds v.s. Models/modele_MFC.3ds [0m
 5. Satellite_parentpath  was checked: Sol/Earth
 6. Satellite_StartTime   was checked: 51500 10.000000
 [91m7. Satellite_EndTime is invalid: 51500 2990.000000 v.s. 51500 14970.0[0m
@@ -27,7 +27,7 @@ System Version: 1.2
 18.CIC pos TIME_SYSTEM   was checked: UTC
 [91m19.CIC pos Start-time is invalid: 51480 0 v.s. 51500 10.0[0m
 [91m20.CIC pos End-time is invalid: 51500 2990 v.s. 51500 14970.0[0m
-[33m=====Checking data between Scenario and Seq-inputs file=====[0m
+[33m=====Checking data between Scenario and Seq-inputs file (for EASYQUAT)=====[0m
 21.Seq quat OBJECT_NAME  was checked: Birdy
 22.Seq quat REF_FRAME_A  was checked: EME2000
 23.Seq quat REF_FRAME_B  was checked: SC_BODY_1
@@ -36,25 +36,34 @@ System Version: 1.2
 26.Seq quat ATT_TYPE     was checked: QUATERNION
 27.Seq quat Start-time   was checked: 51500 10.0
 [91m28.Seq quat End-time is invalid: 51500 40.0 v.s. 51500 14970.0[0m
+[33m=====Checking data between Scenario and Seq-inputs file (for PRODQUAT)=====[0m
+29.Seq quat OBJECT_NAME  was checked: Birdy
+30.Seq quat REF_FRAME_A  was checked: EME2000
+31.Seq quat REF_FRAME_B  was checked: SC_BODY_1
+32.Seq quat ATTITUDE_DIR was checked: A2B
+33.Seq quat TIME_SYSTEM  was checked: UTC
+34.Seq quat ATT_TYPE     was checked: QUATERNION
+35.Seq quat Start-time   was checked: 51500 10
+[91m36.Seq quat End-time is invalid: 51500 600 v.s. 51500 14970.0[0m
 [33m==============Analysis result==============[0m
-There are [91m6 errors !![0m
+There are [91m8 errors !![0m
 [33m===Easy quaternion module===[0m
 Use the default output folder which is "Output/Easy_quat/"
 [92mLoad sequence inputs from file...[0m
 
 Creating the Easy quaternion m-file for Octave......
 [92mNew Easy quaternion m-file was created.[0m
-[92mFile name is: Module/Easy-quaternion/Easy-quat-create-150825-070706.m[0m
+[92mFile name is: Module/Easy-quaternion/Easy-quat-create-151002-030025.m[0m
 
 Executing the Octave...
 [92mNew Easy Quarernion CIC file was created.[0m
-[92mFile name is: Easy-quaternion-150825-070706.txt[0m
+[92mFile name is: Easy-quaternion-151002-030025.txt[0m
 [33m===VTS generator module===[0m
 No new postion data found, use the file defined in Configuration file.
 Use the default output folder which is "Output/VTS_gen/"
-Creating the VTS project......
+Create a new .vts project...
 [92mNew VTS project file was created.[0m
-[92mFile name is: VTS-150825-070706.vts[0m
+[92mFile name is: VTS-151002-030025.vts[0m
 
 [33m===VTS execution module===[0m
 Executing the VTS......

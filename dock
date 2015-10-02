@@ -1,7 +1,7 @@
 #!/bin/bash
 # File name: dock
-# Version: 1.2
-# Final Modified Date: 14/08/2015
+# Version: 1.4
+# Final Modified Date: 02/09/2015
 # 
 # Author: Hao-Chih,Lin (Jim,Lin)
 # Email : F44006076@gmail.com  
@@ -21,7 +21,8 @@
 
 # Initialize the programe
 clear
-echo -e "\e[91m!!! Welcome to DOCK System (v1.3) !!!\e[0m"
+cd `dirname $0`  #Force current directory to change into DOCK main folder 
+echo -e "\e[91m!!! Welcome to DOCK System (v1.4) !!!\e[0m"
 echo "Executing date: `date +"%y%m%d-%H%M%S"`" > Output/Log/DOCK_Log/dock.log 
 
 # [Scenario-check] Check parameters between Scenario and other specificed files (Necessary module)
@@ -30,11 +31,17 @@ echo "Executing date: `date +"%y%m%d-%H%M%S"`" > Output/Log/DOCK_Log/dock.log
 # [Easy-quaternion] Generate Easy-quaternion CIC file if needed
 ./Module/Easy-quaternion/Easy_quat_gen.sh | tee -a "Output/Log/DOCK_Log/dock.log"
 
+# [Easy-trajectory] Generate Easy-trajectory CIC file if needed
+./Module/Easy-trajectory/Easy_traj_gen.sh | tee -a "Output/Log/DOCK_Log/dock.log"
+
 # [Simulation][AOCS] Run Scilab/Xcos AOCS simulation model if needed
 ./Module/Simulation/AOCS/AOCS_simulation.sh | tee -a "Output/Log/DOCK_Log/dock.log"
 
 # [Simulation][Trajectory] Run Trajectory solver if needed
-#./Module/Simulation/Trajectory/Trajectory_solver.sh | tee -a "Output/Log/DOCK_Log/dock.log"
+./Module/Simulation/Trajectory/Trajectory_solver.sh | tee -a "Output/Log/DOCK_Log/dock.log"
+
+# [STELA] Launch GUI version of STELA
+./Module/STELA/Execute_STELA.sh | tee -a "Output/Log/DOCK_Log/dock.log"
 
 # [VTS] Create new VTS project file if needed
 ./Module/VTS/Create_VTS.sh | tee -a "Output/Log/DOCK_Log/dock.log"
@@ -42,8 +49,11 @@ echo "Executing date: `date +"%y%m%d-%H%M%S"`" > Output/Log/DOCK_Log/dock.log
 # [VTS] Execute VTS (This function will check if there is a new created VTS project file or not)
 ./Module/VTS/Execute_VTS.sh | tee -a "Output/Log/DOCK_Log/dock.log"
 
+# [VTS] Extract Celestia Add-on folder created automatically by VTS software
+./Module/VTS/Extract_Celestia.sh | tee -a "Output/Log/DOCK_Log/dock.log" 
+
 # [Tool] Delete log files
-#./Module/Tool/Delete_log.sh | tee -a "Output/Log/DOCK_Log/dock.log"
+./Module/Tool/Delete_log.sh | tee -a "Output/Log/DOCK_Log/dock.log"
 
 #End of program
 echo  -e "\033[91m---End of program---\033[0m"
