@@ -1,0 +1,71 @@
+#!/bin/bash
+# File name: Guided_tour
+# Version: 1.4
+# Final Modified Date: 23/09/2015
+# 
+# Author: Hao-Chih,Lin (Jim,Lin)
+# Email : F44006076@gmail.com  
+
+
+
+# Initialize the environment
+clear
+cd `dirname $0`  #Force the terminal path to change into file located path
+cd .. #Back to DOCK main folder 
+echo -e "\e[91m[Tour]!!!=== Welcome to Guided Tour for DOCKing System ===!!!\e[0m"
+
+# Tutorial-1: All modules were blocked in scenario file
+echo "[Tour]---Tutorial-1: All modules are blocked---"
+echo "[Tour]Now you can see both 'Scenario' and 'Configuration' files in show-up gedit window."
+echo "[Tour]Please see the 'Module Selectio' of Scenario file, you can find out all modules are blocked."
+echo ""
+echo "[Tour]Now, close the gedit, than the terminal will execute DOCKing system basing on these setting."
+gedit -w -g 800x600 Guided_Tour/Tutorial_1/BIRDY_scenario Guided_Tour/Tutorial_1/BIRDY_configuration
+./dock Guided_Tour/Tutorial_1/BIRDY_scenario
+echo ""
+echo "[Tour]Notices:"
+echo "[Tour]The DOCKing system only checked all parameters among various files without executing any module."
+echo ""
+echo "[Tour]To continue next tutorial, please enter any key..."
+read key
+
+# Tutorial-2: Execute only [EXEVTS] module
+clear
+echo "[Tour]---Tutorial-2: [EXEVTS] module---"
+echo "[Tour]Please check the 'Module Selectio' of Scenario file, only EXEVTS is valid."
+echo "[Tour]Now, close the gedit, than the terminal will execute DOCKing system..."
+gedit -w -g 800x600 Guided_Tour/Tutorial_2/BIRDY_scenario Guided_Tour/Tutorial_2/BIRDY_configuration
+./dock Guided_Tour/Tutorial_2/BIRDY_scenario
+echo ""
+echo "[Tour]Notices:"
+echo "[Tour]After ckecking all parameters, DOCK launched the VTS."
+echo "[Tour]Since we didn't execute any module to create new data, the original .vts project will be loaded."
+echo ""
+echo "[Tour]To continue next tutorial, please enter any key..."
+read key
+clear
+
+# Tutorial-3.a: Execute [EASYQUAT], [PRODVTS] and [EXEVTS] module (without seq-inputs)
+clear
+echo "[Tour]---Tutorial-3.a: [EASYQUAT] module without sequence inputs---"
+echo "[Tour]In this tutorial, the input of [EASYQUAT] module was defined in 'Scenario' directly."
+echo "[Tour]You can roll down the 'Scenario' file and see how to define the input."
+echo "[Tour]Remember to select [PRODVTS] module when using [EXEVTS]."
+echo "[Tour]Otherwise, the [EXEVTS] module will load original defined .vts project."
+echo ""
+echo "[Tour]Now, close the gedit, than the terminal will execute DOCKing system..."
+gedit -w -g 800x600 Guided_Tour/Tutorial_3a/BIRDY_scenario Guided_Tour/Tutorial_3a/BIRDY_configuration
+./dock Guided_Tour/Tutorial_3a/BIRDY_scenario
+echo ""
+echo "[Tour]Notices:"
+echo "[Tour]When you define the input in 'Scenario' directly," 
+echo "[Tour]it represents the CubeSat will always spin at same vector of angular velocity."
+echo "[Tour]About sequence inputs for [EASYQUAT] module, please continue next tutroial."
+echo ""
+echo "[Tour]To continue next tutorial, please enter any key..."
+read key
+
+
+# End of tutorial
+echo ""
+echo -e "\e[91m[Tour]!!!=== The end of Guided Tour ===!!!\e[0m" 

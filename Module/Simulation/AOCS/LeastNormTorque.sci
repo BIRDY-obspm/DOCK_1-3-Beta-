@@ -8,7 +8,8 @@
 
 function [Torques] = LeastNormTorque(Ba, Controller_Torque)
     
-    Torque_Factor = Ba' / (Ba * Ba');
-    Torques  = Torque_Factor * Controller_Torque;
+    // LeastNorm_Factor = Ba' / (Ba * Ba');    We have move this Expression into
+    // ParameterLoader function in order to improve speed
+    Torques  = LeastNorm_Factor * Controller_Torque;
     
 endfunction
