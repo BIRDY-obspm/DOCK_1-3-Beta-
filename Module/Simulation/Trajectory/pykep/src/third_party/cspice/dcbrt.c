@@ -83,7 +83,7 @@ doublereal dcbrt_(doublereal *x)
 /*      value of the input variable, and then the sign of the input */
 /*      is transferred to the output value. */
 
-/*      All values of the input variable X should be acceptible to the */
+/*      All values of the input variable X should be acceptable to the */
 /*      DCBRT. */
 
 /* $ Examples */
