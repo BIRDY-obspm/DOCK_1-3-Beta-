@@ -13,7 +13,7 @@ Keep_Apps_setting      = "False"  # True or False
 =====CIC files parameters=====
 Satellite_name         = "Birdy"
 Satellite_Axes         = "Birdy_ref/Birdy_QswAxes"
-Satellite_3ds          = "/home/birdy/Software/Vts-Linux-32bits-2.6/Data/CubeSat/Models/modele_MFC.3ds"
+Satellite_3ds          = "/home/birdy/Software/Vts-Linux-32bits-2.6/Data/CubeSat/Models/PFM-002_Birdy_1.5_with-FoV.3ds"
 Satellite_quaternion   = "/home/birdy/Software/Vts-Linux-32bits-2.6/Data/CubeSat/Data/essaiQ.txt"
 Satellite_position     = "/home/birdy/Software/Vts-Linux-32bits-2.6/Data/CubeSat/Data/LEO_position.txt"
 Satellite_parentpath   = "Sol/Earth"
