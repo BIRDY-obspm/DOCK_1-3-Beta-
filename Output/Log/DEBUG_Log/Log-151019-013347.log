@@ -1,0 +1,40 @@
+===Easy trajectory module===
+===Easy Trajectory===
+
+
+------------------------------------
+     CelestLab - Version 3.0.0
+           CNES - DCT/SB
+------------------------------------
+
+
+Start Aerospace blockset - (2.0)
+	Load macros
+	Load reference frames palette
+	Load math oparations palette
+	Load unit conversions palette
+	Load environment palette
+	Load orbit propagators palette
+	Load utilities palette
+	Load help
+	Load demos
+
+clc: This feature has not been implemented in this mode.
+ !--error 10000 
+*** CelestLab: Invalid orbital elements (parabolic or hyperbolic orbit)
+at line       6 of function CL__error called by :  
+at line      55 of function CL_oe_kep2equin called by :  
+at line       4 of function oe2equin called by :  
+at line      25 of function CL__ex_inverse called by :  
+at line     106 of function CL_ex_lyddaneLp called by :  
+at line     144 of function CL_ex_propagate called by :  
+at line      49 of function EasyTraj_gen called by :  
+ep_size, Sat_name, Body_name, File_path)
+at line      28 of exec file called by :    
+exec('SCI/etc/scilab.start',-1);;exec('Easytraj-tmp-151019-013347.sce',-1)
+ 
+ 
+===VTS generator module===
+===VTS execution module===
+===VTS Execute===
+===Extract Celestia module===

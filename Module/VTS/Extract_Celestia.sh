@@ -24,7 +24,8 @@ Dock_main_location=`pwd`
 #===Check the need of this module===
 EXTRCEL=`grep 'EXTRCEL' $Check_result | awk -F '"' '{printf $2}'`
 if [ "$EXTRCEL" == "True" ]; then
-	echo  -e "\033[33m===Extract Celestia module===\033[0m" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
+	echo ""
+	echo "===Extract Celestia module===" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
 else
 	exit
 fi
@@ -42,8 +43,8 @@ fi
 cd $Configuration_location
 VTS_software_location=`tac $Configuration_file | grep -m 1 '^ *VTS_software_location *=' | awk -F '"' '{printf $2}'`
 if [ ! -d "$VTS_software_location" ]; then
-	echo -e "\e[91mVTS software folder not found!!\e[0m"
-	echo -e "\e[91mExit the Extract Celestia module\e[0m"
+	echo "VTS software folder not found!!"
+	echo "Exit the Extract Celestia module"
 	exit 0
 else
 	VTS_software_location=`cd $VTS_software_location;pwd`
@@ -66,8 +67,8 @@ cd $Dock_main_location
 
 #===Check the Celestia folder which locates in VTS software===
 if [ ! -d "$VTS_software_location/Apps/Celestia/bin" ]; then
-	echo -e "\e[91m/Celestia/bin folder not found!!\e[0m"
-	echo -e "\e[91mExit the Extract Celestia module\e[0m"
+	echo "Celestia/bin folder not found!!"
+	echo "Exit the Extract Celestia module"
 	exit 0
 else
 	Celestia_location=`cd $VTS_software_location/Apps/Celestia/bin;pwd`
@@ -96,7 +97,7 @@ cd $Celestia_location
 extras_num=`find -type d -name 'extras_*' | wc -l`
 
 if [ "$extras_num" == "0" ]; then
-	echo -e "\e[91mThere is not any Celestia Add-on in App folder\e[0m" 
+	echo "There is not any Celestia Add-on in App folder" 
 else
 	for ((check_num=1; check_num<=$extras_num; check_num++))
 	do

@@ -1,7 +1,7 @@
 #!/bin/bash
 # File name: Check_Scenario.sh
-# Version: 1.4
-# Final Modified Date: 29/09/2015
+# Version: 1.5 (Beta)
+# Final Modified Date: 20/10/2015
 # 
 # Author: Hao-Chih,Lin (Jim,Lin)
 # Email : F44006076@gmail.com  
@@ -32,7 +32,7 @@ until [ -f "$Scenario_file" ]
 do
 	read -p "Scenario file not found, please eneter correct name:" Scenario_file
 done
-echo -e "\e[5mScenario file found\e[0m"
+echo "Scenario file found"
 
 if [ "`echo "$Scenario_file" | awk -F / '{print $2}'`" == "" ]; then
 	Scenario_file=$DOCK_main_location/$Scenario_file
@@ -64,8 +64,8 @@ if [ -f "$Configuration_file" ]; then
 	fi
 else
 	echo ""	
-	echo -e "\e[91m!! Configuration file not found !!\e[0m"
-	echo -e "\e[91m!! Exit the program !!\e[0m"
+	echo "!! Configuration file not found !!"
+	echo "!! Exit the program !!"
 	#---Put the "exit" information into "Check_result.tmp"
 	{ 
 		echo "Date = \"$Date\""
@@ -82,9 +82,9 @@ Keep_temp_file=`tac $Scenario_file | grep -m 1 '^ *Keep_temp_file *=' | awk -F '
 
 #---Load necessary parameters for VTS part---
 Satellite_name_sce=`tac $Configuration_file | grep -m 1 '^ *Satellite_name *=' | awk -F '"' '{printf $2}'`
-Satellite_quaternion_sce=`tac $Configuration_file | grep -m 1 '^ *Satellite_quaternion *=' | awk -F '"' '{printf $2}' | awk -F / '{print $(NF-1)"/"$NF}'`
-Satellite_position_sce=`tac $Configuration_file | grep -m 1 '^ *Satellite_position *=' | awk -F '"' '{printf $2}' | awk -F / '{print $(NF-1)"/"$NF}'`
-Satellite_3ds_sce=`tac $Configuration_file | grep -m 1 '^ *Satellite_3ds *=' | awk -F '"' '{printf $2}' | awk -F / '{print $(NF-1)"/"$NF}'`
+Satellite_quaternion_sce=`tac $Configuration_file | grep -m 1 '^ *Satellite_quaternion *=' | awk -F '"' '{printf $2}' | awk -F / '{print $NF}'`
+Satellite_position_sce=`tac $Configuration_file | grep -m 1 '^ *Satellite_position *=' | awk -F '"' '{printf $2}' | awk -F / '{print $NF}'`
+Satellite_3ds_sce=`tac $Configuration_file | grep -m 1 '^ *Satellite_3ds *=' | awk -F '"' '{printf $2}' | awk -F / '{print $NF}'`
 Satellite_parent_sce=`tac $Configuration_file | grep -m 1 '^ *Satellite_parentpath *=' | awk -F '"' '{printf $2}'`
 Satellite_start_sce_date=`tac $Scenario_file | grep -m 1 '^ *Simulation_time_start *=' | awk -F '"' '{printf $2}' | awk '{printf $1}'`
 Satellite_start_sce_sec=`tac $Scenario_file | grep -m 1 '^ *Simulation_time_start *=' | awk -F '"' '{printf $2}' | awk '{printf $2}'`  # modified - 21082015
@@ -103,9 +103,11 @@ Satellite_REF_FRAME=`tac $Configuration_file | grep -m 1 '^ *Satellite_ref_frame
 #
 #===============================
 #===Extrect data from IDM-CIC===
+# Currently, we can only extract "Project Name" and "System Version" from IDM-CIC (.xml) file
 IDM_CIC_file=`tac $Scenario_file | grep -m 1 '^ *IDM_CIC_file *=' | awk -F '"' '{printf $2}'`
 if [ -f "$IDM_CIC_file" ]; then
-	echo  -e "\033[33m=====Extrecting data from IDM-CIC xml file=====\033[0m" 
+	echo ""
+	echo "=====Extrecting data from IDM-CIC xml file=====" 
 	ProjectName=`grep '<projectName>' $IDM_CIC_file | cut -d '>' -f 2 | cut -d '<' -f 1`
 	SystemVersion=`grep '<systemVersion>' $IDM_CIC_file | cut -d '>' -f 2 | cut -d '<' -f 1`
 	echo "Project Name: $ProjectName"
@@ -114,8 +116,9 @@ fi
 
 #
 #=======================
-#===Scenario V.S. VTS===
-echo  -e "\033[33m=====Checking data between Scenario and VTS=====\033[0m"
+#===Scenario vs. VTS===
+echo ""
+echo "=====Checking data between Scenario and VTS====="
 #---Check the VTS_project file---
 VTS_project=`tac $Configuration_file | grep -m 1 '^ *VTS_project_file *=' | awk -F '"' '{printf $2}'`
 
@@ -126,7 +129,7 @@ if [ -f "$VTS_project" ]; then
 		VTS_project=`cd $(dirname $VTS_project);pwd`"/"$(basename $VTS_project)	
 	fi
 else
-	echo -e "\e[91m[Warning] VTS project file not found\e[0m"
+	echo "[Error] VTS project file not found"
 	(( Warning_count += 1 ))
 fi
 
@@ -134,40 +137,40 @@ if [ -f "$VTS_project" ]; then
 	#---Check the Satellite name in .vts file---
 	Satellite_name_vts=`grep '<Satellite Name' $VTS_project | cut -d '"' -f 2`
 	if [ $Satellite_name_vts ==  $Satellite_name_sce ]; then
-		echo "$index. Satellite_name        was checked: $Satellite_name_vts"
+		echo "$index. Satellite_name are the same: $Satellite_name_vts"
 	else
-		echo  -e "\033[91m$index. Satellite_name is invalid: $Satellite_name_vts v.s. $Satellite_name_sce \033[0m"
+		echo "$index. [Warning] Satellite_name are different: $Satellite_name_vts vs. $Satellite_name_sce"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the file name of quaternion--- 
-	Satellite_quaternion_vts=`sed -n '/Satellite Name=/,/\/Satellite/p' $VTS_project | sed -n '/Quaternion/,/\/Quaternion/p' | grep '<File Name=' | cut -d '"' -f 2`
+	Satellite_quaternion_vts=`sed -n '/Satellite Name=/,/\/Satellite/p' $VTS_project | sed -n '/Quaternion/,/\/Quaternion/p' | grep '<File Name=' | cut -d '"' -f 2 | awk -F / '{print $NF}'`
 	if [ $Satellite_quaternion_vts ==  $Satellite_quaternion_sce ]; then
-		echo "$index. Satellite_quaternion  was checked: $Satellite_quaternion_vts"
+		echo "$index. Satellite_quaternion are the same: $Satellite_quaternion_vts"
 	else
-		echo  -e "\033[91m$index. Satellite_quaternion is invalid: $Satellite_quaternion_vts v.s. $Satellite_quaternion_sce \033[0m"
+		echo "$index. [Warning] Satellite_quaternion are different: $Satellite_quaternion_vts vs. $Satellite_quaternion_sce"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the file name of position--- 
-	Satellite_position_vts=`sed -n '/Satellite Name=/,/\/Satellite/p' $VTS_project | sed -n '/Position/,/\/Position/p' | grep '<File Name=' | cut -d '"' -f 2`
+	Satellite_position_vts=`sed -n '/Satellite Name=/,/\/Satellite/p' $VTS_project | sed -n '/Position/,/\/Position/p' | grep '<File Name=' | cut -d '"' -f 2 | awk -F / '{print $NF}'`
 	if [ $Satellite_position_vts ==  $Satellite_position_sce ]; then
-		echo "$index. Satellite_position    was checked: $Satellite_position_vts"
+		echo "$index. Satellite_position are the same: $Satellite_position_vts"
 	else
-		echo  -e "\033[91m$index. Satellite_position is invalid: $Satellite_position_vts v.s. $Satellite_position_sce \033[0m"
+		echo "$index. [Warning] Satellite_position are different: $Satellite_position_vts vs. $Satellite_position_sce"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 
 	#---Check the file name of satellite's 3ds model---
-	Satellite_3ds_vts=`sed -n '/Satellite Name=/,/\/Satellite/p' $VTS_project | sed -n '/Graphics3d/,/\/Graphics3d/p' | grep -m 1 '<File3ds Name=' | cut -d '"' -f 2`
+	Satellite_3ds_vts=`sed -n '/Satellite Name=/,/\/Satellite/p' $VTS_project | sed -n '/Graphics3d/,/\/Graphics3d/p' | grep -m 1 '<File3ds Name=' | cut -d '"' -f 2 | awk -F / '{print $NF}'`
 	if [ $Satellite_3ds_vts ==  $Satellite_3ds_sce ]; then
-		echo "$index. Satellite_3ds         was checked: $Satellite_3ds_vts"
+		echo "$index. Satellite_3ds are the same: $Satellite_3ds_vts"
 	else
-		echo  -e "\033[91m$index. Satellite_3ds is invalid: $Satellite_3ds_vts v.s. $Satellite_3ds_sce \033[0m"
+		echo "$index. [Warning] Satellite_3ds are different: $Satellite_3ds_vts vs. $Satellite_3ds_sce"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
@@ -175,31 +178,31 @@ if [ -f "$VTS_project" ]; then
 	#---Check the ParentPath of Satellite---
 	Satellite_parent_vts=`grep '<Satellite Name' $VTS_project | cut -d '"' -f 4`
 	if [ $Satellite_parent_vts ==  $Satellite_parent_sce ]; then
-		echo "$index. Satellite_parentpath  was checked: $Satellite_parent_vts"
+		echo "$index. Satellite_parentpath are the same: $Satellite_parent_vts"
 	else
-		echo  -e "\033[91m$index. Satellite_parentpath is invalid: $Satellite_parent_vts v.s. $Satellite_parent_sce \033[0m"
+		echo "$index. [Warning] Satellite_parentpath are different: $Satellite_parent_vts vs. $Satellite_parent_sce"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the Start-time of VTS---
-	Satellite_start_vts_date=`grep 'StartDateTime' $VTS_project | cut -d '"' -f 4 | cut -d ' ' -f 1`
-	Satellite_start_vts_sec=`grep 'StartDateTime' $VTS_project | cut -d '"' -f 4 | cut -d ' ' -f 2`
+	Satellite_start_vts_date=`grep 'StartDateTime' $VTS_project | cut -d '"' -f 4 | awk '{print $1}'`
+	Satellite_start_vts_sec=`grep 'StartDateTime' $VTS_project | cut -d '"' -f 4 | awk '{print $2}'`
 	if [ $(echo "$Satellite_start_vts_date/$Satellite_start_sce_date" | bc) -eq 1 ] && [ $(echo "$Satellite_start_vts_sec/$Satellite_start_sce_sec" | bc) -eq 1 ]; then
-		echo "$index. Satellite_StartTime   was checked: $Satellite_start_vts_date $Satellite_start_vts_sec"
+		echo "$index. Satellite_StartTime are the same: $Satellite_start_vts_date $Satellite_start_vts_sec"
 	else
-		echo  -e "\033[91m$index. Satellite_StartTime is invalid: $Satellite_start_vts_date $Satellite_start_vts_sec v.s. $Satellite_start_sce_date $Satellite_start_sce_sec\033[0m"
+		echo "$index. [Warning] Satellite_StartTime are different: $Satellite_start_vts_date $Satellite_start_vts_sec vs. $Satellite_start_sce_date $Satellite_start_sce_sec"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the End-time of VTS---
-	Satellite_end_vts_date=`grep 'EndDateTime' $VTS_project | cut -d '"' -f 6 | cut -d ' ' -f 1`
-	Satellite_end_vts_sec=`grep 'EndDateTime' $VTS_project | cut -d '"' -f 6 | cut -d ' ' -f 2`
+	Satellite_end_vts_date=`grep 'EndDateTime' $VTS_project | cut -d '"' -f 6 | awk '{print $1}'`
+	Satellite_end_vts_sec=`grep 'EndDateTime' $VTS_project | cut -d '"' -f 6 | awk '{print $2}'`
 	if [ $(echo "$Satellite_end_vts_date/$Satellite_end_sce_date" | bc) -eq 1 ] && [ $(echo "$Satellite_end_vts_sec/$Satellite_end_sce_sec" | bc) -eq 1 ]; then
-		echo "$index. Satellite_EndTime     was checked: $Satellite_end_vts_date $Satellite_end_vts_sec"
+		echo "$index. Satellite_EndTime are the same: $Satellite_end_vts_date $Satellite_end_vts_sec"
 	else
-		echo  -e "\033[91m$index. Satellite_EndTime is invalid: $Satellite_end_vts_date $Satellite_end_vts_sec v.s. $Satellite_end_sce_date $Satellite_end_sce_sec\033[0m"
+		echo "$index. [Warning] Satellite_EndTime are different: $Satellite_end_vts_date $Satellite_end_vts_sec vs. $Satellite_end_sce_date $Satellite_end_sce_sec"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
@@ -207,8 +210,9 @@ fi
 
 #
 #====================================
-#===Scenario V.S. CIC (quaternion)===
-echo  -e "\033[33m=====Checking data between Scenario and CIC (quaternion)=====\033[0m" 
+#===Scenario vs. CIC (quaternion)===
+echo ""
+echo "=====Checking data between Scenario and CIC (quaternion)=====" 
 
 #---Check the Satellite_quaternion file---
 Satellite_quaternion_sce=`tac $Configuration_file | grep -m 1 '^ *Satellite_quaternion *=' | awk -F '"' '{printf $2}'`
@@ -219,97 +223,104 @@ if [ -f "$Satellite_quaternion_sce" ]; then
 		Satellite_quaternion_sce=`cd $(dirname $Satellite_quaternion_sce);pwd`"/"$(basename $Satellite_quaternion_sce)	
 	fi
 else
-	echo -e "\e[91m[Warning] Satellite_quaternion file not found\e[0m"
+	echo "[Error] Satellite_quaternion file not found"
 	(( Warning_count += 1 ))
 fi
 
 if [ -f "$Satellite_quaternion_sce" ]; then
 	#---Check the object_name---(Be careful when cut the parameter in txt file)
-	CIC_quat_name=`grep 'OBJECT_NAME' "$Satellite_quaternion_sce" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	CIC_quat_name=`grep 'OBJECT_NAME' "$Satellite_quaternion_sce" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $CIC_quat_name == $Satellite_name_sce ]; then
-		echo "$index. CIC quat OBJECT_NAME  was checked: $CIC_quat_name"
+		echo "$index. CIC quat OBJECT_NAME are the same: $CIC_quat_name"
 	else
-		echo  -e "\033[91m$index. CIC quat OBJECT_NAME is invalid: $CIC_quat_name v.s. $Satellite_name_sce \033[0m"
+		echo "$index. [Warning] CIC quat OBJECT_NAME are different: $CIC_quat_name vs. $Satellite_name_sce"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the REF_FRAME_A---
-	CIC_REF_FRAME_A=`grep 'REF_FRAME_A' "$Satellite_quaternion_sce" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	CIC_REF_FRAME_A=`grep 'REF_FRAME_A' "$Satellite_quaternion_sce" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $CIC_REF_FRAME_A == $Satellite_REF_FRAME_A ]; then
-		echo "$index. CIC quat REF_FRAME_A  was checked: $CIC_REF_FRAME_A"
+		echo "$index. CIC quat REF_FRAME_A are the same: $CIC_REF_FRAME_A"
 	else
-		echo  -e "\033[91m$index. CIC quat REF_FRAME_A is invalid: $CIC_REF_FRAME_A v.s. $Satellite_REF_FRAME_A \033[0m"
+		echo "$index. [Warning] CIC quat REF_FRAME_A are different: $CIC_REF_FRAME_A vs. $Satellite_REF_FRAME_A"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the REF_FRAME_B---
-	CIC_REF_FRAME_B=`grep 'REF_FRAME_B' "$Satellite_quaternion_sce" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	CIC_REF_FRAME_B=`grep 'REF_FRAME_B' "$Satellite_quaternion_sce" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $CIC_REF_FRAME_B == $Satellite_REF_FRAME_B ]; then
-		echo "$index.CIC quat REF_FRAME_B  was checked: $CIC_REF_FRAME_B"
+		echo "$index. CIC quat REF_FRAME_B are the same: $CIC_REF_FRAME_B"
 	else
-		echo  -e "\033[91m$index. CIC quat REF_FRAME_B is invalid: $CIC_REF_FRAME_B v.s. $Satellite_REF_FRAME_B \033[0m"
+		echo "$index. [Warning] CIC quat REF_FRAME_B are different: $CIC_REF_FRAME_B vs. $Satellite_REF_FRAME_B"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the ATTITUDE_DIR---
-	CIC_ATTITUDE_DIR=`grep 'ATTITUDE_DIR' "$Satellite_quaternion_sce" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	CIC_ATTITUDE_DIR=`grep 'ATTITUDE_DIR' "$Satellite_quaternion_sce" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $CIC_ATTITUDE_DIR == $Satellite_ATTITUDE_DIR ]; then
-		echo "$index.CIC quat ATTITUDE_DIR was checked: $CIC_ATTITUDE_DIR"
+		echo "$index. CIC quat ATTITUDE_DIR are the same: $CIC_ATTITUDE_DIR"
 	else
-		echo  -e "\033[91m$index. CIC quat ATTITUDE_DIR is invalid: $CIC_ATTITUDE_DIR v.s. $Satellite_ATTITUDE_DIR \033[0m"
+		echo "$index. [Warning] CIC quat ATTITUDE_DIR are different: $CIC_ATTITUDE_DIR vs. $Satellite_ATTITUDE_DIR"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the TIME_SYSTEM---
-	CIC_TIME_SYSTEM=`grep 'TIME_SYSTEM' "$Satellite_quaternion_sce" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	CIC_TIME_SYSTEM=`grep 'TIME_SYSTEM' "$Satellite_quaternion_sce" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $CIC_TIME_SYSTEM == $Satellite_TIME_SYSTEM ]; then
-		echo "$index.CIC quat TIME_SYSTEM  was checked: $CIC_TIME_SYSTEM"
+		echo "$index. CIC quat TIME_SYSTEM are the same: $CIC_TIME_SYSTEM"
 	else
-		echo  -e "\033[91m$index.CIC quat TIME_SYSTEM is invalid: $CIC_TIME_SYSTEM v.s. $Satellite_TIME_SYSTEM \033[0m"
+		echo "$index. [Warning] CIC quat TIME_SYSTEM are different: $CIC_TIME_SYSTEM vs. $Satellite_TIME_SYSTEM"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the ATTITUDE_TYPE---
-	CIC_ATT_TYPE=`grep 'ATTITUDE_TYPE' "$Satellite_quaternion_sce" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	CIC_ATT_TYPE=`grep 'ATTITUDE_TYPE' "$Satellite_quaternion_sce" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $CIC_ATT_TYPE == $Satellite_ATT_TYPE ]; then
-		echo "$index.CIC quat ATT_TYPE     was checked: $CIC_ATT_TYPE"
+		echo "$index. CIC quat ATT_TYPE are the same: $CIC_ATT_TYPE"
 	else
-		echo  -e "\033[91m$index.CIC quat TIME_SYSTEM is invalid: $CIC_ATT_TYPE v.s. $Satellite_ATT_TYPE \033[0m"
+		echo "$index. [Warning] CIC quat TIME_SYSTEM are different: $CIC_ATT_TYPE vs. $Satellite_ATT_TYPE"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 ))
 
 	#---Check the Start time---
-	CIC_quat_start_date=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | head -n 3 | tail -n 1 | cut -d ' ' -f 1`
-	CIC_quat_start_sec=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | head -n 3 | tail -n 1 | cut -d ' ' -f 2`
+	#CIC_quat_start_date=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | head -n 3 | tail -n 1 | awk '{print $1}'`
+	#CIC_quat_start_sec=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | head -n 3 | tail -n 1 | awk '{print $2}'`
+
+	CIC_quat_start_date=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
+	CIC_quat_start_sec=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
 	if [ $(echo "$CIC_quat_start_date/$Satellite_start_sce_date" | bc) -eq 1 ] && [ $(echo "$CIC_quat_start_sec/$Satellite_start_sce_sec" | bc) -eq 1 ]; then
-		echo "$index.CIC quat Start-time   was checked: $CIC_quat_start_date $CIC_quat_start_sec"
+		echo "$index. CIC quat Start-time are the same: $CIC_quat_start_date $CIC_quat_start_sec"
 	else
-		echo  -e "\033[91m$index.CIC quat Start-time is invalid: $CIC_quat_start_date $CIC_quat_start_sec v.s. $Satellite_start_sce_date $Satellite_start_sce_sec\033[0m"
+		echo "$index. [Warning] CIC quat Start-time are different: $CIC_quat_start_date $CIC_quat_start_sec vs. $Satellite_start_sce_date $Satellite_start_sce_sec"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 ))
 
 	#---Check the End time---
-	CIC_quat_end_date=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tail -n 1 | cut -d ' ' -f 1`
-	CIC_quat_end_sec=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tail -n 1 | cut -d ' ' -f 2`
+	#CIC_quat_end_date=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tail -n 1 | awk '{print $1}'`
+	#CIC_quat_end_sec=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tail -n 1 | awk '{print $2}'`
+
+	CIC_quat_end_date=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
+	CIC_quat_end_sec=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
 	if [ $(echo "$CIC_quat_end_date/$Satellite_end_sce_date" | bc) -eq 1 ] && [ $(echo "$CIC_quat_end_sec/$Satellite_end_sce_sec" | bc) -eq 1 ]; then
-		echo "$index.CIC quat End-time     was checked: $CIC_quat_end_date $CIC_quat_end_sec"
+		echo "$index. CIC quat End-time are the same: $CIC_quat_end_date $CIC_quat_end_sec"
 	else
-		echo  -e "\033[91m$index.CIC quat End-time is invalid: $CIC_quat_end_date $CIC_quat_end_sec v.s. $Satellite_end_sce_date $Satellite_end_sce_sec\033[0m"
+		echo  "$index. [Warning] CIC quat End-time are different: $CIC_quat_end_date $CIC_quat_end_sec vs. $Satellite_end_sce_date $Satellite_end_sce_sec"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 ))
 fi
 #
 #==================================
-#===Scenario V.S. CIC (position)===
-echo  -e "\033[33m=====Checking data between Scenario and CIC (position)=====\033[0m"
+#===Scenario vs. CIC (position)===
+echo ""
+echo "=====Checking data between Scenario and CIC (position)====="
 
 #---Check the Satellite_position file---
 Satellite_position_sce=`tac $Configuration_file | grep -m 1 '^ *Satellite_position *=' | awk -F '"' '{printf $2}'`
@@ -320,60 +331,60 @@ if [ -f "$Satellite_position_sce" ]; then
 		Satellite_position_sce=`cd $(dirname $Satellite_position_sce);pwd`"/"$(basename $Satellite_position_sce)	
 	fi
 else
-	echo -e "\e[91m[Warning] Satellite_position file not found\e[0m"
+	echo "[Error] Satellite_position file not found"
 	(( Warning_count += 1 ))
 fi
 
 
 if [ -f "$Satellite_position_sce" ]; then
 	#---Check the object_name---
-	CIC_pos_name=`grep 'OBJECT_NAME' "$Satellite_position_sce" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	CIC_pos_name=`grep 'OBJECT_NAME' "$Satellite_position_sce" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $CIC_pos_name == $Satellite_name_sce ]; then
-		echo "$index.CIC pos OBJECT_NAME   was checked: $CIC_pos_name"
+		echo "$index. CIC pos OBJECT_NAME are the same: $CIC_pos_name"
 	else
-		echo  -e "\033[91m$index.CIC pos OBJECT_NAME is invalid: $CIC_pos_name v.s. $Satellite_name_sce \033[0m"
+		echo "$index. [Warning] CIC pos OBJECT_NAME are different: $CIC_pos_name vs. $Satellite_name_sce"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the REF_FRAME---
-	CIC_REF_FRAME=`grep 'REF_FRAME' "$Satellite_position_sce" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	CIC_REF_FRAME=`grep 'REF_FRAME' "$Satellite_position_sce" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $CIC_REF_FRAME == $Satellite_REF_FRAME ]; then
-		echo "$index.CIC pos REF_FRAME     was checked: $CIC_REF_FRAME"
+		echo "$index. CIC pos REF_FRAME are the same: $CIC_REF_FRAME"
 	else
-		echo  -e "\033[91m$index.CIC pos REF_FRAME is invalid: $CIC_REF_FRAME v.s. $Satellite_REF_FRAME \033[0m"
+		echo "$index. [Warning] CIC pos REF_FRAME are different: $CIC_REF_FRAME vs. $Satellite_REF_FRAME"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 ))
 
 	#---Check the TIME_SYSTEM---
-	CIC_TIME_SYSTEM=`grep 'TIME_SYSTEM' "$Satellite_position_sce" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	CIC_TIME_SYSTEM=`grep 'TIME_SYSTEM' "$Satellite_position_sce" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $CIC_TIME_SYSTEM == $Satellite_TIME_SYSTEM ]; then
-		echo "$index.CIC pos TIME_SYSTEM   was checked: $CIC_TIME_SYSTEM"
+		echo "$index. CIC pos TIME_SYSTEM are the same: $CIC_TIME_SYSTEM"
 	else
-		echo  -e "\033[91m$index.CIC pos TIME_SYSTEM is invalid: $CIC_TIME_SYSTEM v.s. $Satellite_TIME_SYSTEM \033[0m"
+		echo "$index. [Warning] CIC pos TIME_SYSTEM are different: $CIC_TIME_SYSTEM vs. $Satellite_TIME_SYSTEM"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the Start time---
-	CIC_pos_start_date=`sed -n '/META_STOP/,$p' "$Satellite_position_sce" | head -n 3 | tail -n 1 | cut -d ' ' -f 1`
-	CIC_pos_start_sec=`sed -n '/META_STOP/,$p' "$Satellite_position_sce" | head -n 3 | tail -n 1 | cut -d ' ' -f 2`
+	CIC_pos_start_date=`sed -n '/META_STOP/,$p' "$Satellite_position_sce" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
+	CIC_pos_start_sec=`sed -n '/META_STOP/,$p' "$Satellite_position_sce" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
 	if [ $(echo "$CIC_pos_start_date/$Satellite_start_sce_date" | bc) -eq 1 ] && [ $(echo "$CIC_pos_start_sec/$Satellite_start_sce_sec" | bc) -eq 1 ]; then
-		echo "$index.CIC pos Start-time    was checked: $CIC_pos_start_date $CIC_pos_start_sec"
+		echo "$index. CIC pos Start-time are the same: $CIC_pos_start_date $CIC_pos_start_sec"
 	else
-		echo  -e "\033[91m$index.CIC pos Start-time is invalid: $CIC_pos_start_date $CIC_pos_start_sec v.s. $Satellite_start_sce_date $Satellite_start_sce_sec\033[0m"
+		echo "$index. [Warning] CIC pos Start-time are different: $CIC_pos_start_date $CIC_pos_start_sec vs. $Satellite_start_sce_date $Satellite_start_sce_sec"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 ))
 
 	#---Check the End time---
-	CIC_quat_end_date=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tail -n 1 | cut -d ' ' -f 1`
-	CIC_quat_end_sec=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tail -n 1 | cut -d ' ' -f 2`
-	if [ $(echo "$CIC_quat_end_date/$Satellite_end_sce_date" | bc) -eq 1 ] && [ $(echo "$CIC_quat_end_sec/$Satellite_end_sce_sec" | bc) -eq 1 ]; then
-		echo "$index.CIC pos End-time      was checked: $CIC_quat_end_date $CIC_quat_end_sec"
+	CIC_pos_end_date=`sed -n '/META_STOP/,$p' "$Satellite_position_sce" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
+	CIC_pos_end_sec=`sed -n '/META_STOP/,$p' "$Satellite_position_sce" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
+	if [ $(echo "$CIC_pos_end_date/$Satellite_end_sce_date" | bc) -eq 1 ] && [ $(echo "$CIC_pos_end_sec/$Satellite_end_sce_sec" | bc) -eq 1 ]; then
+		echo "$index. CIC pos End-time are the same: $CIC_pos_end_date $CIC_pos_end_sec"
 	else
-		echo  -e "\033[91m$index.CIC pos End-time is invalid: $CIC_quat_end_date $CIC_quat_end_sec v.s. $Satellite_end_sce_date $Satellite_end_sce_sec\033[0m"
+		echo "$index. [Warning] CIC pos End-time are different: $CIC_pos_end_date $CIC_pos_end_sec vs. $Satellite_end_sce_date $Satellite_end_sce_sec"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 ))
@@ -381,9 +392,10 @@ fi
 
 #
 #==============================================
-#===Scenario V.S. Easy quaternion Seq-inputs===
+#===Scenario vs. Easy quaternion Seq-inputs===
 if [ $Easy_sed_inputs == "True" ]; then
-	echo  -e "\033[33m=====Checking data between Scenario and Seq-inputs file (for EASYQUAT)=====\033[0m"
+	echo ""
+	echo "=====Checking data between Scenario and Seq-inputs file (for EASYQUAT)====="
 	#---Check the Seq_inputs_file---
 	Seq_inputs_file=`tac $Scenario_file | grep -m 1 '^ *Seq_inputs_file *=' | awk -F '"' '{printf $2}'`
 	if [ -f "$Seq_inputs_file" ]; then
@@ -393,89 +405,89 @@ if [ $Easy_sed_inputs == "True" ]; then
 			Seq_inputs_file=`cd $(dirname $Seq_inputs_file);pwd`"/"$(basename $Seq_inputs_file)	
 		fi
 	else
-		echo -e "\e[91m[Warning] Seq_inputs_file not found\e[0m"
+		echo "[Error] Seq_inputs_file not found"
 		(( Warning_count += 1 ))
 	fi
 	
 	if [ -f "$Seq_inputs_file" ]; then
 		#---Check the object_name---(Be careful when cut the parameter in txt file)
-		Seq_quat_name=`grep 'OBJECT_NAME' "$Seq_inputs_file" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+		Seq_quat_name=`grep 'OBJECT_NAME' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 		if [ $Seq_quat_name == $Satellite_name_sce ]; then
-			echo "$index.Seq quat OBJECT_NAME  was checked: $Seq_quat_name"
+			echo "$index. Seq quat OBJECT_NAME are the same: $Seq_quat_name"
 		else
-			echo  -e "\033[91m$index.Seq quat OBJECT_NAME is invalid: $Seq_quat_name v.s. $Satellite_name_sce \033[0m"
+			echo  "$index. [Warning] Seq quat OBJECT_NAME are different: $Seq_quat_name vs. $Satellite_name_sce"
 			(( Error_count += 1 ))	
 		fi
 		(( index += 1 )) 
 
 		#---Check the REF_FRAME_A---
-		Seq_REF_FRAME_A=`grep 'REF_FRAME_A' "$Seq_inputs_file" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+		Seq_REF_FRAME_A=`grep 'REF_FRAME_A' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 		if [ $Seq_REF_FRAME_A == $Satellite_REF_FRAME_A ]; then
-			echo "$index.Seq quat REF_FRAME_A  was checked: $Seq_REF_FRAME_A"
+			echo "$index. Seq quat REF_FRAME_A are the same: $Seq_REF_FRAME_A"
 		else
-			echo  -e "\033[91m$index.Seq quat REF_FRAME_A is invalid: $Seq_REF_FRAME_A v.s. $Satellite_REF_FRAME_A \033[0m"
+			echo "$index. [Warning] Seq quat REF_FRAME_A are different: $Seq_REF_FRAME_A vs. $Satellite_REF_FRAME_A"
 			(( Error_count += 1 ))	
 		fi
 		(( index += 1 )) 
 
 		#---Check the REF_FRAME_B---
-		Seq_REF_FRAME_B=`grep 'REF_FRAME_B' "$Seq_inputs_file" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+		Seq_REF_FRAME_B=`grep 'REF_FRAME_B' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 		if [ $Seq_REF_FRAME_B == $Satellite_REF_FRAME_B ]; then
-			echo "$index.Seq quat REF_FRAME_B  was checked: $Seq_REF_FRAME_B"
+			echo "$index. Seq quat REF_FRAME_B are the same: $Seq_REF_FRAME_B"
 		else
-			echo  -e "\033[91m$index. Seq quat REF_FRAME_B is invalid: $Seq_REF_FRAME_B v.s. $Satellite_REF_FRAME_B \033[0m"
+			echo "$index. [Warning] Seq quat REF_FRAME_B are different: $Seq_REF_FRAME_B vs. $Satellite_REF_FRAME_B"
 			(( Error_count += 1 ))	
 		fi
 		(( index += 1 )) 
 
 		#---Check the ATTITUDE_DIR---
-		Seq_ATTITUDE_DIR=`grep 'ATTITUDE_DIR' "$Seq_inputs_file" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+		Seq_ATTITUDE_DIR=`grep 'ATTITUDE_DIR' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 		if [ $Seq_ATTITUDE_DIR == $Satellite_ATTITUDE_DIR ]; then
-			echo "$index.Seq quat ATTITUDE_DIR was checked: $Seq_ATTITUDE_DIR"
+			echo "$index. Seq quat ATTITUDE_DIR are the same: $Seq_ATTITUDE_DIR"
 		else
-			echo  -e "\033[91m$index. Seq quat ATTITUDE_DIR is invalid: $Seq_ATTITUDE_DIR v.s. $Satellite_ATTITUDE_DIR \033[0m"
+			echo "$index. [Warning] Seq quat ATTITUDE_DIR are different: $Seq_ATTITUDE_DIR vs. $Satellite_ATTITUDE_DIR"
 			(( Error_count += 1 ))	
 		fi
 		(( index += 1 )) 
 
 		#---Check the TIME_SYSTEM---
-		Seq_TIME_SYSTEM=`grep 'TIME_SYSTEM' "$Seq_inputs_file" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+		Seq_TIME_SYSTEM=`grep 'TIME_SYSTEM' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 		if [ $Seq_TIME_SYSTEM == $Satellite_TIME_SYSTEM ]; then
-			echo "$index.Seq quat TIME_SYSTEM  was checked: $Seq_TIME_SYSTEM"
+			echo "$index. Seq quat TIME_SYSTEM are the same: $Seq_TIME_SYSTEM"
 		else
-			echo  -e "\033[91m$index.Seq quat TIME_SYSTEM is invalid: $Seq_TIME_SYSTEM v.s. $Satellite_TIME_SYSTEM \033[0m"
+			echo "$index. [Warning] Seq quat TIME_SYSTEM are different: $Seq_TIME_SYSTEM vs. $Satellite_TIME_SYSTEM"
 			(( Error_count += 1 ))	
 		fi
 		(( index += 1 )) 
 
 		#---Check the ATTITUDE_TYPE---
-		Seq_ATT_TYPE=`grep 'ATTITUDE_TYPE' "$Seq_inputs_file" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+		Seq_ATT_TYPE=`grep 'ATTITUDE_TYPE' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 		if [ $Seq_ATT_TYPE == $Satellite_ATT_TYPE ]; then
-			echo "$index.Seq quat ATT_TYPE     was checked: $Seq_ATT_TYPE"
+			echo "$index. Seq quat ATT_TYPE are the same: $Seq_ATT_TYPE"
 		else
-			echo  -e "\033[91m$index.Seq quat TIME_SYSTEM is invalid: $Seq_ATT_TYPE v.s. $Satellite_ATT_TYPE \033[0m"
+			echo "$index. [Warning] Seq quat TIME_SYSTEM are different: $Seq_ATT_TYPE vs. $Satellite_ATT_TYPE"
 			(( Error_count += 1 ))	
 		fi
 		(( index += 1 ))
 
 		#---Check the Start time---
-		Seq_quat_start_date=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | head -n 3 | tail -n 1 | cut -d ' ' -f 1`
-		Seq_quat_start_sec=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | head -n 3 | tail -n 1 | cut -d ' ' -f 2`
+		Seq_quat_start_date=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
+		Seq_quat_start_sec=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
 		if [ $(echo "$Seq_quat_start_date/$Satellite_start_sce_date" | bc) -eq 1 ] && [ $(echo "$Seq_quat_start_sec/$Satellite_start_sce_sec" | bc) -eq 1 ]; then
-			echo "$index.Seq quat Start-time   was checked: $Seq_quat_start_date $Seq_quat_start_sec"
+			echo "$index. Seq quat Start-time are the same: $Seq_quat_start_date $Seq_quat_start_sec"
 		else
-			echo  -e "\033[91m$index.Seq quat Start-time is invalid: $Seq_quat_start_date $Seq_quat_start_sec v.s. $Satellite_start_sce_date $Satellite_start_sce_sec\033[0m"
+			echo "$index. [Warning] Seq quat Start-time are different: $Seq_quat_start_date $Seq_quat_start_sec vs. $Satellite_start_sce_date $Satellite_start_sce_sec"
 			(( Error_count += 1 ))	
 		fi
 		(( index += 1 ))
 
 		#---Check the End time---
-		Seq_quat_end_date=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tail -n 1 | cut -d ' ' -f 3`
-		Seq_quat_end_sec=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tail -n 1 | cut -d ' ' -f 4`
+		Seq_quat_end_date=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
+		Seq_quat_end_sec=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
 		if [ $(echo "$Seq_quat_end_date/$Satellite_end_sce_date" | bc) -eq 1 ] && [ $(echo "$Seq_quat_end_sec/$Satellite_end_sce_sec" | bc) -eq 1 ]; then
-			echo "$index.Seq quat End-time     was checked: $Seq_quat_end_date $Seq_quat_end_sec"
+			echo "$index. Seq quat End-time are the same: $Seq_quat_end_date $Seq_quat_end_sec"
 		else
-			echo  -e "\033[91m$index.Seq quat End-time is invalid: $Seq_quat_end_date $Seq_quat_end_sec v.s. $Satellite_end_sce_date $Satellite_end_sce_sec\033[0m"
+			echo "$index. [Warning] Seq quat End-time are different: $Seq_quat_end_date $Seq_quat_end_sec vs. $Satellite_end_sce_date $Satellite_end_sce_sec"
 			(( Error_count += 1 ))	
 		fi
 		(( index += 1 ))
@@ -485,101 +497,102 @@ fi
 
 #
 #===================================
-#===Scenario V.S. AOCS Seq-inputs===
+#===Scenario vs. AOCS Seq-inputs===
 
 #---Check the Dyn_quat_seq_inputs_file---
 Dyn_quat_seq_inputs_file=`tac $Configuration_file | grep -m 1 '^ *Dyn_quat_seq_inputs_file *=' | awk -F '"' '{printf $2}'`
 if [ -f "$Dyn_quat_seq_inputs_file" ]; then
-	echo  -e "\033[33m=====Checking data between Scenario and Seq-inputs file (for PRODQUAT)=====\033[0m"
+	echo ""
+	echo "=====Checking data between Scenario and Seq-inputs file (for PRODQUAT)====="
 	if [ "`echo "$Dyn_quat_seq_inputs_file" | awk -F / '{print $2}'`" == "" ]; then
 		Dyn_quat_seq_inputs_file=$Configuration_location/$Dyn_quat_seq_inputs_file
 	else
 		Dyn_quat_seq_inputs_file=`cd $(dirname $Dyn_quat_seq_inputs_file);pwd`"/"$(basename $Dyn_quat_seq_inputs_file)	
 	fi
 else
-	echo -e "\e[91m[Warning] Dyn_quat_seq_inputs_file not found\e[0m"
+	echo "[Error] Dyn_quat_seq_inputs_file not found"
 	(( Warning_count += 1 ))
 fi
 
 if [ -f "$Dyn_quat_seq_inputs_file" ]; then
 	#---Check the object_name---(Be careful when cut the parameter in txt file)
-	Seq_quat_name=`grep 'OBJECT_NAME' "$Dyn_quat_seq_inputs_file" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	Seq_quat_name=`grep 'OBJECT_NAME' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $Seq_quat_name == $Satellite_name_sce ]; then
-		echo "$index.Seq quat OBJECT_NAME  was checked: $Seq_quat_name"
+		echo "$index. Seq quat OBJECT_NAME are the same: $Seq_quat_name"
 	else
-		echo  -e "\033[91m$index.Seq quat OBJECT_NAME is invalid: $Seq_quat_name v.s. $Satellite_name_sce \033[0m"
+		echo "$index. [Warning] Seq quat OBJECT_NAME are different: $Seq_quat_name vs. $Satellite_name_sce"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the REF_FRAME_A---
-	Seq_REF_FRAME_A=`grep 'REF_FRAME_A' "$Dyn_quat_seq_inputs_file" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	Seq_REF_FRAME_A=`grep 'REF_FRAME_A' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $Seq_REF_FRAME_A == $Satellite_REF_FRAME_A ]; then
-		echo "$index.Seq quat REF_FRAME_A  was checked: $Seq_REF_FRAME_A"
+		echo "$index. Seq quat REF_FRAME_A are the same: $Seq_REF_FRAME_A"
 	else
-		echo  -e "\033[91m$index.Seq quat REF_FRAME_A is invalid: $Seq_REF_FRAME_A v.s. $Satellite_REF_FRAME_A \033[0m"
+		echo "$index. [Warning] Seq quat REF_FRAME_A are different: $Seq_REF_FRAME_A vs. $Satellite_REF_FRAME_A"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the REF_FRAME_B---
-	Seq_REF_FRAME_B=`grep 'REF_FRAME_B' "$Dyn_quat_seq_inputs_file" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	Seq_REF_FRAME_B=`grep 'REF_FRAME_B' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $Seq_REF_FRAME_B == $Satellite_REF_FRAME_B ]; then
-		echo "$index.Seq quat REF_FRAME_B  was checked: $Seq_REF_FRAME_B"
+		echo "$index. Seq quat REF_FRAME_B are the same: $Seq_REF_FRAME_B"
 	else
-		echo  -e "\033[91m$index. Seq quat REF_FRAME_B is invalid: $Seq_REF_FRAME_B v.s. $Satellite_REF_FRAME_B \033[0m"
+		echo "$index. [Warning] Seq quat REF_FRAME_B are different: $Seq_REF_FRAME_B vs. $Satellite_REF_FRAME_B"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the ATTITUDE_DIR---
-	Seq_ATTITUDE_DIR=`grep 'ATTITUDE_DIR' "$Dyn_quat_seq_inputs_file" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	Seq_ATTITUDE_DIR=`grep 'ATTITUDE_DIR' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $Seq_ATTITUDE_DIR == $Satellite_ATTITUDE_DIR ]; then
-		echo "$index.Seq quat ATTITUDE_DIR was checked: $Seq_ATTITUDE_DIR"
+		echo "$index. Seq quat ATTITUDE_DIR are the same: $Seq_ATTITUDE_DIR"
 	else
-		echo  -e "\033[91m$index. Seq quat ATTITUDE_DIR is invalid: $Seq_ATTITUDE_DIR v.s. $Satellite_ATTITUDE_DIR \033[0m"
+		echo "$index. [Warning] Seq quat ATTITUDE_DIR are different: $Seq_ATTITUDE_DIR vs. $Satellite_ATTITUDE_DIR"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the TIME_SYSTEM---
-	Seq_TIME_SYSTEM=`grep 'TIME_SYSTEM' "$Dyn_quat_seq_inputs_file" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	Seq_TIME_SYSTEM=`grep 'TIME_SYSTEM' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $Seq_TIME_SYSTEM == $Satellite_TIME_SYSTEM ]; then
-		echo "$index.Seq quat TIME_SYSTEM  was checked: $Seq_TIME_SYSTEM"
+		echo "$index. Seq quat TIME_SYSTEM are the same: $Seq_TIME_SYSTEM"
 	else
-		echo  -e "\033[91m$index.Seq quat TIME_SYSTEM is invalid: $Seq_TIME_SYSTEM v.s. $Satellite_TIME_SYSTEM \033[0m"
+		echo "$index. [Warning] Seq quat TIME_SYSTEM are different: $Seq_TIME_SYSTEM vs. $Satellite_TIME_SYSTEM"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 )) 
 
 	#---Check the ATTITUDE_TYPE---
-	Seq_ATT_TYPE=`grep 'ATTITUDE_TYPE' "$Dyn_quat_seq_inputs_file" | cut -d ' ' -f 3 | tr -d ["\r\n"]`
+	Seq_ATT_TYPE=`grep 'ATTITUDE_TYPE' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 	if [ $Seq_ATT_TYPE == $Satellite_ATT_TYPE ]; then
-		echo "$index.Seq quat ATT_TYPE     was checked: $Seq_ATT_TYPE"
+		echo "$index. Seq quat ATT_TYPE are the same: $Seq_ATT_TYPE"
 	else
-		echo  -e "\033[91m$index.Seq quat TIME_SYSTEM is invalid: $Seq_ATT_TYPE v.s. $Satellite_ATT_TYPE \033[0m"
+		echo "$index. [Warning] Seq quat TIME_SYSTEM are different: $Seq_ATT_TYPE vs. $Satellite_ATT_TYPE"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 ))
 
 	#---Check the Start time---
-	Seq_quat_start_date=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | head -n 3 | tail -n 1 | cut -d ' ' -f 1`
-	Seq_quat_start_sec=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | head -n 3 | tail -n 1 | cut -d ' ' -f 2`
+	Seq_quat_start_date=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
+	Seq_quat_start_sec=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
 	if [ $(echo "$Seq_quat_start_date/$Satellite_start_sce_date" | bc) -eq 1 ] && [ $(echo "$Seq_quat_start_sec/$Satellite_start_sce_sec" | bc) -eq 1 ]; then
-		echo "$index.Seq quat Start-time   was checked: $Seq_quat_start_date $Seq_quat_start_sec"
+		echo "$index. Seq quat Start-time are the same: $Seq_quat_start_date $Seq_quat_start_sec"
 	else
-		echo  -e "\033[91m$index.Seq quat Start-time is invalid: $Seq_quat_start_date $Seq_quat_start_sec v.s. $Satellite_start_sce_date $Satellite_start_sce_sec\033[0m"
+		echo "$index. [Warning] Seq quat Start-time are different: $Seq_quat_start_date $Seq_quat_start_sec vs. $Satellite_start_sce_date $Satellite_start_sce_sec"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 ))
 
 	#---Check the End time---
-	Seq_quat_end_date=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tail -n 1 | cut -d ' ' -f 3`
-	Seq_quat_end_sec=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tail -n 1 | cut -d ' ' -f 4`
+	Seq_quat_end_date=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
+	Seq_quat_end_sec=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
 	if [ $(echo "$Seq_quat_end_date/$Satellite_end_sce_date" | bc) -eq 1 ] && [ $(echo "$Seq_quat_end_sec/$Satellite_end_sce_sec" | bc) -eq 1 ]; then
-		echo "$index.Seq quat End-time     was checked: $Seq_quat_end_date $Seq_quat_end_sec"
+		echo "$index. Seq quat End-time are the same: $Seq_quat_end_date $Seq_quat_end_sec"
 	else
-		echo  -e "\033[91m$index.Seq quat End-time is invalid: $Seq_quat_end_date $Seq_quat_end_sec v.s. $Satellite_end_sce_date $Satellite_end_sce_sec\033[0m"
+		echo "$index. [Warning] Seq quat End-time are different: $Seq_quat_end_date $Seq_quat_end_sec vs. $Satellite_end_sce_date $Satellite_end_sce_sec"
 		(( Error_count += 1 ))	
 	fi
 	(( index += 1 ))
@@ -589,7 +602,8 @@ fi
 #
 #=================================
 #=============Summary=============
-echo  -e "\033[33m==============Analysis result==============\033[0m" 
+echo ""
+echo "==============Analysis result==============" 
 if [ $Error_count -eq 0 ] && [ $Warning_count -eq 0 ] ; then
 	echo "All parameters are valid !!"
 	#---Creat temporary "Check_result" file---
@@ -602,8 +616,8 @@ if [ $Error_count -eq 0 ] && [ $Warning_count -eq 0 ] ; then
 		echo "Configuration_location = \"$Configuration_location\""
 		echo "Error_flag = \"False\""
 	} > $DOCK_main_location/Module/Tmp/Check_result.tmp
-elif [ ! $Error_count -eq 0 ]; then
-	echo -e "There are \e[91m$Error_count errors !!\e[0m"
+elif [ ! $Error_count -eq 0 ] || [ ! $Warning_count -eq 0 ]; then
+	echo "There are $Error_count Warning(s) !!"
 	{ 
 		echo "===This is a temporary file for recording the result of 'Check_Scenario' function===" 
 		echo "Date = \"$Date\""
@@ -616,7 +630,7 @@ elif [ ! $Error_count -eq 0 ]; then
 fi
 
 if [ ! $Warning_count -eq 0 ]; then
-	echo -e "There are \e[91m$Warning_count Warning !!\e[0m"
+	echo "There are $Warning_count Error(s) !!"
 fi
 #
 #===========================================

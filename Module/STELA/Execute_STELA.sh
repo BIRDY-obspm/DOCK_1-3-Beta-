@@ -30,7 +30,8 @@ Dock_main_location=`pwd`
 #===Check the need of this module===
 EXESTELA=`grep 'EXESTELA' $Check_result | awk -F '"' '{printf $2}'`
 if [ "$EXESTELA" == "True" ]; then
-	echo  -e "\033[33m===STELA execution module===\033[0m" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
+	echo ""
+	echo "===STELA execution module===" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
 else
 	exit
 fi
@@ -39,8 +40,8 @@ fi
 cd $Configuration_location
 STELA_software_location=`tac $Configuration_file | grep -m 1 '^ *STELA_software_location *=' | awk -F '"' '{printf $2}'`
 if [ ! -d "$STELA_software_location" ]; then
-	echo -e "\e[91mSTELA software folder not found!!\e[0m"
-	echo -e "\e[91mExit the EXESTELA module\e[0m"
+	echo "STELA software folder not found!!"
+	echo "Exit the EXESTELA module"
 	exit 0
 else
 	STELA_software_location=`cd $STELA_software_location;pwd`
@@ -48,8 +49,8 @@ fi
 
 STELA_exe_path=$STELA_software_location"/bin/stela.sh"
 if [ ! -f "$STELA_exe_path" ]; then
-	echo -e "\e[91mSTELA execution file not found!!\e[0m"
-	echo -e "\e[91mExit the EXESTELA module\e[0m"
+	echo "STELA execution file not found!!"
+	echo "Exit the EXESTELA module"
 	exit 0
 fi
 cd $Dock_main_location

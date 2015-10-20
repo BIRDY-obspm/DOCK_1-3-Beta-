@@ -26,7 +26,8 @@ Dock_main_location=`pwd`
 #===Check the need of this module===
 PRODTRAJ=`grep 'PRODTRAJ' $Check_result | awk -F '"' '{printf $2}'`
 if [ "$PRODTRAJ" == "True" ]; then
-	echo  -e "\033[33m===Trajectory Solver module===\033[0m" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
+	echo ""
+	echo "===Trajectory Solver module===" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
 else
 	exit 0
 fi
@@ -66,8 +67,8 @@ if [ $Error_flag == "True" ]; then
 			Dyn_traj_config=`cd $(dirname $Dyn_traj_config);pwd`"/"$(basename $Dyn_traj_config)	
 		fi
 	else
-		echo -e "\033[91mConfig file for trajectory solver not found!!\033[0m"
-		echo -e "Exit the Trajectory slover"
+		echo "Config file for trajectory solver not found!!"
+		echo "Exit the Trajectory slover"
 		exit 0
 	fi
 
@@ -79,8 +80,8 @@ if [ $Error_flag == "True" ]; then
 			Dyn_host_traj_file=`cd $(dirname $Dyn_host_traj_file);pwd`"/"$(basename $Dyn_host_traj_file)	
 		fi
 	else
-		echo -e "\033[91mHost trajectory file for trajectory solver not found!!\033[0m"
-		echo -e "Exit the Trajectory slover"
+		echo "Host trajectory file for trajectory solver not found!!"
+		echo "Exit the Trajectory slover"
 		exit 0
 	fi
 
@@ -108,8 +109,8 @@ if [ $Error_flag == "True" ]; then
 	cp -f $Current_location/output-trajectories/$output_trajectory_file $Dyn_traj_output_location/Traj-$Date.traj
 	cp -f $Current_location/output-trajectories/$output_ephemeris_file $Dyn_traj_output_location/Ephemeris-$Date.traj
 
-	echo -e "\e[92mNew trajectory file has been created. \e[0m"
-	echo -e "\e[92mFile name: Traj-$Date.traj\e[0m"
+	echo "New trajectory file has been created."
+	echo "File name: Traj-$Date.traj"
 
 	if [ $Keep_temp_file == "False" ]; then
 		rm -f $Current_location/config.py

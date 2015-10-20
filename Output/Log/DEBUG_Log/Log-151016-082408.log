@@ -1,0 +1,58 @@
+===Easy quaternion module===
+===Easy quat===
+GNU Octave, version 3.8.1
+Copyright (C) 2014 John W. Eaton and others.
+This is free software; see the source code for copying conditions.
+There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  For details, type 'warranty'.
+
+Octave was configured for "i686-pc-linux-gnu".
+
+Additional information about Octave is available at http://www.octave.org.
+
+Please contribute if you find this software useful.
+For more information, visit http://www.octave.org/get-involved.html
+
+Read http://www.octave.org/bugs.html to learn how to submit bug reports.
+For information about changes from previous versions, type 'news'.
+
+processing...
+Success!!
+
+===Easy trajectory module===
+===Easy Trajectory===
+
+
+------------------------------------
+     CelestLab - Version 3.0.0
+           CNES - DCT/SB
+------------------------------------
+
+
+Start Aerospace blockset - (2.0)
+	Load macros
+	Load reference frames palette
+	Load math oparations palette
+	Load unit conversions palette
+	Load environment palette
+	Load orbit propagators palette
+	Load utilities palette
+	Load help
+	Load demos
+
+clc: This feature has not been implemented in this mode.
+ !--error 10000 
+*** CelestLab: Invalid orbital elements (parabolic or hyperbolic orbit)
+at line       6 of function CL__error called by :  
+at line      60 of function CL_oe_cir2car called by :  
+at line      60 of function EasyTraj_gen called by :  
+ep_size, Sat_name, Body_name, File_path)
+at line      28 of exec file called by :    
+exec('SCI/etc/scilab.start',-1);;exec('Easytraj-tmp-151016-082408.sce',-1)
+ 
+ 
+===STELA execution module===
+===STELA Execute===
+===VTS generator module===
+===VTS execution module===
+===VTS Execute===

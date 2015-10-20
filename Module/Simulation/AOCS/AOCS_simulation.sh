@@ -26,7 +26,8 @@ Dock_main_location=`pwd`
 #===Check the need of this module===
 PRODQUAT=`grep 'PRODQUAT' $Check_result | awk -F '"' '{printf $2}'`
 if [ "$PRODQUAT" == "True" ]; then
-	echo  -e "\033[33m===Dynamic model for quaternion module===\033[0m" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
+	echo ""
+	echo "===Dynamic model for quaternion module===" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
 else
 	exit
 fi
@@ -65,15 +66,15 @@ if [ -f "$Dyn_quat_para_setting" ]; then
 		Dyn_quat_para_setting=`cd $(dirname $Dyn_quat_para_setting);pwd`"/"$(basename $Dyn_quat_para_setting)	
 	fi
 else
-	echo -e "\033[91mParameters loader file for AOCS module not found!!\033[0m"
-	echo -e "Exit the AOCS"
+	echo "Parameters loader file for AOCS module not found!!"
+	echo "Exit the AOCS"
 	exit 0
 fi	
 
 #---Check the Dyn_quat_para_setting---
 if [ ! -f "$Dyn_quat_para_setting" ]; then
-	echo -e "\033[91mDyn_quat_para_setting not found!!\033[0m"
-	echo -e "Exit the AOCS module"
+	echo "Dyn_quat_para_setting not found!!"
+	echo "Exit the AOCS module"
 	exit 0
 else #---Copy the file from "Input/Dyn_quat" (or specified folder) folder to "AOCS/Inputs" folder---
 	cp -f $Dyn_quat_para_setting $Dock_main_location/Module/Simulation/AOCS/Inputs/SatParameters.sce
@@ -82,11 +83,11 @@ fi
 #---Check the Dyn_quat_seq_inputs_file---
 echo $Dyn_quat_seq_inputs_file
 if [ ! -f "$Dyn_quat_seq_inputs_file" ]; then
-	echo -e "\033[91mDyn_quat_seq_inputs_file not found!!\033[0m"
-	echo -e "Exit the AOCS module"
+	echo "Dyn_quat_seq_inputs_file not found!!"
+	echo "Exit the AOCS module"
 	exit 0
 else #---Copy the file from "Input/Dyn_quat" (or specified folder) folder to "AOCS/Inputs" folder---
-	echo -e "\e[92mLoad AOCS sequence inputs from file...\e[0m"
+	echo "Load AOCS sequence inputs from file..."
 	sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tail -n +3 > $Dock_main_location/Module/Simulation/AOCS/Inputs/Seq_inputs_temp
 fi
 cd $Dock_main_location
@@ -123,10 +124,10 @@ echo "Creating new Scilab .sce file......"
 	echo "//===== Exit for Scilab ====="
 	echo "exit;" 
 } > $Satellite_name_sce-AOCS-$Date.sce
-echo -e "\e[92mNew .sce file has been created. \e[0m"
-echo -e "\e[92mFile name: $Satellite_name_sce-AOCS-$Date.sce\e[0m"
+echo "New .sce file has been created."
+echo "File name: $Satellite_name_sce-AOCS-$Date.sce"
 echo "" 		
-echo -e "Executing the Scilab/Xcos......"
+echo "Executing the Scilab/Xcos......"
 #---Send a title into Log file---
 { echo "===AOCS Scilab===" ; } >> $Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log
 #---Execute Scilab---
@@ -138,8 +139,8 @@ if [ $Keep_temp_file == "False" ]; then
 	rm -f $Satellite_name_sce-AOCS-$Date.sce
 fi
 
-echo -e "\e[92mNew Quarernion CIC file was created.\e[0m"
-echo -e "\e[92mFile name is: $Satellite_name_sce-quaternion-$Date.txt\e[0m"
+echo "New Quarernion CIC file was created."
+echo "File name is: $Satellite_name_sce-quaternion-$Date.txt"
 
 #---Put the Easy-quaternion file name into "Check_result.tmp"
 { echo "New_quat = \"$Dyn_quat_output_location/$Satellite_name_sce-quaternion-$Date.txt\" by \"PRODQUAT\"" ; } >> $Dock_main_location/Module/Tmp/Check_result.tmp
