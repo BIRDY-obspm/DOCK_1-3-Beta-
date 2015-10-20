@@ -30,7 +30,8 @@ Dock_main_location=`pwd`
 #===Check the need of this module===
 EXEVTS=`grep 'EXEVTS' $Check_result | awk -F '"' '{printf $2}'`
 if [ "$EXEVTS" == "True" ]; then
-	echo  -e "\033[33m===VTS execution module===\033[0m" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
+	echo ""
+	echo "===VTS execution module===" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
 else
 	exit
 fi
@@ -41,8 +42,8 @@ VTS_project=`tac $Configuration_file | grep -m 1 '^ *VTS_project_file *=' | awk 
 cd $Configuration_location
 VTS_software_location=`tac $Configuration_file | grep -m 1 '^ *VTS_software_location *=' | awk -F '"' '{printf $2}'`
 if [ ! -d "$VTS_software_location" ]; then
-	echo -e "\e[91mVTS software folder not found!!\e[0m"
-	echo -e "\e[91mExit the Execte_VTS module\e[0m"
+	echo "VTS software folder not found!!"
+	echo "Exit the Execte_VTS module"
 	exit 0
 else
 	VTS_software_location=`cd $VTS_software_location;pwd`
@@ -50,8 +51,8 @@ fi
 
 VTS_exe_path=$VTS_software_location"/startVTS"
 if [ ! -f "$VTS_exe_path" ]; then
-	echo -e "\e[91mVTS execution file not found!!\e[0m"
-	echo -e "\e[91mExit the Execte_VTS module\e[0m"
+	echo "VTS execution file not found!!"
+	echo "Exit the Execte_VTS module"
 	exit 0
 fi
 cd $Dock_main_location
@@ -67,8 +68,8 @@ if [ $Error_flag == "False" ]; then
 	./startVTS --project $VTS_project >> $Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log
 else
 	if [ "$New_VTS_file" == "" ]; then
-		echo -e "\e[96m[Warning] There is not a new created VTS project.\e[0m"
-		echo -e "\e[96m[Warning] Launch the default VTS project defined in Scenario file.\e[0m"
+		echo "[Warning] There is not a new created VTS project."
+		echo "[Warning] Launch the default VTS project defined in Scenario file."
 		echo "Executing the VTS......"		
 		cd $VTS_software_location 
 		./startVTS --project $VTS_project >> $Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log

@@ -18,7 +18,7 @@
 // ================================================================================================
 function [] = EasyTraj2CIC(Date, Position, Velocity, Sat_Name, Body_Name, file_name)
 
-	// Header definition
+	// Header  definition
 	time = getdate();
 	time1 = [time(1),time(2), time(6), time(7), time(8), time(9), time(10)];
 
@@ -45,24 +45,23 @@ function [] = EasyTraj2CIC(Date, Position, Velocity, Sat_Name, Body_Name, file_n
 	end
 	time1   = strcat(['CREATION_DATE = ', string(time1(1)),"-",strcat([correction_month,string(time1(2))]),"-",strcat([correction_day,string(time1(3))]),"T",strcat([correction_hour,string(time1(4))]),":",strcat([correction_mn,string(time1(5))]),":",strcat([correction_sec,string(time1(6))]),".",string(time1(7)) ]);
 
-	// Write the header info
-	fd = mopen(file_name,'wt');
-	mfprintf(fd,'CIC_OEM_VERS = 2.0\n');
-	mfprintf(fd,'%s\n',time1);
-	mfprintf(fd,'ORIGINATOR = DOCKing System\n');
-	mfprintf(fd,'\n');
-	mfprintf(fd,'META_START\n');
-	mfprintf(fd,'\n');
-	mfprintf(fd,'OBJECT_NAME = %s\n',Sat_Name);
-	mfprintf(fd,'OBJECT_ID = %s\n',Sat_Name);
-	mfprintf(fd,'CENTER_NAME = %s\n',Body_Name);
-	mfprintf(fd,'REF_FRAME = EME2000\n');
-	mfprintf(fd,'TIME_SYSTEM = UTC\n');
-	mfprintf(fd,'\n');
-	mfprintf(fd,'META_STOP\n');
-	mfprintf(fd,'\n');
-	
-	// Write the data into specificed file
+	// Writing to file
+    fd = mopen(file_name,'wt');
+    mfprintf(fd,'CIC_OEM_VERS = 2.0\n');
+    mfprintf(fd,'%s\n',time1);
+    mfprintf(fd,'ORIGINATOR = DOCKing System\n');
+    mfprintf(fd,'\n');
+    mfprintf(fd,'META_START\n');
+    mfprintf(fd,'\n');
+    mfprintf(fd,'OBJECT_NAME = %s\n',Sat_Name);
+    mfprintf(fd,'OBJECT_ID = %s\n',Sat_Name);
+    mfprintf(fd,'CENTER_NAME = %s\n',Body_Name);
+    mfprintf(fd,'REF_FRAME = EME2000\n');
+    mfprintf(fd,'TIME_SYSTEM = UTC\n');
+    mfprintf(fd,'\n');
+    mfprintf(fd,'META_STOP\n');
+    mfprintf(fd,'\n');
+	//Combine all data into one matrix 
 	if size(Velocity,'r') == size(Position,'r') then
         for i=1:1:size(Date,'r')
             mfprintf(fd,'%i %f %f %f %f %f %f %f\n',Date(i,1),Date(i,2),Position(i,1),Position(i,2),Position(i,3),Velocity(i,1),Velocity(i,2),Velocity(i,3));
@@ -73,7 +72,7 @@ function [] = EasyTraj2CIC(Date, Position, Velocity, Sat_Name, Body_Name, file_n
         end
 	end
    
-	mclose(fd);
+    mclose(fd);
 
 
 endfunction

@@ -25,5 +25,5 @@ if [ $Keep_debug_file == "False" ]; then
 	echo ""
 	cd Output/Log/DEBUG_Log/
 	rm -f $DEBUG_Log
-	echo  -e "\033[91mLog file has been deleted\033[0m"
+	echo "Log file has been deleted"
 fi

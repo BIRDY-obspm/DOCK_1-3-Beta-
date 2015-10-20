@@ -23,11 +23,12 @@ Simulation_step_size   = "0.05"         # Unit:sec
 #EXESTELA
 #PRODQUAT
 EASYQUAT
+EASYTRAJ
 #PRODTRAJ
-#EASYTRAJ
+
 PRODVTS
 EXEVTS
-#EXTRCEL
+EXTRCEL
 
 ------------------------------
 ### Modularized parameters ###
@@ -48,7 +49,7 @@ Easy_traj_step  = "100"            # Unit:sec (if it's the same as "Simulation_s
 Easy_traj_type  = "Circular"       # Keplerian or Circular
 ---Orbital elements---
 Easy_traj_sma = "10500"    # semi major axis (km)
-Easy_traj_ecc = "1.e-3"   # eccentricity 
+Easy_traj_ecc = "0.001"   # eccentricity 
 Easy_traj_inc = "45"      # inclination (degree)
 Easy_traj_pom = "90"      # Argument of perigee (degree)
 Easy_traj_gom = "240"     # RAAN (Longitude of the ascending node) (degree)

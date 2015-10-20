@@ -1,69 +1,96 @@
-Executing date: 151002-030025
-[5mScenario file found[0m
+Executing date: 151020-065432
+Scenario file found
 Configuration file found
-[33m=====Extrecting data from IDM-CIC xml file=====[0m
+
+=====Extrecting data from IDM-CIC xml file=====
 Project Name: BIRDY GTO
 System Version: 1.2
-[33m=====Checking data between Scenario and VTS=====[0m
-1. Satellite_name        was checked: Birdy
-2. Satellite_quaternion  was checked: Data/essaiQ.txt
-3. Satellite_position    was checked: Data/LEO_position.txt
-[91m4. Satellite_3ds is invalid: Models/BIRDY3D5.3ds v.s. Models/modele_MFC.3ds [0m
-5. Satellite_parentpath  was checked: Sol/Earth
-6. Satellite_StartTime   was checked: 51500 10.000000
-[91m7. Satellite_EndTime is invalid: 51500 2990.000000 v.s. 51500 14970.0[0m
-[33m=====Checking data between Scenario and CIC (quaternion)=====[0m
-8. CIC quat OBJECT_NAME  was checked: Birdy
-9. CIC quat REF_FRAME_A  was checked: EME2000
-10.CIC quat REF_FRAME_B  was checked: SC_BODY_1
-11.CIC quat ATTITUDE_DIR was checked: A2B
-12.CIC quat TIME_SYSTEM  was checked: UTC
-13.CIC quat ATT_TYPE     was checked: QUATERNION
-14.CIC quat Start-time   was checked: 51500 10
-[91m15.CIC quat End-time is invalid: 51500 2990 v.s. 51500 14970.0[0m
-[33m=====Checking data between Scenario and CIC (position)=====[0m
-[91m16.CIC pos OBJECT_NAME is invalid: UNKNOWN v.s. Birdy [0m
-17.CIC pos REF_FRAME     was checked: EME2000
-18.CIC pos TIME_SYSTEM   was checked: UTC
-[91m19.CIC pos Start-time is invalid: 51480 0 v.s. 51500 10.0[0m
-[91m20.CIC pos End-time is invalid: 51500 2990 v.s. 51500 14970.0[0m
-[33m=====Checking data between Scenario and Seq-inputs file (for EASYQUAT)=====[0m
-21.Seq quat OBJECT_NAME  was checked: Birdy
-22.Seq quat REF_FRAME_A  was checked: EME2000
-23.Seq quat REF_FRAME_B  was checked: SC_BODY_1
-24.Seq quat ATTITUDE_DIR was checked: A2B
-25.Seq quat TIME_SYSTEM  was checked: UTC
-26.Seq quat ATT_TYPE     was checked: QUATERNION
-27.Seq quat Start-time   was checked: 51500 10.0
-[91m28.Seq quat End-time is invalid: 51500 40.0 v.s. 51500 14970.0[0m
-[33m=====Checking data between Scenario and Seq-inputs file (for PRODQUAT)=====[0m
-29.Seq quat OBJECT_NAME  was checked: Birdy
-30.Seq quat REF_FRAME_A  was checked: EME2000
-31.Seq quat REF_FRAME_B  was checked: SC_BODY_1
-32.Seq quat ATTITUDE_DIR was checked: A2B
-33.Seq quat TIME_SYSTEM  was checked: UTC
-34.Seq quat ATT_TYPE     was checked: QUATERNION
-35.Seq quat Start-time   was checked: 51500 10
-[91m36.Seq quat End-time is invalid: 51500 600 v.s. 51500 14970.0[0m
-[33m==============Analysis result==============[0m
-There are [91m8 errors !![0m
-[33m===Easy quaternion module===[0m
-Use the default output folder which is "Output/Easy_quat/"
-[92mLoad sequence inputs from file...[0m
+
+=====Checking data between Scenario and VTS=====
+1. Satellite_name are the same: Birdy
+2. [Warning] Satellite_quaternion are different: essaiQ.txt vs. CUBESAT_AEM_ATTITUDE_BBQ.TXT
+3. [Warning] Satellite_position are different: LEO_position.txt vs. CUBESAT_OEM_POSITION.TXT
+4. [Warning] Satellite_3ds are different: BIRDY3D5.3ds vs. PFM-002_Birdy_1.5_wo-FoV.3ds
+5. Satellite_parentpath are the same: Sol/Earth
+6. Satellite_StartTime are the same: 51500 10.000000
+7. [Warning] Satellite_EndTime are different: 51500 2990.000000 vs. 51500 14970
+
+=====Checking data between Scenario and CIC (quaternion)=====
+8. [Warning] CIC quat OBJECT_NAME are different: CubeSat vs. Birdy
+9. CIC quat REF_FRAME_A are the same: EME2000
+10. CIC quat REF_FRAME_B are the same: SC_BODY_1
+11. CIC quat ATTITUDE_DIR are the same: A2B
+12. CIC quat TIME_SYSTEM are the same: UTC
+13. CIC quat ATT_TYPE are the same: QUATERNION
+14. [Warning] CIC quat Start-time are different: 55276 0.0 vs. 51500 10
+15. [Warning] CIC quat End-time are different: 55277 78944.544 vs. 51500 14970
+
+=====Checking data between Scenario and CIC (position)=====
+16. [Warning] CIC pos OBJECT_NAME are different: CubeSat vs. Birdy
+17. CIC pos REF_FRAME are the same: EME2000
+18. CIC pos TIME_SYSTEM are the same: UTC
+19. [Warning] CIC pos Start-time are different: 55276 0 vs. 51500 10
+20. [Warning] CIC pos End-time are different: 55277 84300 vs. 51500 14970
+
+=====Checking data between Scenario and Seq-inputs file (for EASYQUAT)=====
+21. Seq quat OBJECT_NAME are the same: Birdy
+22. Seq quat REF_FRAME_A are the same: EME2000
+23. Seq quat REF_FRAME_B are the same: SC_BODY_1
+24. Seq quat ATTITUDE_DIR are the same: A2B
+25. Seq quat TIME_SYSTEM are the same: UTC
+26. Seq quat ATT_TYPE are the same: QUATERNION
+27. Seq quat Start-time are the same: 51500 10.0
+28. [Warning] Seq quat End-time are different: 51500 20.0 vs. 51500 14970
+
+=====Checking data between Scenario and Seq-inputs file (for PRODQUAT)=====
+29. Seq quat OBJECT_NAME are the same: Birdy
+30. Seq quat REF_FRAME_A are the same: EME2000
+31. Seq quat REF_FRAME_B are the same: SC_BODY_1
+32. Seq quat ATTITUDE_DIR are the same: A2B
+33. Seq quat TIME_SYSTEM are the same: UTC
+34. Seq quat ATT_TYPE are the same: QUATERNION
+35. Seq quat Start-time are the same: 51500 10
+36. [Warning] Seq quat End-time are different: 51500 300 vs. 51500 14970
+
+==============Analysis result==============
+There are 12 Warning(s) !!
+
+===Easy quaternion module===
+Load sequence inputs from file...
 
 Creating the Easy quaternion m-file for Octave......
-[92mNew Easy quaternion m-file was created.[0m
-[92mFile name is: Module/Easy-quaternion/Easy-quat-create-151002-030025.m[0m
+New Easy quaternion m-file was created.
+File name is: Module/Easy-quaternion/Easy-quat-create-151020-065432.m
 
 Executing the Octave...
-[92mNew Easy Quarernion CIC file was created.[0m
-[92mFile name is: Easy-quaternion-151002-030025.txt[0m
-[33m===VTS generator module===[0m
-No new postion data found, use the file defined in Configuration file.
-Use the default output folder which is "Output/VTS_gen/"
-Create a new .vts project...
-[92mNew VTS project file was created.[0m
-[92mFile name is: VTS-151002-030025.vts[0m
+New Easy Quarernion CIC file was created.
+File name is: Easy-quaternion-151020-065432.txt
 
-[33m===VTS execution module===[0m
+===Easy trajectory module===
+Start date is: 51500 (MJD)
+Start sec is: 10 
+End date is: 51500 (MJD)
+End sec is: 14970 
+Step size is: 100 (sec)
+
+Creating new Scilab .sce file for easy trajectory......
+New .sce file has been created.
+File name: Easytraj-tmp-151020-065432.sce
+
+Executing the Scilab......
+New Easy traj CIC file was created.
+File name is: Easy-traj-151020-065432.txt
+
+===VTS generator module===
+Create a new .vts project...
+New VTS project file was created.
+File name is: VTS-151020-065432.vts
+
+===VTS execution module===
 Executing the VTS......
+
+===Extract Celestia module===
+Found "extras_0" Add-on folder
+Found "extras_1" Add-on folder
+Copy all Add-on folders to following location:
+/home/birdy/Software/DOCK_v1-5/Output/Celestia_Addon

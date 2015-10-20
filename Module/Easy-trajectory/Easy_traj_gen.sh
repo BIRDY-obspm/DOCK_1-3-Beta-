@@ -1,6 +1,6 @@
 #!/bin/bash
 # File name: Easy_traj_gen.sh
-# Final Modified Date: 07/09/2015
+# Final Modified Date: 25/09/2015 (for v1.5 Beta)
 # 
 # Author: Hao-Chih,Lin (Jim,Lin)
 # Email : F44006076@gmail.com  
@@ -27,7 +27,8 @@ Dock_main_location=`pwd`
 #===Check the need of this module===
 EASYTRAJ=`grep 'EASYTRAJ' $Check_result | awk -F '"' '{printf $2}'`
 if [ "$EASYTRAJ" == "True" ]; then
-	echo  -e "\033[33m===Easy trajectory module===\033[0m" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
+	echo ""
+	echo "===Easy trajectory module===" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
 else
 	exit
 fi
@@ -80,7 +81,7 @@ fi
 if echo $start_date | egrep -q '^[0-9]+$' ; then
 	echo "Start date is: $start_date (MJD)"
 else
-	echo -e "\033[91mDefinition of 'Start date' is wrong!!\033[0m"
+	echo "Definition of 'Start date' is wrong!!\033[0m"
 	(( Error_count += 1 ))
 fi
 #---Start sec---
@@ -92,7 +93,7 @@ fi
 if echo $start_sec | egrep -q '^[0-9.]+$' ; then
 	echo "Start sec is: $start_sec "
 else
-	echo -e "\033[91mDefinition of 'Start sec' is wrong!!\033[0m"
+	echo "Definition of 'Start sec' is wrong!!"
 	(( Error_count += 1 ))
 fi
 #---End date---
@@ -104,7 +105,7 @@ fi
 if echo $end_date | egrep -q '^[0-9]+$' ; then
 	echo "End date is: $end_date (MJD)"
 else
-	echo -e "\033[91mDefinition of 'End date' is wrong!!\033[0m"
+	echo "Definition of 'End date' is wrong!!"
 	(( Error_count += 1 ))
 fi
 #---End sec---
@@ -116,7 +117,7 @@ fi
 if echo $end_sec | egrep -q '^[0-9.]+$' ; then
 	echo "End sec is: $end_sec "
 else
-	echo -e "\033[91mDefinition of 'End sec' is wrong!!\033[0m"
+	echo "Definition of 'End sec' is wrong!!"
 	(( Error_count += 1 ))
 fi
 #---Step size---
@@ -128,13 +129,13 @@ fi
 if echo $step_size | egrep -q '^[0-9.]+$' ; then
 	echo "Step size is: $step_size (sec)"
 else
-	echo -e "\033[91mDefinition of 'Step size' is wrong!!\033[0m"
+	echo "Definition of 'Step size' is wrong!!"
 	(( Error_count += 1 ))
 fi
 #---Result---
 if [ ! "$Error_count" == 0 ]; then
-	echo -e "\033[91mThere is(are) $Error_count error(s)!!\033[0m"
-	echo -e "Exit the Easy-trajectory module"
+	echo "There is(are) $Error_count error(s)!!"
+	echo "Exit the Easy-trajectory module"
 	exit 0
 fi
 
@@ -188,10 +189,10 @@ EasyTraj_gen(sma, ecc, inc, pom, gom, anm, type_oe, start_time, end_time, step_s
 exit();
 EOF
 
-echo -e "\e[92mNew .sce file has been created. \e[0m"
-echo -e "\e[92mFile name: Easytraj-tmp-$Date.sce\e[0m"
+echo "New .sce file has been created."
+echo "File name: Easytraj-tmp-$Date.sce"
 echo "" 		
-echo -e "Executing the Scilab......"
+echo "Executing the Scilab......"
 
 #---Execute Scilab---
 scilab-adv-cli  -f Easytraj-tmp-$Date.sce -nb >> $Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log
@@ -200,8 +201,8 @@ if [ $Keep_temp_file == "False" ]; then
 	rm -f Easytraj-tmp-$Date.sce
 fi
 
-echo -e "\e[92mNew Easy traj CIC file was created.\e[0m"
-echo -e "\e[92mFile name is: Easy-traj-$Date.txt\e[0m"
+echo "New Easy traj CIC file was created."
+echo "File name is: Easy-traj-$Date.txt"
 
 #---Put the Easy-quaternion file name into "Check_result.tmp"
 { echo "New_traj = \"$Easy_traj_output_location/Easy-traj-$Date.txt\" by \"EASYTRAJ\"" ; } >> $Dock_main_location/Module/Tmp/Check_result.tmp

@@ -1,8 +1,9 @@
 File name: Roadmap (for DOCK system) 
-Final Modified Date: 29/09/2015
-Version of DOCK: 1.4
+Final Modified Date: 02/10/2015
+Version of DOCK: 1.5
 Author: Hao-Chih,Lin (Jim,Lin)
 	Internship student in Paris Observatory, graduated from DAA of NCKU in Taiwan.
+Advisor: Boris Segret
 Email : F44006076@gmail.com  
 Technical Note: MGT-009 (version 1.1)
 
@@ -31,10 +32,14 @@ Technical Note: MGT-009 (version 1.1)
 1.4.3 - Create an scilab/celestlab program to produce Circular/Keplerian orbits data about one body (1X CL1)
 1.4.4 - Produce various types of easy trajectory data, including LEO, GTO of Earth and circular orbit of other bodies (1X CL1)
 1.4.5 - Create the "Easy Trajectory" module to generate simple trajectory data (1X CL1)
-1.4.6 - Create a simple Guided Tour (1X CL1)
+1.4.6 - Create a Guided Tour (1X CL1)
 1.4.7 - Support sequences of inputs for "ADCS" module (1X CL1)
 1.4.8 - Only modify needed part in .vts project, copy all other unchanged parts from original file (1X CL1)
 1.4.9 - Add the “Jupiter's ephemeris” data output by python version of TS (1X CL1)
 1.4.10- Create the "STELA" to launch STELA analysis software (1X CL1)
+1.5 - Qt-based GUI (/)
+1.5.1 - Read and write terminal commands in Qt GUI through Qprocess class (1X CL1)
+1.5.2 - Load and read parameters from "Scenario" and "Configuration" files in QT-GUI (/)
+1.5.3 - Automatiaclly generates new "Scenario" and "Configuration" temp files based on parameters setting in QT-GUI (/)  
     
 

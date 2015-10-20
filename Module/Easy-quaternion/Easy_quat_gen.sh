@@ -1,6 +1,6 @@
 #!/bin/bash
 # File name: Easy_quat_gen.sh
-# Final Modified Date: 07/09/2015
+# Final Modified Date: 25/09/2015 (for v1.5 Beta)
 # 
 # Author: Hao-Chih,Lin (Jim,Lin)
 # Email : F44006076@gmail.com  
@@ -18,7 +18,7 @@
 function Easy_quaternion_m_file()
 {
 echo ""
-echo -e "Creating the Easy quaternion m-file for Octave......"
+echo "Creating the Easy quaternion m-file for Octave......"
 		
 cat > $1 <<EOF
 clear
@@ -91,8 +91,8 @@ disp('Success!!');
 
 exit
 EOF
-echo -e "\e[92mNew Easy quaternion m-file was created.\e[0m"
-echo -e "\e[92mFile name is: $1\e[0m"
+echo "New Easy quaternion m-file was created."
+echo "File name is: $1"
 echo ""
 }
 
@@ -118,7 +118,8 @@ Dock_main_location=`pwd`
 #===Check the need of this module===
 EASYQUAT=`grep 'EASYQUAT' $Check_result | awk -F '"' '{printf $2}'`
 if [ "$EASYQUAT" == "True" ]; then
-	echo  -e "\033[33m===Easy quaternion module===\033[0m" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
+	echo ""
+	echo "===Easy quaternion module===" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
 else
 	exit
 fi
@@ -178,7 +179,7 @@ if [ $Easy_sed_inputs == "False" ]; then
 	if echo $start_date | egrep -q '^[0-9]+$' ; then
 		echo "Start date is: $start_date (MJD)"
 	else
-		echo -e "\033[91mDefinition of 'Start date' is wrong!!\033[0m"
+		echo "Definition of 'Start date' is invalid!!"
 		(( Error_count += 1 ))
 	fi
 	#---Start sec---
@@ -190,7 +191,7 @@ if [ $Easy_sed_inputs == "False" ]; then
 	if echo $start_sec | egrep -q '^[0-9.]+$' ; then
 		echo "Start sec is: $start_sec "
 	else
-		echo -e "\033[91mDefinition of 'Start sec' is wrong!!\033[0m"
+		echo "Definition of 'Start sec' is wrong!!"
 		(( Error_count += 1 ))
 	fi
 	#---End date---
@@ -202,7 +203,7 @@ if [ $Easy_sed_inputs == "False" ]; then
 	if echo $end_date | egrep -q '^[0-9]+$' ; then
 		echo "End date is: $end_date (MJD)"
 	else
-		echo -e "\033[91mDefinition of 'End date' is wrong!!\033[0m"
+		echo "Definition of 'End date' is wrong!!"
 		(( Error_count += 1 ))
 	fi
 	#---End sec---
@@ -214,7 +215,7 @@ if [ $Easy_sed_inputs == "False" ]; then
 	if echo $end_sec | egrep -q '^[0-9.]+$' ; then
 		echo "End sec is: $end_sec "
 	else
-		echo -e "\033[91mDefinition of 'End sec' is wrong!!\033[0m"
+		echo "Definition of 'End sec' is wrong!!"
 		(( Error_count += 1 ))
 	fi
 	#---Step size---
@@ -226,13 +227,13 @@ if [ $Easy_sed_inputs == "False" ]; then
 	if echo $step_size | egrep -q '^[0-9.]+$' ; then
 		echo "Step size is: $step_size (sec)"
 	else
-		echo -e "\033[91mDefinition of 'Step size' is wrong!!\033[0m"
+		echo "Definition of 'Step size' is wrong!!"
 		(( Error_count += 1 ))
 	fi
 	#---Result---
 	if [ ! "$Error_count" == 0 ]; then
-		echo -e "\033[91mThere is(are) $Error_count error(s)!!\033[0m"
-		echo -e "Exit the Easy-quaternion module"
+		echo "There is(are) $Error_count error(s)!!"
+		echo "Exit the Easy-quaternion module"
 		exit 0
 	fi
 
@@ -251,8 +252,8 @@ if [ $Easy_sed_inputs == "False" ]; then
 	#===Execute the Octave===
 	echo "Executing the Octave..."
 	octave $Easy_mfile_name >> $Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log
-	echo -e "\e[92mNew Easy Quarernion CIC file was created.\e[0m"
-	echo -e "\e[92mFile name is: Easy-quaternion-$Date.txt\e[0m"
+	echo "New Easy Quarernion CIC file was created."
+	echo "File name is: Easy-quaternion-$Date.txt"
 
 	if [ $Keep_temp_file == "False" ]; then
 		rm -f $Easy_mfile_name
@@ -261,12 +262,12 @@ if [ $Easy_sed_inputs == "False" ]; then
 elif [ $Easy_sed_inputs == "True" ]; then
 	#---Check the Seq_inputs_file---
 	if [ ! -f "$Seq_inputs_file" ]; then
-		echo -e "\033[91mSeq_inputs_file not found!!\033[0m"
-		echo -e "Exit the Easy-quaternion module"
+		echo "Seq_inputs_file not found!!"
+		echo "Exit the Easy-quaternion module"
 		exit 0
 	fi
 
-	echo -e "\e[92mLoad sequence inputs from file...\e[0m"
+	echo "Load sequence inputs from file..."
 	sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tail -n +3 > Module/Easy-quaternion/Tmp-seq-inputs-$Date
 	Easy_mfile_name='Module/Easy-quaternion/Easy-quat-create-'$Date'.m'
 	#===Call the function for creating new m-fil for Octave in order to generate easy quaternion CIC file===
@@ -275,8 +276,8 @@ elif [ $Easy_sed_inputs == "True" ]; then
 	#===Execute the Octave===
 	echo "Executing the Octave..."
 	octave $Easy_mfile_name >> $Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log
-	echo -e "\e[92mNew Easy Quarernion CIC file was created.\e[0m"
-	echo -e "\e[92mFile name is: Easy-quaternion-$Date.txt\e[0m"
+	echo "New Easy Quarernion CIC file was created."
+	echo "File name is: Easy-quaternion-$Date.txt"
 
 	if [ $Keep_temp_file == "False" ]; then
 		rm -f $Easy_mfile_name

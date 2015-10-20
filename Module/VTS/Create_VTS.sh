@@ -25,7 +25,8 @@ Dock_main_location=`pwd`
 #===Check the need of this module===
 PRODVTS=`grep 'PRODVTS' $Check_result | awk -F '"' '{printf $2}'`
 if [ "$PRODVTS" == "True" ]; then
-	echo  -e "\033[33m===VTS generator module===\033[0m" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
+	echo ""
+	echo "===VTS generator module===" | tee -a "$Dock_main_location/Output/Log/DEBUG_Log/Log-$Date.log"
 else
 	exit
 fi
@@ -35,7 +36,7 @@ fi
 New_quat_num=`grep '^ *New_quat *=' $Check_result | wc -l`
 New_traj_num=`grep '^ *New_traj *=' $Check_result | wc -l`
 
-#---Put the final search result into variable in advance--- 
+#---Put the final search result into variable--- 
 New_quat=`tac $Check_result | grep -m 1 '^ *New_quat *=' | awk -F '"' '{printf $2}'`
 New_traj=`tac $Check_result | grep -m 1 '^ *New_traj *=' | awk -F '"' '{printf $2}'`
 
@@ -215,9 +216,8 @@ cat > $VTS_output_location/VTS-$Date.vts <<EOF
 EOF
 fi
 
-echo -e "\e[92mNew VTS project file was created.\e[0m"
-echo -e "\e[92mFile name is: VTS-$Date.vts\e[0m"
-echo ""
+echo "New VTS project file was created."
+echo "File name is: VTS-$Date.vts"
 
 #---Put the New VTS project name into "Check_result.tmp"
 { echo "New_VTS_file = \"$VTS_output_location/VTS-$Date.vts\"" ; } >> Module/Tmp/Check_result.tmp
