@@ -1,9 +1,10 @@
 File name: Readme (for DOCKing system) 
-Final Modified Date: 23/09/2015 
+Final Modified Date: 20/10/2015 
 Confidence level: CL=1
 Version of DOCK: 1.5
 Author: Hao-Chih,Lin (Jim,Lin)
 	Internship student in Paris Observatory, graduated from DAA of NCKU in Taiwan.
+Advisor: Boris Segret	
 Email : F44006076@gmail.com  
 Technical Note: MGT-009 (version 1.1)
 
@@ -13,11 +14,10 @@ Technical Note: MGT-009 (version 1.1)
 THe DOCKing system is a high level software integration program for general CubeSat mission analysis.
 The purpose of DOCKing system is to create user friendly interface in order to make user easily test all necessary program/software.
 
-
 ====================================
 ===========Functionality============
 ====================================
-In Version 1.4, DOCKing system provides several functions listed as follows: ("[]" means it is a module)
+In Version 1.5, DOCKing system provides several functions listed as follows: ("[]" means it is a module)
 [Scenario-check]: Check definition of parameters in various type of files.
 [PRODQUAT]: Create CubeSat quaternion data based on dynamic characteristics.
 [EASYQUAT]: Create easy quaternion for CubeSat without considering dynamic characteristics.
@@ -32,6 +32,14 @@ Notice: Users can decide which module should be executed in "Scenario" file, exc
 	core module in DOCK, without it, all the other modules can not work successfully. 
 
 ====================================
+===============Qt-GUI===============
+====================================
+From Version 1.5, DOCKS also provides Qt-based GUI.
+Just click "DOCK_GUI_v1-5-1" exe-file, then the GUI will show up. 
+By using Qt-GUI, almost all of path definitaion issues will be solved. 
+
+
+====================================
 ========System Requirements=========
 ====================================
 In order to get good result of DOCK system, the user should meet all requirements described below before launching the DOCK system.
@@ -42,11 +50,19 @@ In order to get good result of DOCK system, the user should meet all requirement
 4. Install Python (with PyKEP)
 4. Install Vts-Linux-32bits (Can be downloaded from CNES website: http://www.timeloop.fr/vts/en/index.html)
 5. Make sure the VTS can execute "Celestia" without problems, if not, please follow the tutorial for fixing this problem in Technical Note (MGT-009 v1.1).
-
+6. Install "STELA" (https://logiciels.cnes.fr/content/stela?language=en)
 
 ====================================
 =======How to use DOCK System=======
 ====================================
+##Qt-GUI##
+1.Clcik special icon called "DOCK_GUI_v1-5-1", it will launch the Qt-GUI.
+2.First, you have to press "Open" OR "New" to load or create Scenario file.
+3.Then do the same thing for Configuration file.
+4.After modifying parameters, just click "Check and Execution" button.
+5.You can find the result in the white based text browser.
+
+##Terminal##
 1.Go to "Input" folder, you will see four files, they are "Scenario", "Configuration", "sed_inputs" and "PFM-002_Birdy_1.5.xml" files.
   For "Scenario" and "Configuration" files: Define parameters properly in these two files. 
   Notice: 
