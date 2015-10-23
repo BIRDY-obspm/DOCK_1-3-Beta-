@@ -1,0 +1,235 @@
+Modify "Earth" "Sol"
+{
+   Class "planet"
+   Radius 6378.14
+}
+
+"Earth_Eme2000Axes" "Sol/Earth"
+{
+   Class "component"
+   Mesh "emeAxes.3ds"
+   Radius 12756.28
+   MeshScale 12756.28
+   NormalizeMesh false
+   Emissive true
+   FixedPosition [0 0 0]
+   FixedQuaternion [0.707107 0.707107 0 0]
+   OrbitFrame { BodyFixed { Center "Sol/Earth" } }
+   BodyFrame { EquatorJ2000 { Center "Sol/Earth" } }
+}
+
+"Earth_Axes" "Sol/Earth"
+{
+   Class "component"
+   Mesh "bodyAxes.3ds"
+   Radius 12756.28
+   MeshScale 12756.28
+   NormalizeMesh false
+   Emissive true
+   FixedPosition [0 0 0]
+   FixedQuaternion [0.707107 0.707107 0 0]
+   OrbitFrame { BodyFixed { Center "Sol/Earth" } }
+   BodyFrame { BodyFixed { Center "Sol/Earth" } }
+}
+
+"Birdy_ref" "Sol/Earth"
+{
+   Class "spacecraft"
+   Radius 0.0005
+   Mesh "ref_model.3ds"
+   OrbitColor [1 0.471504 0]
+   TrajectoryPlotDuration 0
+   TrajectoryPlotLead 0
+   TrajectoryPlotFade 0.5
+   SampledTrajectory
+   {
+      Source "Easy-traj-151022-050305.xyz"
+      Interpolation "cubic"
+      DoublePrecision true
+   }
+   SampledOrientation "Easy-quaternion-151022-050305.q"
+   OrbitFrame { EquatorJ2000 { Center "Sol/Earth" } }
+   BodyFrame { EquatorJ2000 { Center "Sol/Earth" } }
+}
+
+"Birdy" "Sol/Earth/Birdy_ref"
+{
+   Class "component"
+   Mesh "PFM-002_Birdy_1.5_wo-FoV.3ds"
+   Emissive false
+   Radius 0.0005
+   NormalizeMesh true
+   Albedo 0.7
+   FixedPosition [0 0 0]
+   FixedRotation {}
+   OrbitFrame { BodyFixed { Center "Sol/Earth/Birdy_ref" } }
+   BodyFrame { BodyFixed { Center "Sol/Earth/Birdy_ref" } }
+}
+
+"Birdy_Eme2000Axes" "Sol/Earth/Birdy_ref"
+{
+   Class "component"
+   Mesh "emeAxes.3ds"
+   Radius 0.002
+   MeshScale 0.002
+   NormalizeMesh false
+   Emissive true
+   FixedPosition [0 0 0]
+   FixedQuaternion [0.707107 0.707107 0 0]
+   OrbitFrame { BodyFixed { Center "Sol/Earth/Birdy_ref" } }
+   BodyFrame { EquatorJ2000 { Center "Sol/Earth" } }
+}
+
+"Birdy_QswAxes" "Sol/Earth/Birdy_ref"
+{
+   Class "component"
+   Mesh "qswAxes.3ds"
+   Radius 0.002
+   MeshScale 0.002
+   NormalizeMesh false
+   Emissive true
+   FixedPosition [0 0 0]
+   FixedQuaternion [0 0 0 1]
+   OrbitFrame { BodyFixed { Center "Sol/Earth/Birdy_ref" } }
+   BodyFrame {
+      TwoVector {
+         Center "Sol/Earth/Birdy_ref"
+         Primary {
+            Axis "x"
+            RelativePosition { Target "Sol/Earth" }
+         }
+         Secondary {
+            Axis "z"
+            RelativeVelocity { Target "Sol/Earth" }
+         }
+      }
+   }
+}
+
+"Birdy_TnwAxes" "Sol/Earth/Birdy_ref"
+{
+   Class "component"
+   Mesh "tnwAxes.3ds"
+   Radius 0.002
+   MeshScale 0.002
+   NormalizeMesh false
+   Emissive true
+   FixedPosition [0 0 0]
+   FixedQuaternion [1 0 0 0]
+   OrbitFrame { BodyFixed { Center "Sol/Earth/Birdy_ref" } }
+   BodyFrame {
+      TwoVector {
+         Center "Sol/Earth/Birdy_ref"
+         Primary {
+            Axis "-x"
+            RelativeVelocity { Target "Sol/Earth" }
+         }
+         Secondary {
+            Axis "z"
+            RelativePosition { Target "Sol/Earth" }
+         }
+      }
+   }
+}
+
+"Birdy_Axes" "Sol/Earth/Birdy_ref"
+{
+   Class "component"
+   Mesh "satAxes.3ds"
+   Radius 0.002
+   MeshScale 0.002
+   NormalizeMesh false
+   Emissive true
+   FixedPosition [0 0 0]
+   FixedRotation {}
+   OrbitFrame { BodyFixed { Center "Sol/Earth/Birdy_ref" } }
+   BodyFrame { BodyFixed { Center "Sol/Earth/Birdy_ref" } }
+}
+
+"Birdy_SunDir" "Sol/Earth/Birdy_ref"
+{
+   Class "component"
+   Mesh "vector-yellow.3ds"
+   Radius 0.002
+   MeshScale 0.002
+   NormalizeMesh false
+   Emissive true
+   FixedPosition [0 0 0]
+   OrbitFrame { BodyFixed { Center "Sol/Earth/Birdy_ref" } }
+   FixedRotation { MeridianAngle 180 }
+   BodyFrame {
+      TwoVector {
+         Center "Sol/Earth/Birdy_ref"
+         Primary {
+            Axis "x"
+            RelativePosition { Target "Sol" }
+         }
+         Secondary {
+            Axis "z"
+            ConstantVector
+            {
+               Vector [ 0 0 1 ]
+               Frame {
+                  EquatorJ2000 { Center "Sol/Earth" }
+               }
+            }
+         }
+      }
+   }
+   Visible false
+}
+
+"Birdy_BodyDir" "Sol/Earth/Birdy_ref"
+{
+   Class "component"
+   Mesh "vector-magenta.3ds"
+   Radius 0.002
+   MeshScale 0.002
+   NormalizeMesh false
+   Emissive true
+   FixedPosition [0 0 0]
+   OrbitFrame { BodyFixed { Center "Sol/Earth/Birdy_ref" } }
+   FixedRotation { MeridianAngle 180 }
+   BodyFrame {
+      TwoVector {
+         Center "Sol/Earth/Birdy_ref"
+         Primary {
+            Axis "x"
+            RelativePosition { Target "Sol/Earth" }
+         }
+         Secondary {
+            Axis "z"
+            RelativeVelocity { Target "Sol/Earth" }
+         }
+      }
+   }
+   Visible false
+}
+
+"Birdy_VelDir" "Sol/Earth/Birdy_ref"
+{
+   Class "component"
+   Mesh "vector-white.3ds"
+   Radius 0.002
+   MeshScale 0.002
+   NormalizeMesh false
+   Emissive true
+   FixedPosition [0 0 0]
+   OrbitFrame { BodyFixed { Center "Sol/Earth/Birdy_ref" } }
+   FixedRotation { MeridianAngle 180 }
+   BodyFrame {
+      TwoVector {
+         Center "Sol/Earth/Birdy_ref"
+         Primary {
+            Axis "-x"
+            RelativeVelocity { Target "Sol/Earth" }
+         }
+         Secondary {
+            Axis "z"
+            RelativePosition { Target "Sol/Earth" }
+         }
+      }
+   }
+   Visible false
+}
+
