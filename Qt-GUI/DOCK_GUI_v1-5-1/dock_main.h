@@ -1,9 +1,36 @@
+/*
+ Developer: LIN, Hao-Chih (Jim, LIN)
+ Email: f44006076@gmail.com
+ Advisor: Boris, Segret
+ Final modified date: 23/10/2015
+ ==============================================================
+ ===========================LICENSE============================
+ ==============================================================
+ This file is part of DOCKS.
+
+ DOCKS is free software: you can redistribute it and/or modify
+ it under the terms of the  GNU LESSER GENERAL PUBLIC LICENSE
+ as published by the Free Software Foundation, either version
+ 3 of the License, or any later version.
+
+ DOCKS is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU LESSER GENERAL PUBLIC LICENSE for more details.
+
+ You should have received a copy of the
+ GNU LESSER GENERAL PUBLIC LICENSE along with DOCKS.
+ If not, see <http://www.gnu.org/licenses/lgpl.txt>.
+*/
+
 #ifndef DOCK_MAIN_H
 #define DOCK_MAIN_H
 
 #include <QMainWindow>
 #include <QString>
 #include <QList>
+
+#include <QProcess>
 
 #include "setting_easyquat.h"
 #include "setting_realquat.h"
@@ -70,6 +97,8 @@ private:
     VTS_CIC_para vts_cic_para;
     VTS_Soft vts_soft;
 
+    QProcess *p;
+
 private slots:
 
     void Default_values();
@@ -80,6 +109,7 @@ private slots:
     bool Save_Con(QString &Con_filename);
     void Setting_dialog_import_default();
     void Reset_all_setting_structs();
+    void closeEvent(QCloseEvent *event);
 
     void on_PB_Clearall_clicked();
     void on_PB_LoadSce_clicked();
@@ -137,6 +167,8 @@ private slots:
     void on_TB_ExeVTS_clicked();
     void on_TB_Addons_clicked();
     void on_PB_CCSDS_clicked();
+
+    void on_PB_stopProcess_clicked();
 
 private:
     Ui::DOCK_main *ui;

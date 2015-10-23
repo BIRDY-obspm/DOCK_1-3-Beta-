@@ -1,9 +1,29 @@
 #!/bin/bash
 # File name: Create_VTS.sh
-# Final Modified Date: 18/09/2015
+# Final Modified Date: 23/10/2015
 # 
 # Author: Hao-Chih,Lin (Jim,Lin)
 # Email : F44006076@gmail.com  
+#
+# ==============================================================
+# ===========================LICENSE============================
+# ==============================================================
+# This file is part of DOCKS.
+#
+# DOCKS is free software: you can redistribute it and/or modify
+# it under the terms of the  GNU LESSER GENERAL PUBLIC LICENSE 
+# as published by the Free Software Foundation, either version 
+# 3 of the License, or any later version.
+#
+# DOCKS is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU LESSER GENERAL PUBLIC LICENSE for more details.
+#
+# You should have received a copy of the 
+# GNU LESSER GENERAL PUBLIC LICENSE along with DOCKS.
+# If not, see <http://www.gnu.org/licenses/lgpl.txt>.
+#
 #===================================================
 #=======================Program=====================
 #===================================================
@@ -44,6 +64,21 @@ New_traj=`tac $Check_result | grep -m 1 '^ *New_traj *=' | awk -F '"' '{printf $
 if [ "$New_quat" == "" ]; then
 	New_quat=`tac $Configuration_file | grep -m 1 '^ *Satellite_quaternion *=' | awk -F '"' '{printf $2}'`
 	echo "No new attitude data found, use the file defined in Configuration file."
+	
+	#---Check the Satellite_quaternion file---
+	cd $Configuration_location
+	if [ -f "$New_quat" ]; then
+		if [ "`echo "$New_quat" | awk -F / '{print $2}'`" == "" ]; then
+			New_quat=$Configuration_location/$New_quat
+		else
+			New_quat=`cd $(dirname $New_quat);pwd`"/"$(basename $New_quat)	
+		fi
+	else
+		echo "Original attitude data not found!!"
+		echo "Exit the PRODVTS module"
+		exit 0
+	fi
+	cd $Dock_main_location
 elif [ "$New_quat_num" -gt 1 ]; then
 	check_count=1
 	previous_num=1000	
@@ -59,9 +94,26 @@ elif [ "$New_quat_num" -gt 1 ]; then
 	done
 fi
 
+
+
 if [ "$New_traj" == "" ]; then
 	New_traj=`tac $Configuration_file | grep -m 1 '^ *Satellite_position *=' | awk -F '"' '{printf $2}'`
 	echo "No new postion data found, use the file defined in Configuration file."
+	
+	#---Check the Satellite_position file---
+	cd $Configuration_location
+	if [ -f "$New_traj" ]; then
+		if [ "`echo "$New_traj" | awk -F / '{print $2}'`" == "" ]; then
+			New_traj=$Configuration_location/$New_traj
+		else
+			New_traj=`cd $(dirname $New_traj);pwd`"/"$(basename $New_traj)	
+		fi
+	else
+		echo "Original postion data not found!!"
+		echo "Exit the PRODVTS module"
+		exit 0
+	fi
+	cd $Dock_main_location
 elif [ "$New_traj_num" -gt 1 ]; then
 	check_count=1
 	previous_num=1000	
@@ -80,13 +132,26 @@ fi
 Keep_temp_file=`tac $Scenario_file | grep -m 1 '^ *Keep_temp_file *=' | awk -F '"' '{printf $2}'`
 Sec_satellite_name=`tac $Configuration_file | grep -m 1 '^ *Satellite_name *=' | awk -F '"' '{printf $2}'`
 Sec_satellite_parent=`tac $Configuration_file | grep -m 1 '^ *Satellite_parentpath *=' | awk -F '"' '{printf $2}'`
-Sec_satellite_3ds=`tac $Configuration_file | grep -m 1 '^ *Satellite_3ds *=' | awk -F '"' '{printf $2}'`
 Sec_satellite_axes=`tac $Configuration_file | grep -m 1 '^ *Satellite_Axes *=' | awk -F '"' '{printf $2}'`
 Sec_start=`tac $Scenario_file | grep -m 1 '^ *Simulation_time_start *=' | awk -F '"' '{printf $2}'`  
 Sec_end=`tac $Scenario_file | grep -m 1 '^ *Simulation_time_end *=' | awk -F '"' '{printf $2}'`
 Sec_body_parent=`tac $Configuration_file | grep -m 1 '^ *Satellite_parentpath *=' | awk -F '"' '{printf $2}' | awk -F / '{print $1}'`
 Sec_body_name=`tac $Configuration_file | grep -m 1 '^ *Satellite_parentpath *=' | awk -F '"' '{printf $2}' | awk -F / '{print $2}'`
 Sec_body_axes=$Sec_body_name"_Axes"
+
+Sec_satellite_3ds=`tac $Configuration_file | grep -m 1 '^ *Satellite_3ds *=' | awk -F '"' '{printf $2}'`
+#---Check the Satellite_3ds file---
+cd $Configuration_location
+if [ -f "$Sec_satellite_3ds" ]; then
+	if [ "`echo "$Sec_satellite_3ds" | awk -F / '{print $2}'`" == "" ]; then
+		Sec_satellite_3ds=$Configuration_location/$Sec_satellite_3ds
+	else
+		Sec_satellite_3ds=`cd $(dirname $Sec_satellite_3ds);pwd`"/"$(basename $Sec_satellite_3ds)	
+	fi
+else
+	echo "3ds model file not found!!"
+fi
+cd $Dock_main_location
 
 #===Check if the specific directory is existing or not, if not, use the default "Output/VTS_gen" folder===		
 cd $Configuration_location

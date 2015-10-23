@@ -7,27 +7,20 @@
 ----------------------------
 ===VTS module===
 VTS_software_location  = "/home/birdy/Software/Vts-Linux-32bits-2.6/"
-VTS_project_file       = "/home/birdy/Software/Vts-Linux-32bits-2.6/Data/CubeSat/BIRDY3D.vts"
+VTS_project_file       = "BIRDY_VTS_example.vts"
 Keep_Apps_setting      = "False"  # True or False
 
-=====CIC files parameters=====
+=====For VTS CCSDS parameters=====
 Satellite_name         = "Birdy"
 Satellite_Axes         = "Birdy_ref/Birdy_QswAxes"
-Satellite_3ds          = "/home/birdy/Software/Vts-Linux-32bits-2.6/Data/CubeSat/Models/modele_MFC.3ds"
-Satellite_quaternion   = "/home/birdy/Software/Vts-Linux-32bits-2.6/Data/CubeSat/Data/essaiQ.txt"
-Satellite_position     = "/home/birdy/Software/Vts-Linux-32bits-2.6/Data/CubeSat/Data/LEO_position.txt"
+Satellite_3ds          = "PFM-002_Birdy_1.5_wo-FoV.3ds"
+Satellite_quaternion   = "CUBESAT_AEM_ATTITUDE_BBQ.TXT"
+Satellite_position     = "CUBESAT_OEM_POSITION.TXT"
 Satellite_parentpath   = "Sol/Earth"
 Satellite_ref_frame_A  = "EME2000"
 Satellite_ref_frame_B  = "SC_BODY_1"
 Satellite_attitude_dir = "A2B"
 Satellite_att_type     = "QUATERNION"
 Satellite_time_system  = "UTC"
-
-
-------------------------------
-### Modularized parameters ###
-------------------------------
-===VTS generation module===
-VTS_output_location       = ""
 
 
