@@ -1,7 +1,7 @@
 #!/bin/bash
 # File name: Check_Scenario.sh
 # Version: 1.5 (Beta)
-# Final Modified Date: 23/10/2015
+# Final Modified Date: 20/10/2015
 # 
 # Author: Hao-Chih,Lin (Jim,Lin)
 # Email : F44006076@gmail.com  
@@ -14,28 +14,7 @@
 # Without "Check_result.tmp" file, other modules can not get proper information of which "Scenario" file was selected.
 #
 # Developer can add custom "checking parameter process" in this file.  
-#
-# ==============================================================
-# ===========================LICENSE============================
-# ==============================================================
-# This file is part of DOCKS.
-#
-# DOCKS is free software: you can redistribute it and/or modify
-# it under the terms of the  GNU LESSER GENERAL PUBLIC LICENSE 
-# as published by the Free Software Foundation, either version 
-# 3 of the License, or any later version.
-#
-# DOCKS is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU LESSER GENERAL PUBLIC LICENSE for more details.
-#
-# You should have received a copy of the 
-# GNU LESSER GENERAL PUBLIC LICENSE along with DOCKS.
-# If not, see <http://www.gnu.org/licenses/lgpl.txt>.
-#
-#
-#
+# 
 #===================================================
 #=======================Program=====================
 #===================================================
@@ -121,17 +100,6 @@ Satellite_ATT_TYPE=`tac $Configuration_file | grep -m 1 '^ *Satellite_att_type *
 
 #---Load necessary parameters for Position part---
 Satellite_REF_FRAME=`tac $Configuration_file | grep -m 1 '^ *Satellite_ref_frame_A *=' | awk -F '"' '{printf $2}'`
-
-#---Check the module selection---
-PRODQUAT=`tac $Scenario_file | grep -m 1 '^ *PRODQUAT *'`
-EASYQUAT=`tac $Scenario_file | grep -m 1 '^ *EASYQUAT *'`
-PRODTRAJ=`tac $Scenario_file | grep -m 1 '^ *PRODTRAJ *'`
-EASYTRAJ=`tac $Scenario_file | grep -m 1 '^ *EASYTRAJ *'`
-EXESTELA=`tac $Scenario_file | grep -m 1 '^ *EXESTELA *'`
-PRODVTS=`tac $Scenario_file | grep -m 1 '^ *PRODVTS *'`
-EXEVTS=`tac $Scenario_file | grep -m 1 '^ *EXEVTS *'`
-EXTRCEL=`tac $Scenario_file | grep -m 1 '^ *EXTRCEL *'`
-
 #
 #===============================
 #===Extrect data from IDM-CIC===
@@ -220,7 +188,7 @@ if [ -f "$VTS_project" ]; then
 	#---Check the Start-time of VTS---
 	Satellite_start_vts_date=`grep 'StartDateTime' $VTS_project | cut -d '"' -f 4 | awk '{print $1}'`
 	Satellite_start_vts_sec=`grep 'StartDateTime' $VTS_project | cut -d '"' -f 4 | awk '{print $2}'`
-	if [ $(bc <<< "$Satellite_start_vts_date <= $Satellite_start_sce_date") -eq 1 ] && [ $(bc <<< "$Satellite_start_vts_sec <= $Satellite_start_sce_sec") -eq 1 ]; then	
+	if [ $(echo "$Satellite_start_vts_date/$Satellite_start_sce_date" | bc) -eq 1 ] && [ $(echo "$Satellite_start_vts_sec/$Satellite_start_sce_sec" | bc) -eq 1 ]; then
 		echo "$index. Satellite_StartTime are the same: $Satellite_start_vts_date $Satellite_start_vts_sec"
 	else
 		echo "$index. [Warning] Satellite_StartTime are different: $Satellite_start_vts_date $Satellite_start_vts_sec vs. $Satellite_start_sce_date $Satellite_start_sce_sec"
@@ -231,7 +199,7 @@ if [ -f "$VTS_project" ]; then
 	#---Check the End-time of VTS---
 	Satellite_end_vts_date=`grep 'EndDateTime' $VTS_project | cut -d '"' -f 6 | awk '{print $1}'`
 	Satellite_end_vts_sec=`grep 'EndDateTime' $VTS_project | cut -d '"' -f 6 | awk '{print $2}'`
-	if [ $(bc <<< "$Satellite_end_vts_date <= $Satellite_end_sce_date") -eq 1 ] && [ $(bc <<< "$Satellite_end_vts_sec <= $Satellite_end_sce_sec") -eq 1 ]; then
+	if [ $(echo "$Satellite_end_vts_date/$Satellite_end_sce_date" | bc) -eq 1 ] && [ $(echo "$Satellite_end_vts_sec/$Satellite_end_sce_sec" | bc) -eq 1 ]; then
 		echo "$index. Satellite_EndTime are the same: $Satellite_end_vts_date $Satellite_end_vts_sec"
 	else
 		echo "$index. [Warning] Satellite_EndTime are different: $Satellite_end_vts_date $Satellite_end_vts_sec vs. $Satellite_end_sce_date $Satellite_end_sce_sec"
@@ -326,7 +294,7 @@ if [ -f "$Satellite_quaternion_sce" ]; then
 
 	CIC_quat_start_date=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
 	CIC_quat_start_sec=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
-	if [ $(bc <<< "$CIC_quat_start_date <= $Satellite_start_sce_date") -eq 1 ] && [ $(bc <<< "$CIC_quat_start_sec <= $Satellite_start_sce_sec") -eq 1 ]; then	
+	if [ $(echo "$CIC_quat_start_date/$Satellite_start_sce_date" | bc) -eq 1 ] && [ $(echo "$CIC_quat_start_sec/$Satellite_start_sce_sec" | bc) -eq 1 ]; then
 		echo "$index. CIC quat Start-time are the same: $CIC_quat_start_date $CIC_quat_start_sec"
 	else
 		echo "$index. [Warning] CIC quat Start-time are different: $CIC_quat_start_date $CIC_quat_start_sec vs. $Satellite_start_sce_date $Satellite_start_sce_sec"
@@ -340,7 +308,7 @@ if [ -f "$Satellite_quaternion_sce" ]; then
 
 	CIC_quat_end_date=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
 	CIC_quat_end_sec=`sed -n '/META_STOP/,$p' "$Satellite_quaternion_sce" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
-	if [ $(bc <<< "$CIC_quat_end_date <= $Satellite_end_sce_date") -eq 1 ] && [ $(bc <<< "$CIC_quat_end_sec <= $Satellite_end_sce_sec") -eq 1 ]; then	
+	if [ $(echo "$CIC_quat_end_date/$Satellite_end_sce_date" | bc) -eq 1 ] && [ $(echo "$CIC_quat_end_sec/$Satellite_end_sce_sec" | bc) -eq 1 ]; then
 		echo "$index. CIC quat End-time are the same: $CIC_quat_end_date $CIC_quat_end_sec"
 	else
 		echo  "$index. [Warning] CIC quat End-time are different: $CIC_quat_end_date $CIC_quat_end_sec vs. $Satellite_end_sce_date $Satellite_end_sce_sec"
@@ -402,7 +370,7 @@ if [ -f "$Satellite_position_sce" ]; then
 	#---Check the Start time---
 	CIC_pos_start_date=`sed -n '/META_STOP/,$p' "$Satellite_position_sce" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
 	CIC_pos_start_sec=`sed -n '/META_STOP/,$p' "$Satellite_position_sce" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
-	if [ $(bc <<< "$CIC_pos_start_date <= $Satellite_start_sce_date") -eq 1 ] && [ $(bc <<< "$CIC_pos_start_sec <= $Satellite_start_sce_sec") -eq 1 ]; then	
+	if [ $(echo "$CIC_pos_start_date/$Satellite_start_sce_date" | bc) -eq 1 ] && [ $(echo "$CIC_pos_start_sec/$Satellite_start_sce_sec" | bc) -eq 1 ]; then
 		echo "$index. CIC pos Start-time are the same: $CIC_pos_start_date $CIC_pos_start_sec"
 	else
 		echo "$index. [Warning] CIC pos Start-time are different: $CIC_pos_start_date $CIC_pos_start_sec vs. $Satellite_start_sce_date $Satellite_start_sce_sec"
@@ -413,7 +381,7 @@ if [ -f "$Satellite_position_sce" ]; then
 	#---Check the End time---
 	CIC_pos_end_date=`sed -n '/META_STOP/,$p' "$Satellite_position_sce" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
 	CIC_pos_end_sec=`sed -n '/META_STOP/,$p' "$Satellite_position_sce" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
-	if [ $(bc <<< "$CIC_pos_end_date <= $Satellite_end_sce_date") -eq 1 ] && [ $(bc <<< "$CIC_pos_end_sec <= $Satellite_end_sce_sec") -eq 1 ]; then	
+	if [ $(echo "$CIC_pos_end_date/$Satellite_end_sce_date" | bc) -eq 1 ] && [ $(echo "$CIC_pos_end_sec/$Satellite_end_sce_sec" | bc) -eq 1 ]; then
 		echo "$index. CIC pos End-time are the same: $CIC_pos_end_date $CIC_pos_end_sec"
 	else
 		echo "$index. [Warning] CIC pos End-time are different: $CIC_pos_end_date $CIC_pos_end_sec vs. $Satellite_end_sce_date $Satellite_end_sce_sec"
@@ -425,142 +393,35 @@ fi
 #
 #==============================================
 #===Scenario vs. Easy quaternion Seq-inputs===
-if [ "$EASYQUAT" == "EASYQUAT" ]; then
-	if [ $Easy_sed_inputs == "True" ] ; then
-		echo ""
-		echo "=====Checking data between Scenario and Seq-inputs file (for EASYQUAT)====="
-		#---Check the Seq_inputs_file---
-		Seq_inputs_file=`tac $Scenario_file | grep -m 1 '^ *Seq_inputs_file *=' | awk -F '"' '{printf $2}'`
-		if [ -f "$Seq_inputs_file" ]; then
-			if [ "`echo "$Seq_inputs_file" | awk -F / '{print $2}'`" == "" ]; then
-				Seq_inputs_file=$Scenario_location/$Seq_inputs_file
-			else
-				Seq_inputs_file=`cd $(dirname $Seq_inputs_file);pwd`"/"$(basename $Seq_inputs_file)	
-			fi
+if [ $Easy_sed_inputs == "True" ]; then
+	echo ""
+	echo "=====Checking data between Scenario and Seq-inputs file (for EASYQUAT)====="
+	#---Check the Seq_inputs_file---
+	Seq_inputs_file=`tac $Scenario_file | grep -m 1 '^ *Seq_inputs_file *=' | awk -F '"' '{printf $2}'`
+	if [ -f "$Seq_inputs_file" ]; then
+		if [ "`echo "$Seq_inputs_file" | awk -F / '{print $2}'`" == "" ]; then
+			Seq_inputs_file=$Scenario_location/$Seq_inputs_file
 		else
-			echo "[Error] Seq_inputs_file not found"
-			(( Warning_count += 1 ))
-		fi
-	
-		if [ -f "$Seq_inputs_file" ]; then
-			#---Check the object_name---(Be careful when cut the parameter in txt file)
-			Seq_quat_name=`grep 'OBJECT_NAME' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
-			if [ $Seq_quat_name == $Satellite_name_sce ]; then
-				echo "$index. Seq quat OBJECT_NAME are the same: $Seq_quat_name"
-			else
-				echo  "$index. [Warning] Seq quat OBJECT_NAME are different: $Seq_quat_name vs. $Satellite_name_sce"
-				(( Error_count += 1 ))	
-			fi
-			(( index += 1 )) 
-
-			#---Check the REF_FRAME_A---
-			Seq_REF_FRAME_A=`grep 'REF_FRAME_A' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
-			if [ $Seq_REF_FRAME_A == $Satellite_REF_FRAME_A ]; then
-				echo "$index. Seq quat REF_FRAME_A are the same: $Seq_REF_FRAME_A"
-			else
-				echo "$index. [Warning] Seq quat REF_FRAME_A are different: $Seq_REF_FRAME_A vs. $Satellite_REF_FRAME_A"
-				(( Error_count += 1 ))	
-			fi
-			(( index += 1 )) 
-
-			#---Check the REF_FRAME_B---
-			Seq_REF_FRAME_B=`grep 'REF_FRAME_B' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
-			if [ $Seq_REF_FRAME_B == $Satellite_REF_FRAME_B ]; then
-				echo "$index. Seq quat REF_FRAME_B are the same: $Seq_REF_FRAME_B"
-			else
-				echo "$index. [Warning] Seq quat REF_FRAME_B are different: $Seq_REF_FRAME_B vs. $Satellite_REF_FRAME_B"
-				(( Error_count += 1 ))	
-			fi
-			(( index += 1 )) 
-
-			#---Check the ATTITUDE_DIR---
-			Seq_ATTITUDE_DIR=`grep 'ATTITUDE_DIR' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
-			if [ $Seq_ATTITUDE_DIR == $Satellite_ATTITUDE_DIR ]; then
-				echo "$index. Seq quat ATTITUDE_DIR are the same: $Seq_ATTITUDE_DIR"
-			else
-				echo "$index. [Warning] Seq quat ATTITUDE_DIR are different: $Seq_ATTITUDE_DIR vs. $Satellite_ATTITUDE_DIR"
-				(( Error_count += 1 ))	
-			fi
-			(( index += 1 )) 
-
-			#---Check the TIME_SYSTEM---
-			Seq_TIME_SYSTEM=`grep 'TIME_SYSTEM' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
-			if [ $Seq_TIME_SYSTEM == $Satellite_TIME_SYSTEM ]; then
-				echo "$index. Seq quat TIME_SYSTEM are the same: $Seq_TIME_SYSTEM"
-			else
-				echo "$index. [Warning] Seq quat TIME_SYSTEM are different: $Seq_TIME_SYSTEM vs. $Satellite_TIME_SYSTEM"
-				(( Error_count += 1 ))	
-			fi
-			(( index += 1 )) 
-
-			#---Check the ATTITUDE_TYPE---
-			Seq_ATT_TYPE=`grep 'ATTITUDE_TYPE' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
-			if [ $Seq_ATT_TYPE == $Satellite_ATT_TYPE ]; then
-				echo "$index. Seq quat ATT_TYPE are the same: $Seq_ATT_TYPE"
-			else
-				echo "$index. [Warning] Seq quat TIME_SYSTEM are different: $Seq_ATT_TYPE vs. $Satellite_ATT_TYPE"
-				(( Error_count += 1 ))	
-			fi
-			(( index += 1 ))
-
-			#---Check the Start time---
-			Seq_quat_start_date=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
-			Seq_quat_start_sec=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
-			if [ $(bc <<< "$Seq_quat_start_date <= $Satellite_start_sce_date") -eq 1 ] && [ $(bc <<< "$Seq_quat_start_sec <= $Satellite_start_sce_sec") -eq 1 ]; then			
-				echo "$index. Seq quat Start-time are the same: $Seq_quat_start_date $Seq_quat_start_sec"
-			else
-				echo "$index. [Warning] Seq quat Start-time are different: $Seq_quat_start_date $Seq_quat_start_sec vs. $Satellite_start_sce_date $Satellite_start_sce_sec"
-				(( Error_count += 1 ))	
-			fi
-			(( index += 1 ))
-
-			#---Check the End time---
-			Seq_quat_end_date=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
-			Seq_quat_end_sec=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
-			if [ $(bc <<< "$Seq_quat_end_date <= $Satellite_end_sce_date") -eq 1 ] && [ $(bc <<< "$Seq_quat_end_sec <= $Satellite_end_sce_sec") -eq 1 ]; then			
-				echo "$index. Seq quat End-time are the same: $Seq_quat_end_date $Seq_quat_end_sec"
-			else
-				echo "$index. [Warning] Seq quat End-time are different: $Seq_quat_end_date $Seq_quat_end_sec vs. $Satellite_end_sce_date $Satellite_end_sce_sec"
-				(( Error_count += 1 ))	
-			fi
-			(( index += 1 ))
-		fi
-	fi
-
-fi
-#
-#===================================
-#===Scenario vs. AOCS Seq-inputs===
-
-#---Check the Dyn_quat_seq_inputs_file---
-if [ "$PRODQUAT" == "PRODQUAT" ]; then
-	Dyn_quat_seq_inputs_file=`tac $Configuration_file | grep -m 1 '^ *Dyn_quat_seq_inputs_file *=' | awk -F '"' '{printf $2}'`
-	if [ -f "$Dyn_quat_seq_inputs_file" ]; then
-		echo ""
-		echo "=====Checking data between Scenario and Seq-inputs file (for PRODQUAT)====="
-		if [ "`echo "$Dyn_quat_seq_inputs_file" | awk -F / '{print $2}'`" == "" ]; then
-			Dyn_quat_seq_inputs_file=$Configuration_location/$Dyn_quat_seq_inputs_file
-		else
-			Dyn_quat_seq_inputs_file=`cd $(dirname $Dyn_quat_seq_inputs_file);pwd`"/"$(basename $Dyn_quat_seq_inputs_file)	
+			Seq_inputs_file=`cd $(dirname $Seq_inputs_file);pwd`"/"$(basename $Seq_inputs_file)	
 		fi
 	else
-		echo "[Error] Dyn_quat_seq_inputs_file not found"
+		echo "[Error] Seq_inputs_file not found"
 		(( Warning_count += 1 ))
 	fi
-
-	if [ -f "$Dyn_quat_seq_inputs_file" ]; then
+	
+	if [ -f "$Seq_inputs_file" ]; then
 		#---Check the object_name---(Be careful when cut the parameter in txt file)
-		Seq_quat_name=`grep 'OBJECT_NAME' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
+		Seq_quat_name=`grep 'OBJECT_NAME' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 		if [ $Seq_quat_name == $Satellite_name_sce ]; then
 			echo "$index. Seq quat OBJECT_NAME are the same: $Seq_quat_name"
 		else
-			echo "$index. [Warning] Seq quat OBJECT_NAME are different: $Seq_quat_name vs. $Satellite_name_sce"
+			echo  "$index. [Warning] Seq quat OBJECT_NAME are different: $Seq_quat_name vs. $Satellite_name_sce"
 			(( Error_count += 1 ))	
 		fi
 		(( index += 1 )) 
 
 		#---Check the REF_FRAME_A---
-		Seq_REF_FRAME_A=`grep 'REF_FRAME_A' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
+		Seq_REF_FRAME_A=`grep 'REF_FRAME_A' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 		if [ $Seq_REF_FRAME_A == $Satellite_REF_FRAME_A ]; then
 			echo "$index. Seq quat REF_FRAME_A are the same: $Seq_REF_FRAME_A"
 		else
@@ -570,7 +431,7 @@ if [ "$PRODQUAT" == "PRODQUAT" ]; then
 		(( index += 1 )) 
 
 		#---Check the REF_FRAME_B---
-		Seq_REF_FRAME_B=`grep 'REF_FRAME_B' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
+		Seq_REF_FRAME_B=`grep 'REF_FRAME_B' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 		if [ $Seq_REF_FRAME_B == $Satellite_REF_FRAME_B ]; then
 			echo "$index. Seq quat REF_FRAME_B are the same: $Seq_REF_FRAME_B"
 		else
@@ -580,7 +441,7 @@ if [ "$PRODQUAT" == "PRODQUAT" ]; then
 		(( index += 1 )) 
 
 		#---Check the ATTITUDE_DIR---
-		Seq_ATTITUDE_DIR=`grep 'ATTITUDE_DIR' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
+		Seq_ATTITUDE_DIR=`grep 'ATTITUDE_DIR' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 		if [ $Seq_ATTITUDE_DIR == $Satellite_ATTITUDE_DIR ]; then
 			echo "$index. Seq quat ATTITUDE_DIR are the same: $Seq_ATTITUDE_DIR"
 		else
@@ -590,7 +451,7 @@ if [ "$PRODQUAT" == "PRODQUAT" ]; then
 		(( index += 1 )) 
 
 		#---Check the TIME_SYSTEM---
-		Seq_TIME_SYSTEM=`grep 'TIME_SYSTEM' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
+		Seq_TIME_SYSTEM=`grep 'TIME_SYSTEM' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 		if [ $Seq_TIME_SYSTEM == $Satellite_TIME_SYSTEM ]; then
 			echo "$index. Seq quat TIME_SYSTEM are the same: $Seq_TIME_SYSTEM"
 		else
@@ -600,7 +461,7 @@ if [ "$PRODQUAT" == "PRODQUAT" ]; then
 		(( index += 1 )) 
 
 		#---Check the ATTITUDE_TYPE---
-		Seq_ATT_TYPE=`grep 'ATTITUDE_TYPE' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
+		Seq_ATT_TYPE=`grep 'ATTITUDE_TYPE' "$Seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
 		if [ $Seq_ATT_TYPE == $Satellite_ATT_TYPE ]; then
 			echo "$index. Seq quat ATT_TYPE are the same: $Seq_ATT_TYPE"
 		else
@@ -610,9 +471,9 @@ if [ "$PRODQUAT" == "PRODQUAT" ]; then
 		(( index += 1 ))
 
 		#---Check the Start time---
-		Seq_quat_start_date=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
-		Seq_quat_start_sec=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
-		if [ $(bc <<< "$Seq_quat_start_date <= $Satellite_start_sce_date") -eq 1 ] && [ $(bc <<< "$Seq_quat_start_sec <= $Satellite_start_sce_sec") -eq 1 ]; then		
+		Seq_quat_start_date=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
+		Seq_quat_start_sec=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
+		if [ $(echo "$Seq_quat_start_date/$Satellite_start_sce_date" | bc) -eq 1 ] && [ $(echo "$Seq_quat_start_sec/$Satellite_start_sce_sec" | bc) -eq 1 ]; then
 			echo "$index. Seq quat Start-time are the same: $Seq_quat_start_date $Seq_quat_start_sec"
 		else
 			echo "$index. [Warning] Seq quat Start-time are different: $Seq_quat_start_date $Seq_quat_start_sec vs. $Satellite_start_sce_date $Satellite_start_sce_sec"
@@ -621,9 +482,9 @@ if [ "$PRODQUAT" == "PRODQUAT" ]; then
 		(( index += 1 ))
 
 		#---Check the End time---
-		Seq_quat_end_date=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
-		Seq_quat_end_sec=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
-		if [ $(bc <<< "$Seq_quat_end_date <= $Satellite_end_sce_date") -eq 1 ] && [ $(bc <<< "$Seq_quat_end_sec <= $Satellite_end_sce_sec") -eq 1 ]; then
+		Seq_quat_end_date=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
+		Seq_quat_end_sec=`sed -n '/META_STOP/,$p' "$Seq_inputs_file" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
+		if [ $(echo "$Seq_quat_end_date/$Satellite_end_sce_date" | bc) -eq 1 ] && [ $(echo "$Seq_quat_end_sec/$Satellite_end_sce_sec" | bc) -eq 1 ]; then
 			echo "$index. Seq quat End-time are the same: $Seq_quat_end_date $Seq_quat_end_sec"
 		else
 			echo "$index. [Warning] Seq quat End-time are different: $Seq_quat_end_date $Seq_quat_end_sec vs. $Satellite_end_sce_date $Satellite_end_sce_sec"
@@ -632,6 +493,111 @@ if [ "$PRODQUAT" == "PRODQUAT" ]; then
 		(( index += 1 ))
 	fi
 fi
+
+
+#
+#===================================
+#===Scenario vs. AOCS Seq-inputs===
+
+#---Check the Dyn_quat_seq_inputs_file---
+Dyn_quat_seq_inputs_file=`tac $Configuration_file | grep -m 1 '^ *Dyn_quat_seq_inputs_file *=' | awk -F '"' '{printf $2}'`
+if [ -f "$Dyn_quat_seq_inputs_file" ]; then
+	echo ""
+	echo "=====Checking data between Scenario and Seq-inputs file (for PRODQUAT)====="
+	if [ "`echo "$Dyn_quat_seq_inputs_file" | awk -F / '{print $2}'`" == "" ]; then
+		Dyn_quat_seq_inputs_file=$Configuration_location/$Dyn_quat_seq_inputs_file
+	else
+		Dyn_quat_seq_inputs_file=`cd $(dirname $Dyn_quat_seq_inputs_file);pwd`"/"$(basename $Dyn_quat_seq_inputs_file)	
+	fi
+else
+	echo "[Error] Dyn_quat_seq_inputs_file not found"
+	(( Warning_count += 1 ))
+fi
+
+if [ -f "$Dyn_quat_seq_inputs_file" ]; then
+	#---Check the object_name---(Be careful when cut the parameter in txt file)
+	Seq_quat_name=`grep 'OBJECT_NAME' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
+	if [ $Seq_quat_name == $Satellite_name_sce ]; then
+		echo "$index. Seq quat OBJECT_NAME are the same: $Seq_quat_name"
+	else
+		echo "$index. [Warning] Seq quat OBJECT_NAME are different: $Seq_quat_name vs. $Satellite_name_sce"
+		(( Error_count += 1 ))	
+	fi
+	(( index += 1 )) 
+
+	#---Check the REF_FRAME_A---
+	Seq_REF_FRAME_A=`grep 'REF_FRAME_A' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
+	if [ $Seq_REF_FRAME_A == $Satellite_REF_FRAME_A ]; then
+		echo "$index. Seq quat REF_FRAME_A are the same: $Seq_REF_FRAME_A"
+	else
+		echo "$index. [Warning] Seq quat REF_FRAME_A are different: $Seq_REF_FRAME_A vs. $Satellite_REF_FRAME_A"
+		(( Error_count += 1 ))	
+	fi
+	(( index += 1 )) 
+
+	#---Check the REF_FRAME_B---
+	Seq_REF_FRAME_B=`grep 'REF_FRAME_B' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
+	if [ $Seq_REF_FRAME_B == $Satellite_REF_FRAME_B ]; then
+		echo "$index. Seq quat REF_FRAME_B are the same: $Seq_REF_FRAME_B"
+	else
+		echo "$index. [Warning] Seq quat REF_FRAME_B are different: $Seq_REF_FRAME_B vs. $Satellite_REF_FRAME_B"
+		(( Error_count += 1 ))	
+	fi
+	(( index += 1 )) 
+
+	#---Check the ATTITUDE_DIR---
+	Seq_ATTITUDE_DIR=`grep 'ATTITUDE_DIR' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
+	if [ $Seq_ATTITUDE_DIR == $Satellite_ATTITUDE_DIR ]; then
+		echo "$index. Seq quat ATTITUDE_DIR are the same: $Seq_ATTITUDE_DIR"
+	else
+		echo "$index. [Warning] Seq quat ATTITUDE_DIR are different: $Seq_ATTITUDE_DIR vs. $Satellite_ATTITUDE_DIR"
+		(( Error_count += 1 ))	
+	fi
+	(( index += 1 )) 
+
+	#---Check the TIME_SYSTEM---
+	Seq_TIME_SYSTEM=`grep 'TIME_SYSTEM' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
+	if [ $Seq_TIME_SYSTEM == $Satellite_TIME_SYSTEM ]; then
+		echo "$index. Seq quat TIME_SYSTEM are the same: $Seq_TIME_SYSTEM"
+	else
+		echo "$index. [Warning] Seq quat TIME_SYSTEM are different: $Seq_TIME_SYSTEM vs. $Satellite_TIME_SYSTEM"
+		(( Error_count += 1 ))	
+	fi
+	(( index += 1 )) 
+
+	#---Check the ATTITUDE_TYPE---
+	Seq_ATT_TYPE=`grep 'ATTITUDE_TYPE' "$Dyn_quat_seq_inputs_file" | awk '{print $3}' | tr -d ["\r\n"]`
+	if [ $Seq_ATT_TYPE == $Satellite_ATT_TYPE ]; then
+		echo "$index. Seq quat ATT_TYPE are the same: $Seq_ATT_TYPE"
+	else
+		echo "$index. [Warning] Seq quat TIME_SYSTEM are different: $Seq_ATT_TYPE vs. $Satellite_ATT_TYPE"
+		(( Error_count += 1 ))	
+	fi
+	(( index += 1 ))
+
+	#---Check the Start time---
+	Seq_quat_start_date=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
+	Seq_quat_start_sec=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tail -n +2 | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
+	if [ $(echo "$Seq_quat_start_date/$Satellite_start_sce_date" | bc) -eq 1 ] && [ $(echo "$Seq_quat_start_sec/$Satellite_start_sce_sec" | bc) -eq 1 ]; then
+		echo "$index. Seq quat Start-time are the same: $Seq_quat_start_date $Seq_quat_start_sec"
+	else
+		echo "$index. [Warning] Seq quat Start-time are different: $Seq_quat_start_date $Seq_quat_start_sec vs. $Satellite_start_sce_date $Satellite_start_sce_sec"
+		(( Error_count += 1 ))	
+	fi
+	(( index += 1 ))
+
+	#---Check the End time---
+	Seq_quat_end_date=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $1}'; break;  fi;  done` 
+	Seq_quat_end_sec=`sed -n '/META_STOP/,$p' "$Dyn_quat_seq_inputs_file" | tac | while read line; do if [ -z "$line" ]; then continue; else echo $line | awk '{print $2}'; break;  fi;  done` 
+	if [ $(echo "$Seq_quat_end_date/$Satellite_end_sce_date" | bc) -eq 1 ] && [ $(echo "$Seq_quat_end_sec/$Satellite_end_sce_sec" | bc) -eq 1 ]; then
+		echo "$index. Seq quat End-time are the same: $Seq_quat_end_date $Seq_quat_end_sec"
+	else
+		echo "$index. [Warning] Seq quat End-time are different: $Seq_quat_end_date $Seq_quat_end_sec vs. $Satellite_end_sce_date $Satellite_end_sce_sec"
+		(( Error_count += 1 ))	
+	fi
+	(( index += 1 ))
+fi
+
 
 #
 #=================================
@@ -671,6 +637,7 @@ fi
 #===Load "Module Selection" from Scenario===
 
 #---Check if simulated quaternion module is selected or not--- 
+PRODQUAT=`tac $Scenario_file | grep -m 1 '^ *PRODQUAT *'`
 if [ "$PRODQUAT" == "" ]; then
 	{ echo "PRODQUAT = \"False\""
 	} >> $DOCK_main_location/Module/Tmp/Check_result.tmp
@@ -680,6 +647,7 @@ else
 fi
 
 #---Check if easy quaternion module is selected or not--- 
+EASYQUAT=`tac $Scenario_file | grep -m 1 '^ *EASYQUAT *'`
 if [ "$EASYQUAT" == "" ]; then
 	{ echo "EASYQUAT = \"False\""
 	} >> $DOCK_main_location/Module/Tmp/Check_result.tmp
@@ -690,6 +658,7 @@ else
 fi
 
 #---Check if trajectory solver module is selected or not--- 
+PRODTRAJ=`tac $Scenario_file | grep -m 1 '^ *PRODTRAJ *'`
 if [ "$PRODTRAJ" == "" ]; then
 	{ echo "PRODTRAJ = \"False\""
 	} >> $DOCK_main_location/Module/Tmp/Check_result.tmp
@@ -699,6 +668,7 @@ else
 fi
 
 #---Check if easy trajectory module is selected or not--- 
+EASYTRAJ=`tac $Scenario_file | grep -m 1 '^ *EASYTRAJ *'`
 if [ "$EASYTRAJ" == "" ]; then
 	{ echo "EASYTRAJ = \"False\""
 	} >> $DOCK_main_location/Module/Tmp/Check_result.tmp
@@ -708,6 +678,7 @@ else
 fi
 
 #---Check if "STELA Execution" module is selected or not--- 
+EXESTELA=`tac $Scenario_file | grep -m 1 '^ *EXESTELA *'`
 if [ "$EXESTELA" == "" ]; then
 	{ echo "EXESTELA = \"False\""
 	} >> $DOCK_main_location/Module/Tmp/Check_result.tmp
@@ -717,6 +688,7 @@ else
 fi
 
 #---Check if vts creater module is selected or not--- 
+PRODVTS=`tac $Scenario_file | grep -m 1 '^ *PRODVTS *'`
 if [ "$PRODVTS" == "" ]; then
 	{ echo "PRODVTS = \"False\""
 	} >> $DOCK_main_location/Module/Tmp/Check_result.tmp
@@ -726,6 +698,7 @@ else
 fi
 
 #---Check if vts execution module is selected or not--- 
+EXEVTS=`tac $Scenario_file | grep -m 1 '^ *EXEVTS *'`
 if [ "$EXEVTS" == "" ]; then
 	{ echo "EXEVTS = \"False\""
 	} >> $DOCK_main_location/Module/Tmp/Check_result.tmp
@@ -735,6 +708,7 @@ else
 fi
 
 #---Check if "Extract Celestia" module is selected or not--- 
+EXTRCEL=`tac $Scenario_file | grep -m 1 '^ *EXTRCEL *'`
 if [ "$EXTRCEL" == "" ]; then
 	{ echo "EXTRCEL = \"False\""
 	} >> $DOCK_main_location/Module/Tmp/Check_result.tmp

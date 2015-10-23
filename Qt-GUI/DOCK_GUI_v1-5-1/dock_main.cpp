@@ -1,28 +1,3 @@
-/*
- Developer: LIN, Hao-Chih (Jim, LIN)
- Email: f44006076@gmail.com
- Advisor: Boris, Segret
- Final modified date: 23/10/2015
- ==============================================================
- ===========================LICENSE============================
- ==============================================================
- This file is part of DOCKS.
-
- DOCKS is free software: you can redistribute it and/or modify
- it under the terms of the  GNU LESSER GENERAL PUBLIC LICENSE
- as published by the Free Software Foundation, either version
- 3 of the License, or any later version.
-
- DOCKS is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU LESSER GENERAL PUBLIC LICENSE for more details.
-
- You should have received a copy of the
- GNU LESSER GENERAL PUBLIC LICENSE along with DOCKS.
- If not, see <http://www.gnu.org/licenses/lgpl.txt>.
-*/
-
 #include "dock_main.h"
 #include "ui_dock_main.h"
 
@@ -33,6 +8,7 @@
 
 #include <QTextStream>
 #include <QMessageBox>
+#include <QProcess>
 #include <QRegularExpression>
 
 #include <QDateTime>
@@ -137,19 +113,6 @@ DOCK_main::DOCK_main(QWidget *parent) :
 DOCK_main::~DOCK_main()
 {
     delete ui;
-}
-
-void DOCK_main::closeEvent(QCloseEvent *event)
-{
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Exit the GUI", "Quit DOCKS?", QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes)
-    {
-        this->p->kill();
-        event->accept();
-    }
-    else
-        event->ignore();
 }
 
 void DOCK_main::Default_values()
@@ -1836,7 +1799,6 @@ void DOCK_main::on_PB_Exit_clicked()
     reply = QMessageBox::question(this, "Exit the GUI", "Quit DOCKS?", QMessageBox::Yes|QMessageBox::No);
     if (reply == QMessageBox::Yes)
     {
-        this->p->kill();
         qApp->quit();
     }
 }
@@ -1849,11 +1811,11 @@ void DOCK_main::on_PB_curr_path_clicked()
 
 void DOCK_main::DOCKS_result_showout()
 {
-    QProcess *_p = dynamic_cast<QProcess *>( sender() );
+    QProcess *p = dynamic_cast<QProcess *>( sender() );
 
-    if (_p)
+    if (p)
     {
-        ui->textBrowser->insertPlainText(_p->readAllStandardOutput());
+        ui->textBrowser->insertPlainText(p->readAllStandardOutput());
 
         //--Always scroll down the "textBrowser"---
         QScrollBar *sb = ui->textBrowser->verticalScrollBar();
@@ -1901,34 +1863,27 @@ void DOCK_main::on_PB_Check_Exe_clicked()
     {
         ui->textBrowser->append("Create Scenario or/and Configuration temp files: success");
 
-        this->p = new QProcess( this );
-        if (this->p)
+        QProcess *p = new QProcess( this );
+        if (p)
         {
-            this->p->setEnvironment( QProcess::systemEnvironment() );
-            this->p->setProcessChannelMode( QProcess::MergedChannels );
+            p->setEnvironment( QProcess::systemEnvironment() );
+            p->setProcessChannelMode( QProcess::MergedChannels );
 
-            QString command = "./dock '";
+            QString command = "cd;cd Software/DOCK_v1-5;./dock '";
             command += Temp_Sce_filename;
             command += "'";
-            this->p->start( "sh", QStringList() << "-c" << command );
-            this->p->waitForStarted();
-            connect( this->p, SIGNAL(readyReadStandardOutput()), this, SLOT(DOCKS_result_showout()) );
+            p->start( "sh", QStringList() << "-c" << command );
+            p->waitForStarted();
+            connect( p, SIGNAL(readyReadStandardOutput()), this, SLOT(DOCKS_result_showout()) );
         }
         else
-            this->p->close();
+            p->close();
     }
     else
     {
         ui->textBrowser->append("Create Scenario or/and Configuration temp files: error");
     }
 
-}
-
-void DOCK_main::on_PB_stopProcess_clicked()
-{
-    this->p->kill();
-    ui->textBrowser->append("");
-    ui->textBrowser->append("Kill the process !!");
 }
 
 //====================================================

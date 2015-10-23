@@ -1,7 +1,7 @@
 =========================================
 =======DOCK v1.5 auto-gen Scenario=======
 =========================================
-Generated date: Fri Oct 23 07:35:29 2015
+Generated date: Tue Oct 20 06:54:32 2015
 
 ----------------------------
 ### Necessary parameters ###
@@ -12,31 +12,35 @@ Keep_temp_file = "False"
 Keep_debug_file = "True"
 
 =====IDM-CIC=====
-IDM_CIC_file = "/home/birdy/Software/DOCK_v1-5/Input/example/PFM-002_Birdy_1.5.xml"
+IDM_CIC_file = "/home/birdy/Software/DOCK_v1-5/Input/PFM-002_Birdy_1.5.xml"
 
 =====Simulation parameters=====
-Simulation_time_start = "55276 0"
-Simulation_time_end = "55277 78944"
+Simulation_time_start = "51500 10"
+Simulation_time_end = "51500 14970"
 Simulation_step_size = "0.05"
 
 =====Module Selection=====
+EASYQUAT
+EASYTRAJ
+PRODVTS
 EXEVTS
+EXTRCEL
 
 ------------------------------
 ### Modularized parameters ###
 ------------------------------
 =====Easy quaternion parameters=====
 Easy_sed_inputs = "True"
-Seq_inputs_file = "/home/birdy/Software/DOCK_v1-5/Input/example/Easy_quat_seq_inputs_test"
-Easy_quat_start = "55276 0"
-Easy_quat_end   = "55277 78944"
+Seq_inputs_file = "/home/birdy/Software/DOCK_v1-5/Input/Easy_quat_seq_inputs_test"
+Easy_quat_start = "51500 10"
+Easy_quat_end   = "51500 14970"
 Easy_quat_step  = "1"
 Easy_init_quat  = "1 0 0 0"
 Easy_ang_vel    = "10 20 0"
 
 =====Easy trajectory parameters=====
-Easy_traj_start = "55276 0"
-Easy_traj_end   = "55277 78944"
+Easy_traj_start = "51500 10"
+Easy_traj_end   = "51500 14970"
 Easy_traj_step  = "100"
 Easy_traj_type  = "Circular"
 ---Orbital elements---

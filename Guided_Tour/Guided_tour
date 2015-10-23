@@ -1,28 +1,11 @@
 #!/bin/bash
 # File name: Guided_tour
-# Final Modified Date: 23/10/2015
+# Final Modified Date: 23/09/2015
 # 
 # Author: Hao-Chih,Lin (Jim,Lin)
 # Email : F44006076@gmail.com  
 
-# ==============================================================
-# ===========================LICENSE============================
-# ==============================================================
-# This file is part of DOCKS.
-#
-# DOCKS is free software: you can redistribute it and/or modify
-# it under the terms of the  GNU LESSER GENERAL PUBLIC LICENSE 
-# as published by the Free Software Foundation, either version 
-# 3 of the License, or any later version.
-#
-# DOCKS is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU LESSER GENERAL PUBLIC LICENSE for more details.
-#
-# You should have received a copy of the 
-# GNU LESSER GENERAL PUBLIC LICENSE along with DOCKS.
-# If not, see <http://www.gnu.org/licenses/lgpl.txt>.
+
 
 # Initialize the environment
 clear
@@ -31,114 +14,57 @@ cd .. #Back to DOCK main folder
 echo -e "\e[91m[Tour]!!!=== Welcome to Guided Tour for DOCKing System ===!!!\e[0m"
 
 # Tutorial-1: All modules were blocked in scenario file
-echo -e "\e[91m[Tour]---Tutorial-1: All modules are blocked---\e[0m"
-echo -e "\e[91m[Tour]Now you can see both 'Scenario' and 'Configuration' files in show-up gedit window.\e[0m"
-echo -e "\e[91m[Tour]Please see the 'Module Selectio' of Scenario file, you can find out all modules are blocked.\e[0m"
-echo -e ""
-echo -e "\e[91m[Tour]Now, close the gedit, than the terminal will execute DOCKing system basing on these setting.\e[0m"
-gedit -w -g +0+0 Guided_Tour/Tutorial_1/BIRDY_scenario Guided_Tour/Tutorial_1/BIRDY_configuration
+echo "[Tour]---Tutorial-1: All modules are blocked---"
+echo "[Tour]Now you can see both 'Scenario' and 'Configuration' files in show-up gedit window."
+echo "[Tour]Please see the 'Module Selectio' of Scenario file, you can find out all modules are blocked."
+echo ""
+echo "[Tour]Now, close the gedit, than the terminal will execute DOCKing system basing on these setting."
+gedit -w -g 800x600 Guided_Tour/Tutorial_1/BIRDY_scenario Guided_Tour/Tutorial_1/BIRDY_configuration
 ./dock Guided_Tour/Tutorial_1/BIRDY_scenario
-echo -e ""
-echo -e "\e[91m[Tour]Notices:\e[0m"
-echo -e "\e[91m[Tour]The DOCKing system only checked all parameters among various files without executing any module.\e[0m"
-echo -e ""
-echo -e "\e[91m[Tour]To continue next tutorial, please enter any key...\e[0m"
+echo ""
+echo "[Tour]Notices:"
+echo "[Tour]The DOCKing system only checked all parameters among various files without executing any module."
+echo ""
+echo "[Tour]To continue next tutorial, please enter any key..."
 read key
 
 # Tutorial-2: Execute only [EXEVTS] module
 clear
-echo -e "\e[91m[Tour]---Tutorial-2: [EXEVTS] module---\e[0m"
-echo -e "\e[91m[Tour]Please check the 'Module Selectio' of Scenario file, only EXEVTS is valid.\e[0m"
-echo -e "\e[91m[Tour]Now, close the gedit, than the terminal will execute DOCKing system...\e[0m"
-gedit -w -g +0+0 Guided_Tour/Tutorial_2/BIRDY_scenario Guided_Tour/Tutorial_2/BIRDY_configuration
+echo "[Tour]---Tutorial-2: [EXEVTS] module---"
+echo "[Tour]Please check the 'Module Selectio' of Scenario file, only EXEVTS is valid."
+echo "[Tour]Now, close the gedit, than the terminal will execute DOCKing system..."
+gedit -w -g 800x600 Guided_Tour/Tutorial_2/BIRDY_scenario Guided_Tour/Tutorial_2/BIRDY_configuration
 ./dock Guided_Tour/Tutorial_2/BIRDY_scenario
-echo -e ""
-echo -e "\e[91m[Tour]Notices:\e[0m"
-echo -e "\e[91m[Tour]After ckecking all parameters, DOCK launched the VTS.\e[0m"
-echo -e "\e[91m[Tour]Since we didn't execute any module to create new data, the original .vts project will be loaded.\e[0m"
-echo -e ""
-echo -e "\e[91m[Tour]To continue next tutorial, please enter any key...\e[0m"
+echo ""
+echo "[Tour]Notices:"
+echo "[Tour]After ckecking all parameters, DOCK launched the VTS."
+echo "[Tour]Since we didn't execute any module to create new data, the original .vts project will be loaded."
+echo ""
+echo "[Tour]To continue next tutorial, please enter any key..."
 read key
 clear
 
 # Tutorial-3.a: Execute [EASYQUAT], [PRODVTS] and [EXEVTS] module (without seq-inputs)
 clear
-echo -e "\e[91m[Tour]---Tutorial-3.a: [EASYQUAT] module without sequence inputs---\e[0m"
-echo -e "\e[91m[Tour]In this tutorial, the input of [EASYQUAT] module was defined in 'Scenario' directly.\e[0m"
-echo -e "\e[91m[Tour]You can roll down the 'Scenario' file and see how to define the input.\e[0m"
-echo -e "\e[91m[Tour]Remember to select [PRODVTS] module when using [EXEVTS].\e[0m"
-echo -e "\e[91m[Tour]Otherwise, the [EXEVTS] module will load original defined .vts project.\e[0m"
-echo -e ""
-echo -e "\e[91m[Tour]Now, close the gedit, than the terminal will execute DOCKing system...\e[0m"
-gedit -w -g +0+0 Guided_Tour/Tutorial_3a/BIRDY_scenario Guided_Tour/Tutorial_3a/BIRDY_configuration
+echo "[Tour]---Tutorial-3.a: [EASYQUAT] module without sequence inputs---"
+echo "[Tour]In this tutorial, the input of [EASYQUAT] module was defined in 'Scenario' directly."
+echo "[Tour]You can roll down the 'Scenario' file and see how to define the input."
+echo "[Tour]Remember to select [PRODVTS] module when using [EXEVTS]."
+echo "[Tour]Otherwise, the [EXEVTS] module will load original defined .vts project."
+echo ""
+echo "[Tour]Now, close the gedit, than the terminal will execute DOCKing system..."
+gedit -w -g 800x600 Guided_Tour/Tutorial_3a/BIRDY_scenario Guided_Tour/Tutorial_3a/BIRDY_configuration
 ./dock Guided_Tour/Tutorial_3a/BIRDY_scenario
-echo -e ""
-echo -e "\e[91m[Tour]Notices:\e[0m"
-echo -e "\e[91m[Tour]When you define the input in 'Scenario' directly,\e[0m" 
-echo -e "\e[91m[Tour]it represents the CubeSat will always spin at same vector of angular velocity.\e[0m"
-echo -e "\e[91m[Tour]About sequence inputs for [EASYQUAT] module, please continue next tutroial.\e[0m"
-echo -e ""
-echo -e "\e[91m[Tour]To continue next tutorial, please enter any key...\e[0m"
+echo ""
+echo "[Tour]Notices:"
+echo "[Tour]When you define the input in 'Scenario' directly," 
+echo "[Tour]it represents the CubeSat will always spin at same vector of angular velocity."
+echo "[Tour]About sequence inputs for [EASYQUAT] module, please continue next tutroial."
+echo ""
+echo "[Tour]To continue next tutorial, please enter any key..."
 read key
 
-# Tutorial-3.b: Execute [EASYQUAT], [PRODVTS] and [EXEVTS] module (with seq-inputs)
-clear
-echo -e "\e[91m[Tour]---Tutorial-3.b: [EASYQUAT] module with sequence inputs---\e[0m"
-echo -e "\e[91m[Tour]In this tutorial, [EASYQUAT] module will load sequence inpus file.\e[0m"
-echo -e "\e[91m[Tour]You can find one more tab in show-up gedit window, it's seq-input file.\e[0m"
-echo -e ""
-echo -e "\e[91m[Tour]Now, close the gedit, than the terminal will execute DOCKing system...\e[0m"
-gedit -w -g +0+0 Guided_Tour/Tutorial_3b/BIRDY_scenario Guided_Tour/Tutorial_3b/BIRDY_configuration Guided_Tour/Tutorial_3b/Easy_quat_seq_inputs_test
-./dock Guided_Tour/Tutorial_3b/BIRDY_scenario
-echo -e ""
-echo -e "\e[91m[Tour]Notices:\e[0m"
-echo -e "\e[91m[Tour]If you want to use seq-inputs file,\e[0m" 
-echo -e "\e[91m[Tour]please read the 'Quaternion_sequence_inputs_template_v1-1' carefully in advance.\e[0m"
-echo -e "\e[91m[Tour]About [EASYTRAJ] module, please continue next tutroial.\e[0m"
-echo -e ""
-echo -e "\e[91m[Tour]To continue next tutorial, please enter any key...\e[0m"
-read key
-
-# Tutorial-4: Execute [EASYTRAJ], [EASYQUAT], [PRODVTS] and [EXEVTS] module 
-clear
-echo -e "\e[91m[Tour]---Tutorial-4: [EASYTRAJ] module---\e[0m"
-echo -e "\e[91m[Tour]In this tutorial, [EASYTRAJ] module will generate easy orbit data.\e[0m"
-echo -e "\e[91m[Tour]To use this module, you have to define 6 orbit elements in Scenario file.\e[0m"
-echo -e "\e[91m[Tour]Remember to define 'Easy_traj_output_location' in Configuration file\e[0m"
-echo -e ""
-echo -e "\e[91m[Tour]Now, close the gedit, than the terminal will execute DOCKing system...\e[0m"
-gedit -w -g +0+0 Guided_Tour/Tutorial_4/BIRDY_scenario Guided_Tour/Tutorial_4/BIRDY_configuration
-./dock Guided_Tour/Tutorial_4/BIRDY_scenario
-echo -e ""
-echo -e "\e[91m[Tour]Notices:\e[0m"
-echo -e "\e[91m[Tour]There are two type of orbit definitions, Keplerian & Circular.\e[0m" 
-echo -e "\e[91m[Tour]Both two types use the same 6-elements for orbit generation.\e[0m"
-echo -e "\e[91m[Tour]About [EXTRCEL] module, please continue next tutroial.\e[0m"
-echo -e ""
-echo -e "\e[91m[Tour]To continue next tutorial, please enter any key...\e[0m"
-read key
-
-# Tutorial-5: Execute [EXTRCEL] and [EXEVTS] module 
-clear
-echo -e "\e[91m[Tour]---Tutorial-5: [EXTRCEL] module---\e[0m"
-echo -e "\e[91m[Tour]In this tutorial, [EXTRCEL] module will extract Celestia Add-ons from VTS.\e[0m"
-echo -e "\e[91m[Tour]To use this module, you just need to define the VTS software location.\e[0m"
-echo -e "\e[91m[Tour]Remember to define 'Celestia_output_location' in Configuration file\e[0m"
-echo -e ""
-echo -e "\e[91m[Tour]Now, close the gedit, than the terminal will execute DOCKing system...\e[0m"
-gedit -w -g +0+0 Guided_Tour/Tutorial_5/BIRDY_scenario Guided_Tour/Tutorial_5/BIRDY_configuration
-./dock Guided_Tour/Tutorial_5/BIRDY_scenario
-echo -e ""
-echo -e "\e[91m[Tour]Notices:\e[0m"
-echo -e "\e[91m[Tour]If you let empty in 'Celestia_output_location' item,\e[0m" 
-echo -e "\e[91m[Tour]it will use default output location under 'Output' folder.\e[0m"
-echo -e "\e[91m[Tour]If you want to set the output location in same folder as Configuration file located,\e[0m"
-echo -e "\e[91m[Tour]just set '.', e.g.   Celestia_output_location = \".\"   \e[0m"
-#echo -e "\e[91m[Tour]About [EXTRCEL] module, please continue next tutroial.\e[0m"
-#echo -e ""
-echo -e "\e[91m[Tour]To continue next tutorial, please enter any key...\e[0m"
-read key
 
 # End of tutorial
-echo -e ""
+echo ""
 echo -e "\e[91m[Tour]!!!=== The end of Guided Tour ===!!!\e[0m" 

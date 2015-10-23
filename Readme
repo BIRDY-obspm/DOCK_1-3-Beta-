@@ -1,5 +1,5 @@
 File name: Readme (for DOCKing system) 
-Final Modified Date: 23/10/2015 
+Final Modified Date: 20/10/2015 
 Confidence level: CL=1
 Version of DOCK: 1.5
 Author: Hao-Chih,Lin (Jim,Lin)
@@ -8,14 +8,10 @@ Advisor: Boris Segret
 Email : F44006076@gmail.com  
 Technical Note: MGT-009 (version 1.1)
 
-Copyright 2015 LIN, Hao-Chih
-License of DOCKS: Lesser General Public License (LGPL)
-(Please see "License" file to read more detail)
-
 ====================================
 ======Abstract of DOCK system=======
 ====================================
-The DOCKing system is a high level software integration program for general CubeSat mission analysis.
+THe DOCKing system is a high level software integration program for general CubeSat mission analysis.
 The purpose of DOCKing system is to create user friendly interface in order to make user easily test all necessary program/software.
 
 ====================================
@@ -56,17 +52,6 @@ In order to get good result of DOCK system, the user should meet all requirement
 5. Make sure the VTS can execute "Celestia" without problems, if not, please follow the tutorial for fixing this problem in Technical Note (MGT-009 v1.1).
 6. Install "STELA" (https://logiciels.cnes.fr/content/stela?language=en)
 
-
-======================================
-========How to download DOCKS=========
-======================================
-1.Open a terminal and change the directory which you want to install DOCSK, then enter following command:
-(#Notice: No not type symbol '$', and PACKAGE_NAME_YOU_WANT means you should enter the name you want for DOCKS package.)
-  $ git clone https://github.com/BIRDY-obspm/DOCKing_System.git PACKAGE_NAME_YOU_WANT
-2.Then change the execution permission of whole package by tying command listed below:
-  $ chmod -R a+x PACKAGE_NAME/
-
-
 ====================================
 =======How to use DOCK System=======
 ====================================
@@ -75,7 +60,7 @@ In order to get good result of DOCK system, the user should meet all requirement
 2.First, you have to press "Open" OR "New" to load or create Scenario file.
 3.Then do the same thing for Configuration file.
 4.After modifying parameters, just click "Check and Execution" button.
-5.You can find the result in the white based textbrowser.
+5.You can find the result in the white based text browser.
 
 ##Terminal##
 1.Go to "Input" folder, you will see four files, they are "Scenario", "Configuration", "sed_inputs" and "PFM-002_Birdy_1.5.xml" files.
