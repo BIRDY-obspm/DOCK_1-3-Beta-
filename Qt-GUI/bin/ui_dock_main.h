@@ -55,6 +55,7 @@ public:
     QHBoxLayout *horizontalLayout_13;
     QPushButton *PB_refresh;
     QPushButton *PB_curr_path;
+    QPushButton *PB_stopProcess;
     QSpacerItem *horizontalSpacer_5;
     QProgressBar *progressBar;
     QPushButton *PB_Exit;
@@ -199,6 +200,11 @@ public:
         PB_curr_path->setObjectName(QStringLiteral("PB_curr_path"));
 
         horizontalLayout_13->addWidget(PB_curr_path);
+
+        PB_stopProcess = new QPushButton(layoutWidget);
+        PB_stopProcess->setObjectName(QStringLiteral("PB_stopProcess"));
+
+        horizontalLayout_13->addWidget(PB_stopProcess);
 
         horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -779,6 +785,7 @@ public:
         actionExit->setText(QApplication::translate("DOCK_main", "Exit", 0));
         PB_refresh->setText(QApplication::translate("DOCK_main", "Clean console", 0));
         PB_curr_path->setText(QApplication::translate("DOCK_main", "Current path", 0));
+        PB_stopProcess->setText(QApplication::translate("DOCK_main", "Stop process", 0));
         PB_Exit->setText(QApplication::translate("DOCK_main", "Exit", 0));
         PB_NewSce->setText(QApplication::translate("DOCK_main", "New", 0));
         PB_LoadSce->setText(QApplication::translate("DOCK_main", "Open", 0));

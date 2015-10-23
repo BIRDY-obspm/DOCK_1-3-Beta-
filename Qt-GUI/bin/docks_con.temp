@@ -1,22 +1,22 @@
 =============================================
 =======DOCK v1.5 auto-gen Cofiguration=======
 =============================================
-Generated date: Tue Oct 20 06:54:32 2015
+Generated date: Fri Oct 23 07:35:29 2015
 
 ----------------------------
 ### Necessary parameters ###
 ----------------------------
 ===VTS module===
 VTS_software_location  = "/home/birdy/Software/Vts-Linux-32bits-2.6/"
-VTS_project_file       = "/home/birdy/Software/Vts-Linux-32bits-2.6/Data/CubeSat/BIRDY3D.vts"
+VTS_project_file       = "/home/birdy/Software/DOCK_v1-5/Input/example/BIRDY_VTS_example.vts"
 Keep_Apps_setting      = "False"
 
 =====For VTS CCSDS parameters=====
 Satellite_name         = "Birdy"
 Satellite_Axes         = "Birdy_ref/Birdy_QswAxes"
-Satellite_3ds          = "/home/birdy/Software/DOCK_v1-5/Input/PFM-002_Birdy_1.5_wo-FoV.3ds"
-Satellite_quaternion   = "/home/birdy/Software/Vts-Linux-32bits-2.6/Data/CubeSat/Data/CUBESAT_AEM_ATTITUDE_BBQ.TXT"
-Satellite_position     = "/home/birdy/Software/Vts-Linux-32bits-2.6/Data/CubeSat/Data/CUBESAT_OEM_POSITION.TXT"
+Satellite_3ds          = "/home/birdy/Software/DOCK_v1-5/Input/example/PFM-002_Birdy_1.5_wo-FoV.3ds"
+Satellite_quaternion   = "/home/birdy/Software/DOCK_v1-5/Input/example/CUBESAT_AEM_ATTITUDE_BBQ.TXT"
+Satellite_position     = "/home/birdy/Software/DOCK_v1-5/Input/example/CUBESAT_OEM_POSITION.TXT"
 Satellite_parentpath   = "Sol/Earth"
 Satellite_ref_frame_A  = "EME2000"
 Satellite_ref_frame_B  = "SC_BODY_1"
@@ -34,16 +34,16 @@ STELA_software_location = "/home/birdy/Software/STELA_v2.6.1/"
 Easy_quat_output_location = "/home/birdy/Software/DOCK_v1-5/Output/Easy_quat/"
 
 ===Dynamic Quaternion module===
-Dyn_quat_para_setting     = "/home/birdy/Software/DOCK_v1-5/Input/Dyn_quat/SatParameters.sce"
-Dyn_quat_seq_inputs_file  = "/home/birdy/Software/DOCK_v1-5/Input/Dyn_quat/AOCS_sequence_inputs"
+Dyn_quat_para_setting     = "/home/birdy/Software/DOCK_v1-5"
+Dyn_quat_seq_inputs_file  = "/home/birdy/Software/DOCK_v1-5"
 Dyn_quat_output_location  = "/home/birdy/Software/DOCK_v1-5/Output/Dynamic_quat/"
 
 ===Easy Trajectory module===
 Easy_traj_output_location = "/home/birdy/Software/DOCK_v1-5/Output/Easy_traj/"
 
 ===Dynamic Trajectory module===
-Dyn_traj_config           = "/home/birdy/Software/DOCK_v1-5/Input/Dyn_traj/config.py"
-Dyn_host_traj_file        = "/home/birdy/Software/DOCK_v1-5/Input/Dyn_traj/GL-01_sun_58122.xyzv"
+Dyn_traj_config           = "/home/birdy/Software/DOCK_v1-5"
+Dyn_host_traj_file        = "/home/birdy/Software/DOCK_v1-5"
 Dyn_traj_output_location  = "/home/birdy/Software/DOCK_v1-5/Output/Dynamic_traj/"
 
 ===VTS generation module===

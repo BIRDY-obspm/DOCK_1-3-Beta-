@@ -1,3 +1,23 @@
+% ==============================================================
+% ===========================LICENSE============================
+% ==============================================================
+% This file is part of DOCKS.
+%
+% DOCKS is free software: you can redistribute it and/or modify
+% it under the terms of the  GNU LESSER GENERAL PUBLIC LICENSE 
+% as published by the Free Software Foundation, either version 
+% 3 of the License, or any later version.
+%
+% DOCKS is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU LESSER GENERAL PUBLIC LICENSE for more details.
+%
+% You should have received a copy of the 
+% GNU LESSER GENERAL PUBLIC LICENSE along with DOCKS.
+% If not, see <http://www.gnu.org/licenses/lgpl.txt>.
+
+
 function [MJD_date_output, MJD_sec_output, Q_output]=CIC_quat_gen_seq_inputs( file_name )
   % Abstract:
   %   Generate easy quaternion CIC format data by sequence inputs.
@@ -7,7 +27,7 @@ function [MJD_date_output, MJD_sec_output, Q_output]=CIC_quat_gen_seq_inputs( fi
   %   Hao-Chih, Lin   (Jim, Lin) 
   %   Internship student in Paris Observatory, graduated from NCKU, DAA in Taiwan
   % Final modified date:
-  %   27/07/2015
+  %   23/10/2015
   % E-mail:
   %   f44006076@gmail.com
   % ============================================================================
