@@ -1,7 +1,7 @@
 =========================================
 =======DOCK v1.5 auto-gen Scenario=======
 =========================================
-Generated date: Fri Oct 23 07:35:29 2015
+Generated date: Thu Oct 29 07:49:22 2015
 
 ----------------------------
 ### Necessary parameters ###
@@ -9,7 +9,7 @@ Generated date: Fri Oct 23 07:35:29 2015
 =====General setting=====
 Configuration_file = "/home/birdy/Software/DOCK_v1-5/Qt-GUI/bin/docks_con.temp"
 Keep_temp_file = "False"
-Keep_debug_file = "True"
+Keep_debug_file = "False"
 
 =====IDM-CIC=====
 IDM_CIC_file = "/home/birdy/Software/DOCK_v1-5/Input/example/PFM-002_Birdy_1.5.xml"
@@ -20,6 +20,9 @@ Simulation_time_end = "55277 78944"
 Simulation_step_size = "0.05"
 
 =====Module Selection=====
+EASYQUAT
+EASYTRAJ
+PRODVTS
 EXEVTS
 
 ------------------------------

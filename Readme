@@ -1,22 +1,23 @@
-File name: Readme (for DOCKing system) 
-Final Modified Date: 23/10/2015 
+File name: Readme (for the DOCKing system) 
+Final Modified Date: 29/10/2015 
 Confidence level: CL=1
-Version of DOCK: 1.5
+Version of DOCKS: 1.5
 Author: Hao-Chih,Lin (Jim,Lin)
 	Internship student in Paris Observatory, graduated from DAA of NCKU in Taiwan.
 Advisor: Boris Segret	
 Email : F44006076@gmail.com  
-Technical Note: MGT-009 (version 1.1)
+Technical Note: MGT-009 (version 1.3)
 
 Copyright 2015 LIN, Hao-Chih
 License of DOCKS: Lesser General Public License (LGPL)
 (Please see "License" file to read more detail)
 
 ====================================
-======Abstract of DOCK system=======
+=========Abstract of DOCKS==========
 ====================================
+DOCKS is an abbreviation of "Design & Operation Cross-checKing Services", also called "the DOCKing System".
 The DOCKing system is a high level software integration program for general CubeSat mission analysis.
-The purpose of DOCKing system is to create user friendly interface in order to make user easily test all necessary program/software.
+The purpose of DOCKS is to create user friendly interface in order to make user easily test all necessary program/software.
 
 ====================================
 ===========Functionality============
@@ -33,7 +34,7 @@ In Version 1.5, DOCKing system provides several functions listed as follows: ("[
 [EXTRCEL]: Extract Celestia Add-on from VTS.
 
 Notice: Users can decide which module should be executed in "Scenario" file, except the fist one, since [Scenario-check] is the
-	core module in DOCK, without it, all the other modules can not work successfully. 
+	core module in DOCKS, without it, all the other modules can not work successfully. 
 
 ====================================
 ===============Qt-GUI===============
@@ -46,9 +47,9 @@ By using Qt-GUI, almost all of path definitaion issues will be solved.
 ====================================
 ========System Requirements=========
 ====================================
-In order to get good result of DOCK system, the user should meet all requirements described below before launching the DOCK system.
+In order to get good result of DOCKS, the user should meet all requirements described below before launching DOCKS.
 [Please see "MGT-009 v1.1" to find detail steps]
-1. The DOCK system was developed by Shell script, so it can only be executed in Linux environment (recommend Ubuntu 14.04).
+1. DOCKS was developed by Shell script, so it can only be executed in Linux environment (recommend Ubuntu 14.04).
 2. Install Scilab/Xcos (with Celestlab & Aerospace blockset)
 3. Install Octave
 4. Install Python (with PyKEP)
@@ -68,7 +69,7 @@ In order to get good result of DOCK system, the user should meet all requirement
 
 
 ====================================
-=======How to use DOCK System=======
+==========How to use DOCKS==========
 ====================================
 ##Qt-GUI##
 1.Clcik special icon called "DOCK_GUI_v1-5-1", it will launch the Qt-GUI.
@@ -78,40 +79,34 @@ In order to get good result of DOCK system, the user should meet all requirement
 5.You can find the result in the white based textbrowser.
 
 ##Terminal##
-1.Go to "Input" folder, you will see four files, they are "Scenario", "Configuration", "sed_inputs" and "PFM-002_Birdy_1.5.xml" files.
-  For "Scenario" and "Configuration" files: Define parameters properly in these two files. 
-  Notice: 
-	1. All parameters related to file location support both absolute & relative path.
-	2. If the user define the same parameter twice or more times in the same "Scenario" or "Configuration" file, 
-	   the DOCK will use the final defined one.
-	3. The empty space between parameter name and "=" symbolm is un constrained, so it means that:
-	   both  Silent_mode        = "True"  &   Silent_mode= "True"  are acceptable by DOCK  
+(a) Go into the “Input/example” folder, the user can find files as follows:
+	BIRDY_scenario: module selection, simulation time, flags, parameter settings for [EASYQUAT] and [EASYTRAJ] module.
+	BIRDY_configuration: output location for each module, CCSDS parameters (e.g. CubeSat name, orbiting around Earth or Mars, etc. )
+	BIRDY_VTS_example.vts: the VTS project file.
+	CUBESAT_AEM_ATTITUDE_BBQ.TXT: VTS-CIC format CubeSat quaternion data.
+	CUBESAT_OEM_POSITION.TXT: VTS-CIC format CubeSat trajectory data.
+	Easy_quat_seq_inputs_test: for [EASYQUAT] module “sequence-inputs” mode.
+	PFM-002_Birdy_1.5.xml: BIRDY mission IDM-CIC project file.
+	PFM-002_Birdy_1.5_wo-FoV.3ds: BIRDY 3DS model for VTS software. 
 
-2.If needed, describe sequence inputs for either [EASYQUAT] or [PRODQUAT] module in "sed_inputs" file.
+(b) The user could create new files or modify the given templates to meet their requirements.
+    All necessary parameters listed in “Scenario” and “Configuration” should be defined correctly.
+(c) If needed, describe sequence inputs for [EASYQUAT] module.
+(d) DOCKS can also check key data from IDM-CIC project file, if the user wants to use this function, remember to define the file path of "IDM_CIC_file" in Scenario file.
+(e) After defining all necessary parameters, the user can decide which modules will be executed at this time through the "Module Selection" in Scenario file. For example,
+    if the user doesn't want to execute the "PRODQUAT" module, he adds a marker like "#" in front of "PRODQUAT" name, e.g. #PRODQUAT
+(f) Open a Terminal and change directory to the main folder (using command “cd”)
+(g) Execute DOCKS with the following commands: (do not type the symbol "$")
+    $ ./dock THE_RELATIVE_PATH_OF_SCENARIO
+or
+    $ ./dock THE_ABSOLUTE_PATH_OF_SCENARIO
+or 
+    $ ./dock
 
-3.DOCK can also check data from IDM-CIC project file, if the user want to use this function, remember to define the file path of "IDM_CIC_file" in Scenario file.
-
-4.After defining all necessary parameters, the user can decide which module will be executed in this time through the "Module Selection" in Scenario file.
-  For example, if the user don't want to execute the "PRODQUAT" module, just add a marker like "#" in front of "PRODQUAT" name. Like #PRODQUAT
-
-5.Open a new Terminal, and change the directory to the DOCK main folder, e.g. (do not type the symbol "$")
-  $ cd LOCATION_OF_DOCK
-
-6.Execute the DOCK by following commands:(do not type the symbol "$")
-  $ ./dock THE_RELATIVE_PATH_OF_SCENARIO
-  or
-  $ ./dock THE_ABSOLUTE_PATH_OF_SCENARIO
-  or 
-  $ ./dock
-  or even
-  $./LOCATION_OF_DOCK/dock THE_PATH_OF_SCENARIO
-
-  for example:
-  $ ./dock Input/BIRDY_scenario
-  $ ./dock home/birdy/Software/DOCK_v1-3/Input/BIRDY_scenario
-  $ ./Software/DOCK_v1-4/dock /Input/BIRDY_scenario
-  Commands listed above are all valid.
-  In addition, if the user only type "./dock", the DOCK will require you to enter the Scenario file.
-  Again, in this situation, both absolute and relative path are acceptable.
-
-7.About the result, the user can find latest generated files in "Output" folder as well as log files.
+for example:
+$ ./dock Input/BIRDY_scenario
+$ ./dock home/birdy/Software/DOCK_v1-3/Input/BIRDY_scenario
+Commands listed above are all valid.
+In addition, if the user only type "./dock", DOCKS will require you to enter the Scenario file. Again, in this situation, both absolute and relative path are acceptable.
+(h) About the result, users can find latest generated files in "Output" folder as well as log files.
+(i) Users should not be allowed to add/remove or modify any file/folder in DOCKS except files located in “Input” folder.  (For developer, please see §VI.)

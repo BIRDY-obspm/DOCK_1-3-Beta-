@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Setting_CCSDS_t {
     QByteArrayData data[25];
-    char stringdata0[667];
+    char stringdata0[658];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -47,13 +47,13 @@ QT_MOC_LITERAL(14, 268, 44), // "on_line_Satellite_quaternion_..."
 QT_MOC_LITERAL(15, 313, 42), // "on_line_Satellite_position_ed..."
 QT_MOC_LITERAL(16, 356, 38), // "on_line_Satellite_name_editin..."
 QT_MOC_LITERAL(17, 395, 38), // "on_line_Satellite_Axes_editin..."
-QT_MOC_LITERAL(18, 434, 44), // "on_line_Satellite_parentpath_..."
-QT_MOC_LITERAL(19, 479, 37), // "on_comboBox_frameA_currentTex..."
-QT_MOC_LITERAL(20, 517, 4), // "arg1"
-QT_MOC_LITERAL(21, 522, 37), // "on_comboBox_frameB_currentTex..."
-QT_MOC_LITERAL(22, 560, 34), // "on_comboBox_dir_currentTextCh..."
-QT_MOC_LITERAL(23, 595, 35), // "on_comboBox_type_currentTextC..."
-QT_MOC_LITERAL(24, 631, 35) // "on_comboBox_time_currentTextC..."
+QT_MOC_LITERAL(18, 434, 37), // "on_comboBox_frameA_currentTex..."
+QT_MOC_LITERAL(19, 472, 4), // "arg1"
+QT_MOC_LITERAL(20, 477, 37), // "on_comboBox_frameB_currentTex..."
+QT_MOC_LITERAL(21, 515, 34), // "on_comboBox_dir_currentTextCh..."
+QT_MOC_LITERAL(22, 550, 35), // "on_comboBox_type_currentTextC..."
+QT_MOC_LITERAL(23, 586, 35), // "on_comboBox_time_currentTextC..."
+QT_MOC_LITERAL(24, 622, 35) // "on_comboBox_body_currentTextC..."
 
     },
     "Setting_CCSDS\0Import_default\0\0"
@@ -68,12 +68,12 @@ QT_MOC_LITERAL(24, 631, 35) // "on_comboBox_time_currentTextC..."
     "on_line_Satellite_position_editingFinished\0"
     "on_line_Satellite_name_editingFinished\0"
     "on_line_Satellite_Axes_editingFinished\0"
-    "on_line_Satellite_parentpath_editingFinished\0"
     "on_comboBox_frameA_currentTextChanged\0"
     "arg1\0on_comboBox_frameB_currentTextChanged\0"
     "on_comboBox_dir_currentTextChanged\0"
     "on_comboBox_type_currentTextChanged\0"
-    "on_comboBox_time_currentTextChanged"
+    "on_comboBox_time_currentTextChanged\0"
+    "on_comboBox_body_currentTextChanged"
 };
 #undef QT_MOC_LITERAL
 
@@ -105,12 +105,12 @@ static const uint qt_meta_data_Setting_CCSDS[] = {
       15,    0,  133,    2, 0x08 /* Private */,
       16,    0,  134,    2, 0x08 /* Private */,
       17,    0,  135,    2, 0x08 /* Private */,
-      18,    0,  136,    2, 0x08 /* Private */,
-      19,    1,  137,    2, 0x08 /* Private */,
-      21,    1,  140,    2, 0x08 /* Private */,
-      22,    1,  143,    2, 0x08 /* Private */,
-      23,    1,  146,    2, 0x08 /* Private */,
-      24,    1,  149,    2, 0x08 /* Private */,
+      18,    1,  136,    2, 0x08 /* Private */,
+      20,    1,  139,    2, 0x08 /* Private */,
+      21,    1,  142,    2, 0x08 /* Private */,
+      22,    1,  145,    2, 0x08 /* Private */,
+      23,    1,  148,    2, 0x08 /* Private */,
+      24,    1,  151,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 3, QMetaType::Bool,    4,    5,
@@ -127,12 +127,12 @@ static const uint qt_meta_data_Setting_CCSDS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,   20,
-    QMetaType::Void, QMetaType::QString,   20,
-    QMetaType::Void, QMetaType::QString,   20,
-    QMetaType::Void, QMetaType::QString,   20,
-    QMetaType::Void, QMetaType::QString,   20,
+    QMetaType::Void, QMetaType::QString,   19,
+    QMetaType::Void, QMetaType::QString,   19,
+    QMetaType::Void, QMetaType::QString,   19,
+    QMetaType::Void, QMetaType::QString,   19,
+    QMetaType::Void, QMetaType::QString,   19,
+    QMetaType::Void, QMetaType::QString,   19,
 
        0        // eod
 };
@@ -157,12 +157,12 @@ void Setting_CCSDS::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 11: _t->on_line_Satellite_position_editingFinished(); break;
         case 12: _t->on_line_Satellite_name_editingFinished(); break;
         case 13: _t->on_line_Satellite_Axes_editingFinished(); break;
-        case 14: _t->on_line_Satellite_parentpath_editingFinished(); break;
-        case 15: _t->on_comboBox_frameA_currentTextChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 16: _t->on_comboBox_frameB_currentTextChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 17: _t->on_comboBox_dir_currentTextChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 18: _t->on_comboBox_type_currentTextChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 19: _t->on_comboBox_time_currentTextChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 14: _t->on_comboBox_frameA_currentTextChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 15: _t->on_comboBox_frameB_currentTextChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 16: _t->on_comboBox_dir_currentTextChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 17: _t->on_comboBox_type_currentTextChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 18: _t->on_comboBox_time_currentTextChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 19: _t->on_comboBox_body_currentTextChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         default: ;
         }
     }

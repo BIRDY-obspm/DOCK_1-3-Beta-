@@ -69,6 +69,9 @@ private:
     QString Satellite_quaternion_dir = Default_input_dir;
     QString Satellite_position_dir = Default_input_dir;
 
+    QString Bodyname = "";
+    QString Parentname = "";
+
     bool first_launch_flag = 0; // 0-> first launch
     bool finish_flag = 0; // 1-> finished, 0-> not finished
 
@@ -92,13 +95,12 @@ private slots:
     void on_line_Satellite_position_editingFinished();
     void on_line_Satellite_name_editingFinished();
     void on_line_Satellite_Axes_editingFinished();
-    void on_line_Satellite_parentpath_editingFinished();
     void on_comboBox_frameA_currentTextChanged(const QString &arg1);
     void on_comboBox_frameB_currentTextChanged(const QString &arg1);
     void on_comboBox_dir_currentTextChanged(const QString &arg1);
     void on_comboBox_type_currentTextChanged(const QString &arg1);
     void on_comboBox_time_currentTextChanged(const QString &arg1);
-
+    void on_comboBox_body_currentTextChanged(const QString &arg1);
 };
 
 #endif // SETTING_CCSDS_H

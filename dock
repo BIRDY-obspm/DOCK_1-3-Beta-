@@ -9,7 +9,7 @@
 # === !!! DO NOT modify anything in here unless you are a developer !!! ===
 #
 # Abstract:
-# This is the "Main" function of DOCK System.
+# This is the "Main" function of DOCKS.
 # Each module is working independently.
 #
 # Notices:
@@ -43,7 +43,7 @@
 echo ""
 cd `dirname $0`  #Force current directory to change into DOCK main folder 
 echo ""
-echo "!!! Welcome to DOCK System (v1.5 Beta) !!!"
+echo "!!! Welcome to the DOCKing System (v1.5 Beta) !!!"
 echo "Executing date: `date +"%y%m%d-%H%M%S"`" > Output/Log/DOCK_Log/dock.log 
 
 # [Scenario-check] Check parameters between Scenario and other specificed files (Necessary module)
@@ -78,4 +78,4 @@ echo "Executing date: `date +"%y%m%d-%H%M%S"`" > Output/Log/DOCK_Log/dock.log
 
 #End of program
 echo ""
-echo "---End of program---"
+echo "---End of DOCKS---"
