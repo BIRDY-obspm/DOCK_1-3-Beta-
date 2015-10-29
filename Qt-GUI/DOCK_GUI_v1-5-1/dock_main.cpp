@@ -2111,7 +2111,7 @@ void DOCK_main::on_CB_keep_debug_clicked()
 void DOCK_main::on_actionAbout_triggered()
 {
     QMessageBox::about (this, "About DOCKS",
-        "<img src=\"CERES_logo.png\"><I></I><center>Observatoire de Paris (CERES)<p></p>Developer: Hao-Chih,Lin<p></p>Advisor: Boris Segret<p></p>Copyright &copy;2015 v1.5.1</center>");
+        "<img src=\"Qt-GUI/bin/CERES_logo.png\"><I></I><center>Observatoire de Paris (CERES)<p></p>Developer: Hao-Chih,Lin<p></p>Advisor: Boris Segret<p></p>Copyright &copy;2015 v1.5.1</center>");
 }
 
 

@@ -50,9 +50,9 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QLabel *label_2;
     QLineEdit *line_Satellite_Axes;
-    QHBoxLayout *horizontalLayout_6;
-    QLabel *label_6;
-    QLineEdit *line_Satellite_parentpath;
+    QHBoxLayout *horizontalLayout_13;
+    QLabel *label_12;
+    QComboBox *comboBox_body;
     QHBoxLayout *horizontalLayout_7;
     QLabel *label_7;
     QComboBox *comboBox_frameA;
@@ -77,7 +77,7 @@ public:
     {
         if (Setting_CCSDS->objectName().isEmpty())
             Setting_CCSDS->setObjectName(QStringLiteral("Setting_CCSDS"));
-        Setting_CCSDS->resize(325, 507);
+        Setting_CCSDS->resize(336, 507);
         gridLayout = new QGridLayout(Setting_CCSDS);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         verticalLayout = new QVBoxLayout();
@@ -185,20 +185,20 @@ public:
 
         gridLayout->addLayout(horizontalLayout_2, 4, 0, 1, 1);
 
-        horizontalLayout_6 = new QHBoxLayout();
-        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
-        label_6 = new QLabel(Setting_CCSDS);
-        label_6->setObjectName(QStringLiteral("label_6"));
+        horizontalLayout_13 = new QHBoxLayout();
+        horizontalLayout_13->setObjectName(QStringLiteral("horizontalLayout_13"));
+        label_12 = new QLabel(Setting_CCSDS);
+        label_12->setObjectName(QStringLiteral("label_12"));
 
-        horizontalLayout_6->addWidget(label_6);
+        horizontalLayout_13->addWidget(label_12);
 
-        line_Satellite_parentpath = new QLineEdit(Setting_CCSDS);
-        line_Satellite_parentpath->setObjectName(QStringLiteral("line_Satellite_parentpath"));
+        comboBox_body = new QComboBox(Setting_CCSDS);
+        comboBox_body->setObjectName(QStringLiteral("comboBox_body"));
 
-        horizontalLayout_6->addWidget(line_Satellite_parentpath);
+        horizontalLayout_13->addWidget(comboBox_body);
 
 
-        gridLayout->addLayout(horizontalLayout_6, 5, 0, 1, 1);
+        gridLayout->addLayout(horizontalLayout_13, 5, 0, 1, 1);
 
         horizontalLayout_7 = new QHBoxLayout();
         horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
@@ -295,21 +295,6 @@ public:
 
         gridLayout->addLayout(horizontalLayout_12, 11, 0, 1, 1);
 
-        label->raise();
-        line_Satellite_name->raise();
-        line_Satellite_Axes->raise();
-        label_2->raise();
-        label_3->raise();
-        line_Satellite_3ds->raise();
-        PB_Satellite_3ds->raise();
-        label->raise();
-        label_7->raise();
-        label_8->raise();
-        comboBox_frameA->raise();
-        comboBox_frameB->raise();
-        PB_OK->raise();
-        PB_Cancel->raise();
-        PB_Clear_all->raise();
 
         retranslateUi(Setting_CCSDS);
 
@@ -327,7 +312,7 @@ public:
         PB_Satellite_position->setText(QApplication::translate("Setting_CCSDS", "Change", 0));
         label->setText(QApplication::translate("Setting_CCSDS", "Satellite name:", 0));
         label_2->setText(QApplication::translate("Setting_CCSDS", "Satellite axes:", 0));
-        label_6->setText(QApplication::translate("Setting_CCSDS", "Satellite parentpath:", 0));
+        label_12->setText(QApplication::translate("Setting_CCSDS", "Satellite body", 0));
         label_7->setText(QApplication::translate("Setting_CCSDS", "Satellite ref_frame_A:", 0));
         label_8->setText(QApplication::translate("Setting_CCSDS", "Satellite ref_frame_B:", 0));
         label_9->setText(QApplication::translate("Setting_CCSDS", "Satellite attitude_dir:", 0));

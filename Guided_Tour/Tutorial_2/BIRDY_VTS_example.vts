@@ -27,7 +27,7 @@
    </Prop2d>
    <Component Name="Birdy">
     <Graphics3d>
-     <File3ds Name="/home/birdy/Software/DOCK_v1-5/Input/PFM-002_Birdy_1.5_wo-FoV.3ds"/>
+     <File3ds Name="PFM-002_Birdy_1.5_wo-FoV.3ds"/>
      <Radius Value="1"/>
      <LightSensitive Value="1"/>
      <Use3dsCoords Value="0" MeshScale="1"/>
@@ -36,13 +36,13 @@
     <Geometry>
      <Position>
       <Value>
-       <File Name="/home/birdy/Software/DOCK_v1-5/Input/CUBESAT_OEM_POSITION.TXT"/>
+       <File Name="CUBESAT_OEM_POSITION.TXT"/>
       </Value>
      </Position>
      <Orientation>
       <Quaternion>
        <Value>
-	<File Name="/home/birdy/Software/DOCK_v1-5/Input/CUBESAT_AEM_ATTITUDE_BBQ.TXT"/>
+	<File Name="CUBESAT_AEM_ATTITUDE_BBQ.TXT"/>
        </Value>
       </Quaternion>
      </Orientation>

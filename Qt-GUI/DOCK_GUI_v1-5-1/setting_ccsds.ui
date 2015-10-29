@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>325</width>
+    <width>336</width>
     <height>507</height>
    </rect>
   </property>
@@ -118,16 +118,16 @@
     </layout>
    </item>
    <item row="5" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
+    <layout class="QHBoxLayout" name="horizontalLayout_13">
      <item>
-      <widget class="QLabel" name="label_6">
+      <widget class="QLabel" name="label_12">
        <property name="text">
-        <string>Satellite parentpath:</string>
+        <string>Satellite body</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="line_Satellite_parentpath"/>
+      <widget class="QComboBox" name="comboBox_body"/>
      </item>
     </layout>
    </item>
@@ -227,27 +227,6 @@
     </layout>
    </item>
   </layout>
-  <zorder>label</zorder>
-  <zorder>line_Satellite_name</zorder>
-  <zorder>line_Satellite_Axes</zorder>
-  <zorder>label_2</zorder>
-  <zorder>label_3</zorder>
-  <zorder>line_Satellite_3ds</zorder>
-  <zorder>PB_Satellite_3ds</zorder>
-  <zorder>layoutWidget</zorder>
-  <zorder>layoutWidget_2</zorder>
-  <zorder>label</zorder>
-  <zorder>layoutWidget_3</zorder>
-  <zorder>label_7</zorder>
-  <zorder>label_8</zorder>
-  <zorder>comboBox_frameA</zorder>
-  <zorder>comboBox_frameB</zorder>
-  <zorder>layoutWidget_4</zorder>
-  <zorder>layoutWidget_5</zorder>
-  <zorder>layoutWidget_6</zorder>
-  <zorder>PB_OK</zorder>
-  <zorder>PB_Cancel</zorder>
-  <zorder>PB_Clear_all</zorder>
  </widget>
  <resources/>
  <connections/>

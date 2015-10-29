@@ -1,6 +1,6 @@
 =====Tutorial for AOCS model=====
 # Original developer: Issouf - 2015/09/27
-# Update person: Hao-Chih, Lin (Jim, Lin) - 2015/09/29
+# Update developer: Hao-Chih, Lin (Jim, Lin) - 2015/09/29
 
 # Execution steps:
 1. Open the "SatParameters.sce" file in "Inputs" folder, then modify the parameters to meet configurations of your satellite.

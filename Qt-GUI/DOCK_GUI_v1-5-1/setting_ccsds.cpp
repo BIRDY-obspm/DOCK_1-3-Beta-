@@ -54,6 +54,15 @@ Setting_CCSDS::Setting_CCSDS(QWidget *parent) :
     ui->comboBox_time->addItem("TAI");
     ui->comboBox_time->addItem("TDB");
     ui->comboBox_time->addItem("TCB");
+
+    ui->comboBox_body->addItem("Mercury");
+    ui->comboBox_body->addItem("Venus");
+    ui->comboBox_body->addItem("Earth");
+    ui->comboBox_body->addItem("Mars");
+    ui->comboBox_body->addItem("Jupiter");
+    ui->comboBox_body->addItem("Saturn");
+    ui->comboBox_body->addItem("Uranus");
+    ui->comboBox_body->addItem("Neptune");
 }
 
 Setting_CCSDS::~Setting_CCSDS()
@@ -74,6 +83,16 @@ void Setting_CCSDS::Import_default(VTS_CIC_para &vts_cic, bool reset)
         this->Satellite_quaternion = vts_cic.Satellite_quaternion;
         this->Satellite_position = vts_cic.Satellite_position;
         this->Satellite_parentpath = vts_cic.Satellite_parentpath;
+        QStringList _list = this->Satellite_parentpath.split("/");
+        this->Parentname = _list.value(0);
+        this->Bodyname = _list.value(1);
+
+        if(this->Parentname != "Sol")
+            this->Parentname = "Sol";
+
+        if(    (this->Bodyname != "Mercury") && (this->Bodyname != "Venus") && (this->Bodyname != "Earth") && (this->Bodyname != "Mars")
+            && (this->Bodyname != "Jupiter") && (this->Bodyname != "Saturn") && (this->Bodyname != "Uranus") && (this->Bodyname != "Neptune") )
+            this->Bodyname = "Earth";
 
         if(   (vts_cic.Satellite_ref_frame_A != "ICRF") && (vts_cic.Satellite_ref_frame_A != "EME2000") && (vts_cic.Satellite_ref_frame_A != "SC_BODY_1")
            && (vts_cic.Satellite_ref_frame_A != "SC_BODY_2") && (vts_cic.Satellite_ref_frame_A != "SC_BODY_3")    )
@@ -106,7 +125,7 @@ void Setting_CCSDS::Import_default(VTS_CIC_para &vts_cic, bool reset)
         ui->line_Satellite_3ds->setText(this->Satellite_3ds);
         ui->line_Satellite_quaternion->setText(this->Satellite_quaternion);
         ui->line_Satellite_position->setText(this->Satellite_position);
-        ui->line_Satellite_parentpath->setText(this->Satellite_parentpath);
+        ui->comboBox_body->setCurrentText(this->Bodyname);
         ui->comboBox_frameA->setCurrentText(this->Satellite_ref_frame_A);
         ui->comboBox_frameB->setCurrentText(this->Satellite_ref_frame_B);
         ui->comboBox_dir->setCurrentText(this->Satellite_attitude_dir);
@@ -222,7 +241,7 @@ void Setting_CCSDS::on_PB_Satellite_position_clicked()
 
 void Setting_CCSDS::on_PB_OK_clicked()
 {
-    if(   (ui->line_Satellite_3ds->text().isEmpty()) || (ui->line_Satellite_Axes->text().isEmpty()) || (ui->line_Satellite_name->text().isEmpty()) || (ui->line_Satellite_parentpath->text().isEmpty())
+    if(   (ui->line_Satellite_3ds->text().isEmpty()) || (ui->line_Satellite_Axes->text().isEmpty()) || (ui->line_Satellite_name->text().isEmpty()) || (ui->comboBox_body->currentText().isEmpty())
        || (ui->comboBox_dir->currentText().isEmpty()) || (ui->comboBox_frameA->currentText().isEmpty()) || (ui->comboBox_frameB->currentText().isEmpty())
        || (ui->comboBox_time->currentText().isEmpty()) || (ui->comboBox_type->currentText().isEmpty())  )
     {
@@ -236,7 +255,7 @@ void Setting_CCSDS::on_PB_OK_clicked()
         this->Satellite_3ds = ui->line_Satellite_3ds->text();
         this->Satellite_quaternion = ui->line_Satellite_quaternion->text();
         this->Satellite_position = ui->line_Satellite_position->text();
-        this->Satellite_parentpath = ui->line_Satellite_parentpath->text();
+        this->Satellite_parentpath = this->Parentname + "/" + ui->comboBox_body->currentText();
         this->Satellite_ref_frame_A = ui->comboBox_frameA->currentText();
         this->Satellite_ref_frame_B = ui->comboBox_frameB->currentText();
         this->Satellite_attitude_dir = ui->comboBox_dir->currentText();
@@ -266,7 +285,7 @@ void Setting_CCSDS::on_PB_Cancel_clicked()
             ui->line_Satellite_3ds->setText(this->Satellite_3ds);
             ui->line_Satellite_quaternion->setText(this->Satellite_quaternion);
             ui->line_Satellite_position->setText(this->Satellite_position);
-            ui->line_Satellite_parentpath->setText(this->Satellite_parentpath);
+            ui->comboBox_body->setCurrentText(this->Bodyname);
             ui->comboBox_frameA->setCurrentText(this->Satellite_ref_frame_A);
             ui->comboBox_frameB->setCurrentText(this->Satellite_ref_frame_B);
             ui->comboBox_dir->setCurrentText(this->Satellite_attitude_dir);
@@ -288,7 +307,7 @@ void Setting_CCSDS::on_PB_Clear_all_clicked()
     ui->line_Satellite_3ds->clear();
     ui->line_Satellite_quaternion->clear();
     ui->line_Satellite_position->clear();
-    ui->line_Satellite_parentpath->clear();
+    ui->comboBox_body->setCurrentIndex(2); //Earth
     ui->comboBox_frameA->setCurrentIndex(0);
     ui->comboBox_frameB->setCurrentIndex(0);
     ui->comboBox_dir->setCurrentIndex(0);
@@ -374,10 +393,6 @@ void Setting_CCSDS::on_line_Satellite_Axes_editingFinished()
     this->finish_flag = 0;
 }
 
-void Setting_CCSDS::on_line_Satellite_parentpath_editingFinished()
-{
-    this->finish_flag = 0;
-}
 
 void Setting_CCSDS::on_comboBox_frameA_currentTextChanged(const QString &arg1)
 {
@@ -415,4 +430,12 @@ void Setting_CCSDS::on_comboBox_time_currentTextChanged(const QString &arg1)
     if(   (arg1 != "UTC") && (arg1 != "TT") && (arg1 != "TAI")
        && (arg1 != "TDB") && (arg1 != "TCB")    )
         ui->comboBox_time->setCurrentText("UTC");
+}
+
+void Setting_CCSDS::on_comboBox_body_currentTextChanged(const QString &arg1)
+{
+    this->finish_flag = 0;
+    if(    (arg1 != "Mercury") && (arg1 != "Venus") && (arg1 != "Earth") && (arg1 != "Mars")
+        && (arg1 != "Jupiter") && (arg1 != "Saturn") && (arg1 != "Uranus") && (arg1 != "Neptune") )
+        ui->comboBox_body->setCurrentText("Earth");
 }

@@ -1,4 +1,4 @@
-Executing date: 151023-073529
+Executing date: 151029-074922
 Scenario file found
 Configuration file found
 
@@ -32,10 +32,49 @@ System Version: 1.2
 19. CIC pos Start-time are the same: 55276 0
 20. [Warning] CIC pos End-time are different: 55277 84300 vs. 55277 78944
 
+=====Checking data between Scenario and Seq-inputs file (for EASYQUAT)=====
+21. Seq quat OBJECT_NAME are the same: Birdy
+22. Seq quat REF_FRAME_A are the same: EME2000
+23. Seq quat REF_FRAME_B are the same: SC_BODY_1
+24. Seq quat ATTITUDE_DIR are the same: A2B
+25. Seq quat TIME_SYSTEM are the same: UTC
+26. Seq quat ATT_TYPE are the same: QUATERNION
+27. [Warning] Seq quat Start-time are different: 51500 10.0 vs. 55276 0
+28. Seq quat End-time are the same: 51500 20.0
+
 ==============Analysis result==============
-There are 4 Warning(s) !!
+There are 5 Warning(s) !!
+
+===Easy quaternion module===
+Load sequence inputs from file...
+
+Creating the Easy quaternion m-file for Octave......
+New Easy quaternion m-file was created.
+File name is: Module/Easy-quaternion/Easy-quat-create-151029-074922.m
+
+Executing the Octave...
+New Easy Quarernion CIC file was created.
+File name is: Easy-quaternion-151029-074922.txt
+
+===Easy trajectory module===
+Start date is: 55276 (MJD)
+Start sec is: 0 
+End date is: 55277 (MJD)
+End sec is: 78944 
+Step size is: 100 (sec)
+
+Creating new Scilab .sce file for easy trajectory......
+New .sce file has been created.
+File name: Easytraj-tmp-151029-074922.sce
+
+Executing the Scilab......
+New Easy traj CIC file was created.
+File name is: Easy-traj-151029-074922.txt
+
+===VTS generator module===
+Create a new .vts project...
+New VTS project file was created.
+File name is: VTS-151029-074922.vts
 
 ===VTS execution module===
-[Warning] There is not a new created VTS project.
-[Warning] Launch the default VTS project defined in Scenario file.
 Executing the VTS......
